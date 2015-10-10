@@ -2,3 +2,8 @@
 
 export(bqr_auth)
 export(bqr_list_datasets)
+export(bqr_list_projects)
+export(bqr_list_tables)
+export(bqr_query)
+export(bqr_table_data)
+export(bqr_table_meta)

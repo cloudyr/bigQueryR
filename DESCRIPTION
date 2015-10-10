@@ -2,7 +2,8 @@ Package: bigQueryR
 Title: Interface with Google BigQuery with Shiny compatibility
 Version: 0.0.9000
 Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
-                  role = c("aut", "cre")))
+                  role = c("aut", "cre"))
+                  )
 Description: Interface with Google BigQuery,
   this uses googleAuthR as a backend so is compatible with similar packages.
 License: MIT + file LICENSE

@@ -1,6 +1,8 @@
-#' Parse dataset lists
+#' Parse table data
 #' 
 #' @keywords internal
-parse_list_datasets <- function(x){
+parse_bqr_query <- function(x){
+  
   x
+  
 }
