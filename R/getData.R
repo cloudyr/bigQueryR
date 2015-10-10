@@ -142,6 +142,13 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' Example: 
 #' bqr_query("big-query-r","samples","github_nested", 
 #'           "SELECT COUNT(repository.url) FROM [publicdata:samples.github_nested]")
+#'           
+#' SELECT COUNT(repository.url) as freq, repository.language FROM
+#' [publicdata:samples.github_nested]
+#' GROUP BY repository.language
+#' ORDER BY freq DESC
+#' LIMIT
+#' 1000
 #' 
 #' @export
 bqr_query <- function(projectId, datasetId, tableId, query, maxResults = 1000){
