@@ -33,7 +33,13 @@ bqr_list_datasets <- function(projectId){
                                       "GET",
                                       path_args = list(projects = projectId,
                                                        datasets = ""),
-                                      data_parse_function = function(x) x$datasets)
+                                      data_parse_function = function(x) {
+                                        if(!is.null(x$datasets)) {
+                                          x$datasets
+                                        } else {
+                                          data.frame(datasets = "**No Datasets**")
+                                        }
+                                        })
   l(list(projects = projectId))
   
 }
@@ -68,7 +74,14 @@ bqr_list_projects <- function(){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2/projects",
                                       "GET",
-                                      data_parse_function = function(x) x$projects)
+                                      data_parse_function = function(x) {
+                                        d <- x$projects
+                                        out <- data.frame(id = d$id,
+                                                          numericId = d$numericId,
+                                                          projectId = d$projectReference$projectId,
+                                                          friendlyName = d$friendlyName,
+                                                          stringsAsFactors = FALSE)
+                                        })
   l()
   
 }
@@ -135,7 +148,6 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' 
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
-#' @param tableId The tableId within the datasetId
 #' @param query BigQuery SQL
 #' @param MaxResults Max number of results
 #' 
@@ -151,7 +163,7 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' 1000
 #' 
 #' @export
-bqr_query <- function(projectId, datasetId, tableId, query, maxResults = 1000){
+bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
   
   body <- list(
     kind = "bigquery#queryRequest",
@@ -163,7 +175,6 @@ bqr_query <- function(projectId, datasetId, tableId, query, maxResults = 1000){
     )
   )
   
-  bqr_auth()
   q <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "POST",
                                       path_args = list(projects = projectId,

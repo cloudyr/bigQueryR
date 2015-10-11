@@ -4,14 +4,12 @@
 \alias{bqr_query}
 \title{Query a BigQuery Table}
 \usage{
-bqr_query(projectId, datasetId, tableId, query, maxResults = 1000)
+bqr_query(projectId, datasetId, query, maxResults = 1000)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
 
 \item{datasetId}{A datasetId within projectId}
-
-\item{tableId}{The tableId within the datasetId}
 
 \item{query}{BigQuery SQL}
 
