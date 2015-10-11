@@ -35,9 +35,16 @@ bqr_list_datasets <- function(projectId){
                                                        datasets = ""),
                                       data_parse_function = function(x) {
                                         if(!is.null(x$datasets)) {
-                                          x$datasets
+                                          d <- x$datasets
+                                          data.frame(datasetId = d$datasetReference$datasetId,
+                                                     id = d$id,
+                                                     projectId = d$datasetReference$projectId,
+                                                     stringsAsFactors = FALSE)
                                         } else {
-                                          data.frame(datasets = "**No Datasets**")
+                                          data.frame(datasetId = "**No Datasets**",
+                                                     id = "**No Datasets**",
+                                                     projectId = projectId,
+                                                     stringsAsFactors = FALSE)
                                         }
                                         })
   l(list(projects = projectId))
@@ -59,7 +66,14 @@ bqr_list_tables <- function(projectId, datasetId){
                                       path_args = list(projects = projectId,
                                                        datasets = datasetId,
                                                        tables = ""),
-                                      data_parse_function = function(x) x$tables)
+                                      data_parse_function = function(x) {
+                                        d <- x$tables
+                                        out <- data.frame(id = d$id,
+                                                          projectId = d$tableReference$projectId,
+                                                          datasetId = d$tableReference$datasetId,
+                                                          tableId = d$tableReference$tableId)
+                                        
+                                        })
   l(path_arguments = list(projects = projectId, 
                           datasets = datasetId))
   
