@@ -13,7 +13,13 @@ bqr_query(projectId, datasetId, query, maxResults = 1000)
 
 \item{query}{BigQuery SQL}
 
-\item{MaxResults}{Max number of results
+\item{MaxResults}{Max number of results}
+}
+\value{
+a data.frame.
+  If there is an SQL error, a data.frame with
+  additional class "bigQueryR_query_error" and the
+  problem in the data.frame$message
 
 Example:
 bqr_query("big-query-r","samples","github_nested",
@@ -24,7 +30,7 @@ SELECT COUNT(repository.url) as freq, repository.language FROM
 GROUP BY repository.language
 ORDER BY freq DESC
 LIMIT
-1000}
+1000
 }
 \description{
 Query a BigQuery Table

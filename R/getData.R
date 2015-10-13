@@ -165,6 +165,11 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' @param query BigQuery SQL
 #' @param MaxResults Max number of results
 #' 
+#' @return a data.frame. 
+#'   If there is an SQL error, a data.frame with 
+#'   additional class "bigQueryR_query_error" and the 
+#'   problem in the data.frame$message
+#' 
 #' Example: 
 #' bqr_query("big-query-r","samples","github_nested", 
 #'           "SELECT COUNT(repository.url) FROM [publicdata:samples.github_nested]")
@@ -195,8 +200,15 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
                                                        queries = ""),
                                       data_parse_function = parse_bqr_query)
   
-  q(the_body = body,
-    path_arguments = list(projects = projectId))
+  data <- try(q(the_body = body,
+                path_arguments = list(projects = projectId)))
+  
+  if(is.error(data)) {
+    warning(error.message(data))
+    data <- data.frame(error = "SQL Error", message = error.message(data))
+    class(data) <- c(class(data), "bigQueryR_query_error")
+  }
+  data
   
 }
 
