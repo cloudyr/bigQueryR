@@ -7,6 +7,8 @@ For most purposes it would be best if you use [bigrquery](https://github.com/had
 
 ## Why this package then?
 
-This package is here as it uses [googleAuthR](https://github.com/MarkEdmondson1234/googleAuthR) as backend, so has Shiny support, and compatibility with other googleAuthR dependent packages
+This package is here as it uses [googleAuthR](https://github.com/MarkEdmondson1234/googleAuthR) as backend, so has Shiny support, and compatibility with other googleAuthR dependent packages.
+
+An example of an Shiny app running OAuth2 is here, the [BigQuery Visualiser](https://mark.shinyapps.io/bigquery-viz/)
 
 
