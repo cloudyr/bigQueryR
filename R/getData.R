@@ -184,6 +184,8 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' @export
 bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
   
+  maxResults <- as.numeric(maxResults)
+  
   body <- list(
     kind = "bigquery#queryRequest",
     query = query,
@@ -193,6 +195,8 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
       projectId = projectId
     )
   )
+  
+  body <- rmNullObs(body)
   
   q <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "POST",
