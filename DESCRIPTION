@@ -1,17 +1,19 @@
 Package: bigQueryR
 Title: Interface with Google BigQuery with Shiny compatibility
-Version: 0.0.9000
+Version: 0.0.9001
 Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
                   role = c("aut", "cre")),
              person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb")
                   )
 Description: Interface with Google BigQuery,
-  this uses googleAuthR as a backend so is compatible with similar packages.
+    this uses googleAuthR as a backend so is compatible with similar packages.
 License: MIT + file LICENSE
 LazyData: TRUE
-Depends: R (>= 3.2.0)
+Depends:
+    R (>= 3.2.0)
 Imports:
     googleAuthR (>= 0.1.1.9002)
 Suggests:
     shiny (>= 0.12.1),
     knitr
+RoxygenNote: 5.0.1

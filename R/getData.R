@@ -163,12 +163,17 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
 #' @param query BigQuery SQL
-#' @param MaxResults Max number of results
+#' @param MaxResults Max number per page of results. Set total rows with LIMIT in your query.
 #' 
 #' @return a data.frame. 
 #'   If there is an SQL error, a data.frame with 
 #'   additional class "bigQueryR_query_error" and the 
 #'   problem in the data.frame$message
+#'   
+#' @description 
+#'   MaxResults is how many results to return per page of results, which can be less than the 
+#' total results you have set in your  query using LIMIT.  Google recommends for bigger datasets
+#' to set maxResults = 1000, but this will use more API calls.
 #' 
 #' Example: 
 #' bqr_query("big-query-r","samples","github_nested", 
@@ -212,6 +217,29 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
     data <- data.frame(error = "SQL Error", message = error.message(data))
     class(data) <- c(class(data), "bigQueryR_query_error")
   }
+  
+  pageToken <- attr(data, "pageToken")
+  if(!is.null(pageToken)){
+    message("Paging through query results")
+    jobId <- attr(data, "jobReference")$jobId
+    pr <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                                         "GET",
+                                         path_args = list(projects = projectId,
+                                                          queries = jobId),
+                                         pars_args = list(pageToken = pageToken), 
+                                         data_parse_function = parse_bqr_query)
+    i <- 1
+    while(!is.null(pageToken)){
+      message("Page #: ", i)
+      data_page <- pr(pars_arguments = list(pageToken = pageToken))
+      data <- rbind(data, data_page)
+      pageToken <- attr(data_page, "pageToken")
+      i <- i + 1
+    }
+    message("All data fetched.")
+      
+  }
+  
   data
   
 }
