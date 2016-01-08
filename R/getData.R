@@ -176,7 +176,7 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' to set maxResults = 1000, but this will use more API calls.
 #' 
 #' Example: 
-#' bqr_query("big-query-r","samples","github_nested", 
+#' bqr_query("big-query-r","samples",
 #'           "SELECT COUNT(repository.url) FROM [publicdata:samples.github_nested]")
 #'           
 #' SELECT COUNT(repository.url) as freq, repository.language FROM
