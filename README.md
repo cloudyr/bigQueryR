@@ -21,16 +21,19 @@ library(bigQueryR)
 googleAuthR::gar_auth()
 
 ## get search console daata
-sc <- search_analytics("http://www.example.co.uk","2015-12-01","2016-01-28", dimensions = c("date","query"), rowLimit = 5000)
+sc <- search_analytics("http://www.example.co.uk",
+                       "2015-12-01","2016-01-28", 
+                       dimensions = c("date","query"), 
+                       rowLimit = 5000)
 
 ## upload data to BigQuery
 ## you need to make the dataset (search_console) first
 ## but the table will get made if not already present
-bqr_upload_data("mark-edmondson-gde","search_console","test_wf",sc)
+bqr_upload_data("mark-edmondson-gde","search_console","test_sc",sc)
 
 ## data now available to query
 
-query <- "SELECT query, count(query) as freq FROM [test.test_wf] 
+query <- "SELECT query, count(query) as freq FROM [test.test_sc] 
 GROUP BY query
 ORDER BY freq DESC
 LIMIT 1000"
