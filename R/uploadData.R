@@ -2,10 +2,11 @@
 
 #' Upload data to BigQuery
 #' 
-#' @param projectId The BigQuery project ID
-#' @param datasetId A datasetId within projectId
-#' @param tableId Name of table you want
+#' @param projectId The BigQuery project ID.
+#' @param datasetId A datasetId within projectId.
+#' @param tableId Name of table you want.
 #' @param upload_data The data to upload, a data.fame.
+#' @param uploadType 'multipart' for small data, 'resumable' for big.
 #' 
 #' @return TRUE if successful, the request object if not. 
 #' 
@@ -14,7 +15,7 @@
 #' A temporary csv file is creted if you choose a dataframe.
 #' 
 #' @export
-bqr_upload_data <- function(projectId, datasetId, tableId, upload_data){
+bqr_upload_data <- function(projectId, datasetId, tableId, upload_data, uploadType = c("multipart","resumable")){
   
   stopifnot(inherits(upload_data, "data.frame"))
   
@@ -37,21 +38,23 @@ bqr_upload_data <- function(projectId, datasetId, tableId, upload_data){
   csv <- standard_csv(upload_data)
   
   boundary <- "--bqr_upload"
+  line_break <- "\r\n"
   
   mp_body_schema <- paste(boundary,
                           "Content-Type: application/json; charset=UTF-8",
-                          "\r\n",
+                          line_break,
                           jsonlite::toJSON(config, pretty=TRUE, auto_unbox = TRUE),
-                          "\r\n",
+                          line_break,
                           sep = "\r\n")
   
   ## its very fussy about whitespace
   ## must match exactly https://cloud.google.com/bigquery/loading-data-post-request 
   mp_body_data <- paste0(boundary,
-                        "\r\n",
-                        "Content-Type: application/octet-stream",
-                        "\r\n","\r\n",
-                        csv)
+                         line_break,
+                         "Content-Type: application/octet-stream",
+                         line_break,
+                         line_break,
+                         csv)
   mp_body <- paste(mp_body_schema, mp_body_data, paste0(boundary, "--"), sep = "\r\n")
   
   l <- 

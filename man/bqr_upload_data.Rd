@@ -4,16 +4,19 @@
 \alias{bqr_upload_data}
 \title{Upload data to BigQuery}
 \usage{
-bqr_upload_data(projectId, datasetId, tableId, upload_data)
+bqr_upload_data(projectId, datasetId, tableId, upload_data,
+  uploadType = c("multipart", "resumable"))
 }
 \arguments{
-\item{projectId}{The BigQuery project ID}
+\item{projectId}{The BigQuery project ID.}
 
-\item{datasetId}{A datasetId within projectId}
+\item{datasetId}{A datasetId within projectId.}
 
-\item{tableId}{Name of table you want}
+\item{tableId}{Name of table you want.}
 
 \item{upload_data}{The data to upload, a data.fame.}
+
+\item{uploadType}{'multipart' for small data, 'resumable' for big.}
 }
 \value{
 TRUE if successful, the request object if not.
