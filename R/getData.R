@@ -51,33 +51,6 @@ bqr_list_datasets <- function(projectId){
   
 }
 
-#' List BigQuery tables in a dataset
-#' 
-#' @param projectId The BigQuery project ID
-#' @param datasetId A datasetId within projectId
-#' 
-#' Example: bqr_list_tables("publicdata", "samples")
-#' 
-#' @export
-bqr_list_tables <- function(projectId, datasetId){
-  
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                      "GET",
-                                      path_args = list(projects = projectId,
-                                                       datasets = datasetId,
-                                                       tables = ""),
-                                      data_parse_function = function(x) {
-                                        d <- x$tables
-                                        out <- data.frame(id = d$id,
-                                                          projectId = d$tableReference$projectId,
-                                                          datasetId = d$tableReference$datasetId,
-                                                          tableId = d$tableReference$tableId)
-                                        
-                                        })
-  l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId))
-  
-}
 
 #' List Google Dev Console projects you have access to
 #' 
@@ -100,63 +73,6 @@ bqr_list_projects <- function(){
   
 }
 
-#' Get BigQuery Table meta data
-#' 
-#' @param projectId The BigQuery project ID
-#' @param datasetId A datasetId within projectId
-#' @param tableId The tableId within the datasetId
-#' 
-#' Example: bqr_table_meta("publicdata", "samples", "github_nested")
-#' 
-#' @export
-bqr_table_meta <- function(projectId, datasetId, tableId){
-  
-
-  f <- function(x){
-    x <- rmNullObs(x)
-  }
-
-  
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                      "GET",
-                                      path_args = list(projects = projectId,
-                                                       datasets = datasetId,
-                                                       tables = tableId),
-                                      data_parse_function = f)
-  
-  l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId, 
-                          tables = tableId))
-  
-}
-
-#' Get BigQuery Table's data list
-#' 
-#' @param projectId The BigQuery project ID
-#' @param datasetId A datasetId within projectId
-#' @param tableId The tableId within the datasetId
-#' 
-#' Not very useful as can't deal with nested datasets
-#' 
-#' @export
-bqr_table_data <- function(projectId, datasetId, tableId,
-                           maxResults = 1000){
-  
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                      "GET",
-                                      path_args = list(projects = projectId,
-                                                       datasets = datasetId,
-                                                       tables = tableId,
-                                                       data = ""),
-                                      pars_args = list(maxResults = maxResults),
-                                      data_parse_function = function(x) x)
-  
-  l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId, 
-                          tables = tableId),
-    pars_arguments = list(maxResults = maxResults))
-  
-}
 
 #' Query a BigQuery Table
 #' 

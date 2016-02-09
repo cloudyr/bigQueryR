@@ -19,7 +19,7 @@ bqr_upload_data(projectId, datasetId, tableId, upload_data,
 \item{uploadType}{'multipart' for small data, 'resumable' for big.}
 }
 \value{
-TRUE if successful, the request object if not.
+TRUE if successful, FALSE if not.
 }
 \description{
 Upload data to BigQuery
