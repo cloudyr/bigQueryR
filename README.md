@@ -33,7 +33,7 @@ bqr_upload_data("mark-edmondson-gde","search_console","test_sc",sc)
 
 ## data now available to query
 
-query <- "SELECT query, count(query) as freq FROM [test.test_sc] 
+query <- "SELECT query, count(query) as freq FROM [search_console.test_sc] 
 GROUP BY query
 ORDER BY freq DESC
 LIMIT 1000"

@@ -8,7 +8,7 @@
 #' @param upload_data The data to upload, a data.fame.
 #' @param uploadType 'multipart' for small data, 'resumable' for big.
 #' 
-#' @return TRUE if successful, the request object if not. 
+#' @return TRUE if successful, FALSE if not. 
 #' 
 #' @details 
 #' 
@@ -78,8 +78,9 @@ bqr_upload_data <- function(projectId, datasetId, tableId, upload_data, uploadTy
     message("Upload request successful")
     out <- TRUE
   } else {
-    warning("Error in upload: ", req$status_code, " Returning request for debugging ")
-    out <- req
+#     warning("Error in upload: ", req$status_code, " Returning request for debugging ")
+#     out <- req
+    out <- FALSE
   }
   
   out
