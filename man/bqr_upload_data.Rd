@@ -4,7 +4,7 @@
 \alias{bqr_upload_data}
 \title{Upload data to BigQuery}
 \usage{
-bqr_upload_data(projectId, datasetId, tableId, upload_data,
+bqr_upload_data(projectId, datasetId, tableId, upload_data, create = TRUE,
   uploadType = c("multipart", "resumable"))
 }
 \arguments{
@@ -16,7 +16,9 @@ bqr_upload_data(projectId, datasetId, tableId, upload_data,
 
 \item{upload_data}{The data to upload, a data.fame.}
 
-\item{uploadType}{'multipart' for small data, 'resumable' for big.}
+\item{create}{If TRUE will create the table if it isn't present.}
+
+\item{uploadType}{'multipart' for small data, 'resumable' for big. (not implemented yet)}
 }
 \value{
 TRUE if successful, FALSE if not.

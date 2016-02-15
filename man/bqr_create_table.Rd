@@ -16,12 +16,12 @@ bqr_create_table(projectId, datasetId, tableId, template_data)
 \item{template_data}{A dataframe with the correct types of data}
 }
 \value{
-A table schema in R list form
+TRUE if created, FALSE if not.
 }
 \description{
 Create a Table
 }
 \details{
-A temporary csv file is creted if you choose a dataframe.
+
 }
 

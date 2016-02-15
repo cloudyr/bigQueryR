@@ -6,7 +6,8 @@
 #' @param datasetId A datasetId within projectId.
 #' @param tableId Name of table you want.
 #' @param upload_data The data to upload, a data.fame.
-#' @param uploadType 'multipart' for small data, 'resumable' for big.
+#' @param create If TRUE will create the table if it isn't present.
+#' @param uploadType 'multipart' for small data, 'resumable' for big. (not implemented yet)
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -15,9 +16,23 @@
 #' A temporary csv file is creted if you choose a dataframe.
 #' 
 #' @export
-bqr_upload_data <- function(projectId, datasetId, tableId, upload_data, uploadType = c("multipart","resumable")){
+bqr_upload_data <- function(projectId, 
+                            datasetId, 
+                            tableId, 
+                            upload_data, 
+                            create = TRUE,
+                            uploadType = c("multipart","resumable")){
   
   stopifnot(inherits(upload_data, "data.frame"))
+  
+  if(create){
+    creation <- bqr_create_table(projectId = projectId,
+                                 datasetId = datasetId,
+                                 tableId = tableId,
+                                 template_data = upload_data)
+    
+    if(!creation) stop("Can't upload: Table already exisits.")
+  }
   
   config <- list(
     configuration = list(

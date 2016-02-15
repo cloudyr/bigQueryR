@@ -15,6 +15,7 @@ parse_bqr_query <- function(x){
 
   schema <- x$schema$fields
   
+  ## when only one row, it makes it 3 obs. of 1 variable instead of 1 obs. of 3
   data_f <- as.data.frame(Reduce(rbind, lapply(x$rows$f, function(x) x$v)), 
                           stringsAsFactors = FALSE)
   

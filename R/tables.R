@@ -92,11 +92,11 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' @param tableId Name of table you want.
 #' @param template_data A dataframe with the correct types of data
 #' 
-#' @return A table schema in R list form 
+#' @return TRUE if created, FALSE if not.  
 #' 
 #' @details 
 #' 
-#' A temporary csv file is creted if you choose a dataframe.
+#' 
 #' 
 #' @export
 bqr_create_table <- function(projectId, datasetId, tableId, template_data){
@@ -119,15 +119,21 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
         )
   )
   
- req <- l(path_arguments = list(projects = projectId, 
+ req <- try(l(path_arguments = list(projects = projectId, 
                           datasets = datasetId),
-           the_body = config)
-  
-  if(req$status_code == 200){
-    out <- req$content
-  } else {
-    out <- NULL
-  }
+           the_body = config), silent = TRUE)
+ 
+ if(is.error(req)){
+   if(grepl("Already Exists", error.message(req))){
+     message("Table exists. Returning FALSE")
+     out <- FALSE
+   } else {
+     stop(error.message(req))
+   }
+ } else {
+   message("Table created.")
+   out <- TRUE
+ }
  
  out
   
