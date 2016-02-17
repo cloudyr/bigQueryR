@@ -138,3 +138,34 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
  out
   
 }
+
+
+#' Delete a Table
+#' 
+#' @param projectId The BigQuery project ID.
+#' @param datasetId A datasetId within projectId.
+#' @param tableId Name of table you want to delete.
+#' 
+#' @return TRUE if deleted, error if not.  
+#' 
+#' @details 
+#' 
+#' 
+#' 
+#' @export
+bqr_delete_table <- function(projectId, datasetId, tableId){
+  
+  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                                      "DELETE",
+                                      path_args = list(projects = projectId,
+                                                       datasets = datasetId,
+                                                       tables = tableId)
+  )
+  
+  req <- l(path_arguments = list(projects = projectId, 
+                                     datasets = datasetId,
+                                     tables = tableId), silent = TRUE)
+  
+  TRUE
+  
+}

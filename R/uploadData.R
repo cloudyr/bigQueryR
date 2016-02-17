@@ -7,13 +7,14 @@
 #' @param tableId Name of table you want.
 #' @param upload_data The data to upload, a data.fame.
 #' @param create If TRUE will create the table if it isn't present.
+#' @param overwrite If TRUE will delete an existing table if present and upload new data.
 #' @param uploadType 'multipart' for small data, 'resumable' for big. (not implemented yet)
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
 #' @details 
 #' 
-#' A temporary csv file is creted if you choose a dataframe.
+#' A temporary csv file is created when uploading. 
 #' 
 #' @export
 bqr_upload_data <- function(projectId, 
@@ -21,9 +22,18 @@ bqr_upload_data <- function(projectId,
                             tableId, 
                             upload_data, 
                             create = TRUE,
+                            overwrite = FALSE,
                             uploadType = c("multipart","resumable")){
   
   stopifnot(inherits(upload_data, "data.frame"))
+  
+  if(overwrite){
+    deleted <- bqr_delete_table(projectId = projectId,
+                                datasetId = datasetId,
+                                tableId = tableId)
+    
+    if(!deleted) stop("Couldn't delete table")
+  }
   
   if(create){
     creation <- bqr_create_table(projectId = projectId,
