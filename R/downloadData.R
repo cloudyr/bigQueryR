@@ -12,7 +12,7 @@
 #' @param destinationFormat Format of file.
 #' @param fieldDelimiter fieldDelimiter of file.
 #' @param printHeader Whether to include header row.
-#' 
+#'  
 #' @seealso 
 #'   https://cloud.google.com/bigquery/exporting-data-from-bigquery
 #'   
