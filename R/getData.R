@@ -12,13 +12,13 @@
 #' 
 #' 
 #' @export
-bqr_auth <- function(token=NULL, new_user=FALSE, verbose = FALSE){
+bqr_auth <- function(token=NULL, new_user=FALSE){
   options("googleAuthR.scopes.selected" = getOption("bigQueryR.scope") )
   options("googleAuthR.client_id" = getOption("bigQueryR.client_id"))
   options("googleAuthR.client_secret" = getOption("bigQueryR.client_secret"))
   options("googleAuthR.webapp.client_id" = getOption("bigQueryR.webapp.client_id"))
   options("googleAuthR.webapp.client_secret" = getOption("bigQueryR.webapp.client_secret"))
-  googleAuthR::gar_auth(token=token, new_user=new_user, verbose = verbose)
+  googleAuthR::gar_auth(token=token, new_user=new_user)
 }
 
 #' List BigQuery datasets
@@ -106,6 +106,7 @@ bqr_list_projects <- function(){
 bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
   
   maxResults <- as.numeric(maxResults)
+  if(maxResults > 100000) warning("Query not best way to extract large amount of data from BigQuery. Consider creating a table and using bqr_download_data() instead")
   
   body <- list(
     kind = "bigquery#queryRequest",

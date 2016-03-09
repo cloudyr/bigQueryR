@@ -1,7 +1,10 @@
 # bigQueryR
+[![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/bigQueryR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
+[![Analytics](https://ga-beacon.appspot.com/UA-73050356-1/bigQueryR/readme)](https://github.com/MarkEdmondson1234/googleAuthR)
+
 R Interface with Google BigQuery.
 
-Very experimental.
+Under active development.
 
 For most purposes it would be best if you use [bigrquery](https://github.com/hadley/bigrquery) instead.  Some functions from there are used in this package.
 

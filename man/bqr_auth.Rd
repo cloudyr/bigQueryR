@@ -4,7 +4,7 @@
 \alias{bqr_auth}
 \title{Do OAuth2 authentication}
 \usage{
-bqr_auth(token = NULL, new_user = FALSE, verbose = FALSE)
+bqr_auth(token = NULL, new_user = FALSE)
 }
 \arguments{
 \item{token}{An existing OAuth2 token, if you have one.}

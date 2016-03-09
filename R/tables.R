@@ -125,13 +125,13 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
  
  if(is.error(req)){
    if(grepl("Already Exists", error.message(req))){
-     message("Table exists. Returning FALSE")
+     message("Table exists: ", tableId, "Returning FALSE")
      out <- FALSE
    } else {
      stop(error.message(req))
    }
  } else {
-   message("Table created.")
+   message("Table created: ", tableId)
    out <- TRUE
  }
  
