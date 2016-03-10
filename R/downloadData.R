@@ -71,14 +71,14 @@ bqr_extract_data <- function(projectId,
         ),
         destinationUris = list(
           gsUri
-        )
-        ),
+          ),
         printHeader = printHeader,
         fieldDelimiter = fieldDelimiter,
         destinationFormat = destinationFormat,
         compression = compression
       )
     )
+  )
   
   config <- rmNullObs(config)
   

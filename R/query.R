@@ -30,7 +30,7 @@
 bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
   
   maxResults <- as.numeric(maxResults)
-  if(maxResults > 100000) warning("Query not best way to extract large amount of data from BigQuery. Consider creating a table and using bqr_download_data() instead")
+  if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
   
   body <- list(
     kind = "bigquery#queryRequest",
