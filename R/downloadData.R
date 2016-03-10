@@ -16,36 +16,52 @@
 #' @seealso 
 #'   https://cloud.google.com/bigquery/exporting-data-from-bigquery
 #'   
+#' @return A Job object to be queried via \link{bqr_get_job}
+#'   
 #' @export
 bqr_extract_data <- function(projectId, 
-                              datasetId, 
-                              tableId,
-                              cloudStorageBucket,
-                              filename = paste0("big-query-extract-",
-                                                gsub(" |:|-","", 
-                                                     Sys.time()),"-*.csv"),
-                              compression = c("NONE","GZIP"),
-                              destinationFormat = c("CSV",
-                                                    "NEWLINE_DELIMITED_JSON", 
-                                                    "AVRO"),
-                              fieldDelimiter = ",",
-                              printHeader = TRUE
-                              ){
+                             datasetId, 
+                             tableId,
+                             cloudStorageBucket,
+                             filename = paste0("big-query-extract-",
+                                               gsub(" |:|-","", 
+                                                    Sys.time()),"-*.csv"),
+                             compression = c("NONE","GZIP"),
+                             destinationFormat = c("CSV",
+                                                   "NEWLINE_DELIMITED_JSON", 
+                                                   "AVRO"),
+                             fieldDelimiter = ",",
+                             printHeader = TRUE){
   
   compression <- match.arg(compression)
   destinationFormat <- match.arg(destinationFormat)
   
+  stopifnot(inherits(projectId, "character"),
+            inherits(datasetId, "character"),
+            inherits(tableId, "character"),
+            inherits(cloudStorageBucket, "character"),
+            inherits(filename, "character"),
+            inherits(fieldDelimiter, "character"),
+            inherits(printHeader, "logical"))
+  
+  if(!grepl("^gs://",cloudStorageBucket)) 
+    cloudStorageBucket <- paste0("gs://", cloudStorageBucket)
   
   ## make job
   job <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/upload/bigquery/v2",
+    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = ""))
+                                                    jobs = "")
+                                   )
 
-  gsUri <- paste0("gs://", cloudStorageBucket, "/", filename)
+  gsUri <- paste0(cloudStorageBucket, "/", filename)
   
   config <- list(
+    jobReference = list(
+      projectId = projectId,
+      jobId = idempotency() ## uuid to stop duplicate exports
+    ),
     configuration = list(
       extract = list(
         sourceTable = list(
@@ -55,14 +71,14 @@ bqr_extract_data <- function(projectId,
         ),
         destinationUris = list(
           gsUri
+        )
         ),
         printHeader = printHeader,
         fieldDelimiter = fieldDelimiter,
-        destinationFormat = destinationFormat, 
+        destinationFormat = destinationFormat,
         compression = compression
       )
     )
-  )
   
   config <- rmNullObs(config)
   
@@ -70,12 +86,11 @@ bqr_extract_data <- function(projectId,
                the_body = config)
   
   if(req$status_code == 200){
-    message("Extract request successful")
-    out <- TRUE
+    myMessage("Extract request successful", level=2)
+    out <- req$content
   } else {
-    #     warning("Error in upload: ", req$status_code, " Returning request for debugging ")
-    #     out <- req
-    out <- FALSE
+    stop("Error in extraction job")
+    # out <- FALSE
   }
   
   out
@@ -91,6 +106,9 @@ bqr_extract_data <- function(projectId,
     #Canonicalized_Resource
   
   
+  ## Change access control: 
+  ## https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls#resource
+  
   #generating RSA signatures using SHA-256 as the hash function
   ##https://cran.r-project.org/web/packages/sodium/vignettes/intro.html
   ##https://cran.r-project.org/web/packages/digest/index.html
@@ -101,12 +119,3 @@ bqr_extract_data <- function(projectId,
   
 }
 
-#' Turn a BigQuery query into a table
-#' 
-#' Use for big results
-#' 
-#' 
-bqr_query_asynch <- function(projectId, datasetId, query){
-  
-  
-}

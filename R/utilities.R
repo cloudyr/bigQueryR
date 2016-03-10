@@ -35,3 +35,32 @@ is.error <- function(test_me){
 error.message <- function(test_me){
   if(is.error(test_me)) attr(test_me, "condition")$message
 }
+
+#' Customer message log level
+#'
+#' @param ... The message(s)
+#' @param level The severity
+#'
+#' @details 0 = everything, 1 = debug, 2=normal, 3=important
+myMessage <- function(..., level = 1){
+  
+  
+  compare_level <- getOption("googleAuthR.verbose")
+  if(is.null(compare_level)) compare_level <- 1
+  
+  if(level >= compare_level){
+    message(Sys.time()," -- ", ...)
+  }
+  
+}
+
+
+
+#' Idempotency
+#'
+#' A random code to ensure no repeats
+#'
+#' @return A random 15 digit hash
+idempotency <- function(){
+  paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
+}

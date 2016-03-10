@@ -29,6 +29,9 @@ bqr_extract_data(projectId, datasetId, tableId, cloudStorageBucket,
 
 \item{printHeader}{Whether to include header row.}
 }
+\value{
+A Job object to be queried via \link{bqr_get_job}
+}
 \description{
 Use this instead of \link{bqr_query} for big datasets. 
 Requires you to make a bucket at https://console.cloud.google.com/storage/browser

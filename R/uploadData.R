@@ -7,8 +7,9 @@
 #' @param tableId Name of table you want.
 #' @param upload_data The data to upload, a data.fame.
 #' @param create If TRUE will create the table if it isn't present.
-#' @param overwrite If TRUE will delete an existing table if present and upload new data.
-#' @param uploadType 'multipart' for small data, 'resumable' for big. (not implemented yet)
+#' @param overwrite If TRUE will delete any existing table and upload new data.
+#' @param uploadType 'multipart' for small data, 
+#'   'resumable' for big. (not implemented yet)
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 

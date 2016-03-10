@@ -18,9 +18,10 @@ bqr_upload_data(projectId, datasetId, tableId, upload_data, create = TRUE,
 
 \item{create}{If TRUE will create the table if it isn't present.}
 
-\item{overwrite}{If TRUE will delete an existing table if present and upload new data.}
+\item{overwrite}{If TRUE will delete any existing table and upload new data.}
 
-\item{uploadType}{'multipart' for small data, 'resumable' for big. (not implemented yet)}
+\item{uploadType}{'multipart' for small data, 
+'resumable' for big. (not implemented yet)}
 }
 \value{
 TRUE if successful, FALSE if not.
