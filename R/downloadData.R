@@ -96,26 +96,110 @@ bqr_extract_data <- function(projectId,
   out
   
   
-  ## https://cloud.google.com/storage/docs/access-control
-  ## create signed string for Gogole buxket resource
-  ##StringToSign = HTTP_Verb + "\n" +
-    #Content_MD5 + "\n" +
-    #Content_Type + "\n" +
-    #Expiration + "\n" +
-    #Canonicalized_Extension_Headers +
-    #Canonicalized_Resource
+ 
   
+}
+
+#' Create a signed URL for Google Cloud Storage
+#' 
+#' To access the data created in \link{bqr_extract_data}.
+#' Requires a service account .pem:
+#' 
+#'   1. Create a service account and download .p12 key
+#'   2. Run in console: 
+#'   openssl pkcs12 -in path/to/key.p12 -nodes -nocerts > path/to/key.pem
+#' 
+#' @param extractJob An extract job from \link{bqr_extract_data}
+#' @param expiration How long the link is valid for in seconds
+#' @param pem file path to a .pem service account key
+#' @param email email of the Google service account
+#' 
+#' @return Signed URL(s)
+#' @export
+bqr_signed_url <- function(extractJob, expiration=86400, pem, email){
   
-  ## Change access control: 
-  ## https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls#resource
+  if(extractJob$status$state != "DONE"){
+    stop("Job not done")
+  }
   
-  #generating RSA signatures using SHA-256 as the hash function
-  ##https://cran.r-project.org/web/packages/sodium/vignettes/intro.html
-  ##https://cran.r-project.org/web/packages/digest/index.html
-  # digest::digest(paste0("StringToSign = ",
-  #               "HTTP_Verb","\n\n\n",
-  #               "Expiration\n",
-  #               "googlestorage.com/blah"), algo = "sha256")
+  stopifnot(file.exists(pem),
+            inherits(email, "character"))
   
+  file_suffix <- make_suffix(extractJob$statistics$extract$destinationUriFileCounts)
+  
+  expiration <- round(as.numeric(Sys.time() + expiration))
+  
+  uris <- gsub("\\*", "%s", extractJob$configuration$extract$destinationUris)
+  uris <- sprintf(uris, file_suffix)
+  
+  # bucketname <- gsub("gs://(.+)/(.+)\\.csv$","\\1",uris)
+  canonical_resource <- gsub("gs:/","", uris)
+  
+  ## a vector if many uris
+  string_to_sign <- paste0("GET","\n",
+                           "\n",
+                           "\n",
+                           expiration, "\n",
+                           canonical_resource)
+  
+  myMessage(string_to_sign, level = 0)
+  
+  ## used PKI library to sign using the .pem file
+  signed_strings <- vapply(string_to_sign, 
+                           FUN = signRSA, 
+                           FUN.VALUE = "vector", 
+                           pem)
+  
+  baseUrls <- gsub("gs://","https://storage.googleapis.com/", uris)
+  
+  ## construct the final download URLs
+  signed_urls <- paste0(baseUrls,
+                        "?GoogleAccessId=", email,
+                        "&Expires=", expiration,
+                        "&Signature=",signed_strings)
+  
+  signed_urls
+  
+}
+
+# Helper for filenames
+make_suffix <- function(destinationUriFileCount){
+  suff <- function(x) gsub(" ","0",sprintf("%12d", as.numeric(x)))
+  along <- 0:(as.numeric(destinationUriFileCount)-1)
+
+  vapply(along, suff, "vector")
+}
+
+# helper to sign via SHA-256 and RSA
+# key needs to be in PEM or DER format
+# GCS provides key files in
+# pkcs12 format. To convert between formats, you can use the provided commands
+# below.
+#
+# The default password for p12 file is `notasecret`
+# 
+# Given a GCS key in pkcs12 format, convert it to PEM using this command:
+#   openssl pkcs12 -in path/to/key.p12 -nodes -nocerts > path/to/key.pem
+# Given a GCS key in PEM format, convert it to DER format using this command:
+#   openssl rsa -in privatekey.pem -inform PEM -out privatekey.der -outform DER
+signRSA <- function(sign_me, pem, format = c("PEM","DER")){
+  
+  pri.k <- PKI::PKI.load.key(file=pem, 
+                             private = TRUE, 
+                             format = format, 
+                             password="notasecret")
+  
+  out <- PKI::PKI.sign(digest = PKI::PKI.digest(sign_me, hash = "SHA256"), 
+                       key = pri.k, 
+                       hash = "SHA256")
+  
+  stopifnot(PKI::PKI.verify(digest = PKI::PKI.digest(sign_me, hash = "SHA256"), 
+                            signature = out, 
+                            key = pri.k,
+                            hash = "SHA256"))
+  
+  out <- utils::URLencode(paste0(out, collapse =""), reserved = TRUE)
+  
+  out
 }
 
