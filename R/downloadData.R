@@ -182,23 +182,15 @@ make_suffix <- function(destinationUriFileCount){
 #   openssl pkcs12 -in path/to/key.p12 -nodes -nocerts > path/to/key.pem
 # Given a GCS key in PEM format, convert it to DER format using this command:
 #   openssl rsa -in privatekey.pem -inform PEM -out privatekey.der -outform DER
-signRSA <- function(sign_me, pem, format = c("PEM","DER")){
+signRSA <- function(sign_me, pem){
   
-  pri.k <- PKI::PKI.load.key(file=pem, 
-                             private = TRUE, 
-                             format = format, 
-                             password="notasecret")
+  key <- openssl::read_key(pem, "notasecret")
+  sig <- openssl::signature_create(charToRaw(sign_me), 
+                                   hash = openssl::sha256, 
+                                   key = key, 
+                                   password = "notasecret")
   
-  out <- PKI::PKI.sign(digest = PKI::PKI.digest(sign_me, hash = "SHA256"), 
-                       key = pri.k, 
-                       hash = "SHA256")
-  
-  stopifnot(PKI::PKI.verify(digest = PKI::PKI.digest(sign_me, hash = "SHA256"), 
-                            signature = out, 
-                            key = pri.k,
-                            hash = "SHA256"))
-  
-  out <- utils::URLencode(paste0(out, collapse =""), reserved = TRUE)
+  out <- utils::URLencode(paste0(sig, collapse =""), reserved = TRUE)
   
   out
 }
