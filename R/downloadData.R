@@ -126,15 +126,15 @@ bqr_grant_extract_access <- function(extractJob, email){
   uris <- sprintf(uris, file_suffix)
   
   ## extract bucket names and object names
-  bucketnames <- gsub("gs://(.+)/(.+)\\.csv$","\\1",uris)
-  objectnames <- gsub("gs://(.+)/(.+)\\.csv$","\\2",uris)
+  bucketnames <- gsub("gs://(.+)/(.+)$","\\1",uris)
+  objectnames <- gsub("gs://(.+)/(.+)$","\\2",uris)
   
   ## Update access control list of objects to accept the email
   
   # helper function with prefilled params
   updateAccess <- function(object){
     gcs_update_acl(bucket = bucketnames[1], # should all be in same bucket
-                   object = paste0(object,".csv"),
+                   object = object,
                    entity = email,
                    entity_type = "user",
                    role = "READER")
@@ -145,8 +145,7 @@ bqr_grant_extract_access <- function(extractJob, email){
   ## the download URLs
   downloadUri <- paste0("https://storage.cloud.google.com", 
                         "/",bucketnames,
-                        "/", objectnames,
-                        ".csv")
+                        "/", objectnames)
   
   if(all(result)){
     out <- downloadUri
