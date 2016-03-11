@@ -94,71 +94,68 @@ bqr_extract_data <- function(projectId,
   }
   
   out
-  
-  
- 
-  
+
 }
 
-#' Create a signed URL for Google Cloud Storage
+#' Grant access to an extract on Google Cloud Storage
 #' 
 #' To access the data created in \link{bqr_extract_data}.
-#' Requires a service account .pem:
+#' Requires the Google account email of the user. 
 #' 
-#'   1. Create a service account and download .p12 key
-#'   2. Run in console: 
-#'   openssl pkcs12 -in path/to/key.p12 -nodes -nocerts > path/to/key.pem
+#' Uses \href{https://cloud.google.com/storage/docs/authentication#cookieauth}{cookie based auth}.
+#' 
 #' 
 #' @param extractJob An extract job from \link{bqr_extract_data}
-#' @param expiration How long the link is valid for in seconds
-#' @param pem file path to a .pem service account key
-#' @param email email of the Google service account
+#' @param email email of the user to have access
 #' 
-#' @return Signed URL(s)
+#' @return URL(s) to download the extract that is accessible by email
 #' @export
-bqr_signed_url <- function(extractJob, expiration=86400, pem, email){
+bqr_grant_extract_access <- function(extractJob, email){
   
   if(extractJob$status$state != "DONE"){
     stop("Job not done")
   }
   
-  stopifnot(file.exists(pem),
-            inherits(email, "character"))
+  stopifnot(inherits(email, "character"))
   
+  ## if multiple files, create the suffixs 000000000000, 000000000001, etc.
   file_suffix <- make_suffix(extractJob$statistics$extract$destinationUriFileCounts)
   
-  expiration <- round(as.numeric(Sys.time() + expiration))
-  
+  ## replace filename * with suffixes
   uris <- gsub("\\*", "%s", extractJob$configuration$extract$destinationUris)
   uris <- sprintf(uris, file_suffix)
   
-  # bucketname <- gsub("gs://(.+)/(.+)\\.csv$","\\1",uris)
-  canonical_resource <- gsub("gs:/","", uris)
+  ## extract bucket names and object names
+  bucketnames <- gsub("gs://(.+)/(.+)\\.csv$","\\1",uris)
+  objectnames <- gsub("gs://(.+)/(.+)\\.csv$","\\2",uris)
   
-  ## a vector if many uris
-  string_to_sign <- paste0("GET","\n",
-                           "\n",
-                           "\n",
-                           expiration, "\n",
-                           canonical_resource)
+  ## Update access control list of objects to accept the email
   
-  myMessage(string_to_sign, level = 0)
+  # helper function with prefilled params
+  updateAccess <- function(object){
+    gcs_update_acl(bucket = bucketnames[1], # should all be in same bucket
+                   object = paste0(object,".csv"),
+                   entity = email,
+                   entity_type = "user",
+                   role = "READER")
+  }
   
-  ## used PKI library to sign using the .pem file
-  signed_strings <- vapply(string_to_sign, 
-                           FUN = signRSA, 
-                           FUN.VALUE = "vector", 
-                           pem)
+  result <- vapply(objectnames, updateAccess, logical(1))
   
-  baseUrls <- gsub("gs://","https://storage.googleapis.com/", uris)
+  ## the download URLs
+  downloadUri <- paste0("https://storage.cloud.google.com", 
+                        "/",bucketnames,
+                        "/", objectnames,
+                        ".csv")
   
-  ## construct the final download URLs
-  signed_urls <- paste0(baseUrls,
-                        "?GoogleAccessId=", email,
-                        "&Expires=", expiration,
-                        "&Signature=",signed_strings)
+  if(all(result)){
+    out <- downloadUri
+  } else {
+    warning("Problem setting access")
+    out <- NULL
+  }
   
-  signed_urls
+  out
   
 }
 
@@ -167,31 +164,5 @@ make_suffix <- function(destinationUriFileCount){
   suff <- function(x) gsub(" ","0",sprintf("%12d", as.numeric(x)))
   along <- 0:(as.numeric(destinationUriFileCount)-1)
 
-  vapply(along, suff, "vector")
+  vapply(along, suff, "000000000000")
 }
-
-# helper to sign via SHA-256 and RSA
-# key needs to be in PEM or DER format
-# GCS provides key files in
-# pkcs12 format. To convert between formats, you can use the provided commands
-# below.
-#
-# The default password for p12 file is `notasecret`
-# 
-# Given a GCS key in pkcs12 format, convert it to PEM using this command:
-#   openssl pkcs12 -in path/to/key.p12 -nodes -nocerts > path/to/key.pem
-# Given a GCS key in PEM format, convert it to DER format using this command:
-#   openssl rsa -in privatekey.pem -inform PEM -out privatekey.der -outform DER
-signRSA <- function(sign_me, pem){
-  
-  key <- openssl::read_key(pem, "notasecret")
-  sig <- openssl::signature_create(charToRaw(sign_me), 
-                                   hash = openssl::sha256, 
-                                   key = key, 
-                                   password = "notasecret")
-  
-  out <- utils::URLencode(paste0(sig, collapse =""), reserved = TRUE)
-  
-  out
-}
-
