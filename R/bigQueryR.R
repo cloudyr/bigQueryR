@@ -12,7 +12,6 @@ NULL
 #' 
 #' @param token An existing OAuth2 token, if you have one.
 #' @param new_user Set to TRUE if you want to go through the authentication flow again.
-#' @param verbose Get more debug messages if set to TRUE
 #' 
 #' @details 
 #' This function just wraps \code{\link[googleAuthR]{gar_auth}} from googleAuthR, 

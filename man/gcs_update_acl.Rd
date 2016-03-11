@@ -28,6 +28,6 @@ Requires scopes
   https://www.googleapis.com/auth/cloud-platform
 }
 \seealso{
-\href{https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls/insert}
+\href{https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls/insert}{objectAccessControls on Google API reference}
 }
 

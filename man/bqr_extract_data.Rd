@@ -15,9 +15,9 @@ bqr_extract_data(projectId, datasetId, tableId, cloudStorageBucket,
 
 \item{datasetId}{A datasetId within projectId.}
 
-\item{tableId}{Name of table you want.}
+\item{tableId}{ID of table you wish to extract.}
 
-\item{cloudStorageBucket}{URI of the bucket to extract via.}
+\item{cloudStorageBucket}{URI of the bucket to extract into.}
 
 \item{filename}{Include a wildcard (*) if extract expected to be > 1GB.}
 

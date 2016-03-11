@@ -1,5 +1,5 @@
 # bigQueryR
-[![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/bigQueryR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/googleAuthR)
+[![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/bigQueryR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/bigQueryR)
 [![Analytics](https://ga-beacon.appspot.com/UA-73050356-1/bigQueryR/readme)](https://github.com/MarkEdmondson1234/googleAuthR)
 
 R Interface with Google BigQuery.

@@ -12,7 +12,7 @@ bqr_upload_data(projectId, datasetId, tableId, upload_data, create = TRUE,
 
 \item{datasetId}{A datasetId within projectId.}
 
-\item{tableId}{Name of table you want.}
+\item{tableId}{ID of table where data will end up.}
 
 \item{upload_data}{The data to upload, a data.fame.}
 

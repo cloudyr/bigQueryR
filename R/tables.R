@@ -61,6 +61,7 @@ bqr_table_meta <- function(projectId, datasetId, tableId){
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
 #' @param tableId The tableId within the datasetId
+#' @param maxResults Number of results to return
 #' 
 #' Not very useful as can't deal with nested datasets
 #' 

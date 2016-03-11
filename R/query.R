@@ -3,7 +3,7 @@
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
 #' @param query BigQuery SQL
-#' @param MaxResults Max number per page of results. Set total rows with LIMIT in your query.
+#' @param maxResults Max number per page of results. Set total rows with LIMIT in your query.
 #' 
 #' @return a data.frame. 
 #'   If there is an SQL error, a data.frame with 

@@ -10,7 +10,7 @@
 #' @param entity_type what type of entity
 #' @param role Access permission for entity
 #' 
-#' @seealso \href{https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls/insert}
+#' @seealso \href{https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls/insert}{objectAccessControls on Google API reference}
 #' 
 #' @return TRUE if successful
 gcs_update_acl <- function(bucket,

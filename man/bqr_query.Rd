@@ -13,7 +13,7 @@ bqr_query(projectId, datasetId, query, maxResults = 1000)
 
 \item{query}{BigQuery SQL}
 
-\item{MaxResults}{Max number per page of results. Set total rows with LIMIT in your query.}
+\item{maxResults}{Max number per page of results. Set total rows with LIMIT in your query.}
 }
 \value{
 a data.frame. 

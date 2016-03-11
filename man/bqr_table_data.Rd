@@ -11,7 +11,9 @@ bqr_table_data(projectId, datasetId, tableId, maxResults = 1000)
 
 \item{datasetId}{A datasetId within projectId}
 
-\item{tableId}{The tableId within the datasetId
+\item{tableId}{The tableId within the datasetId}
+
+\item{maxResults}{Number of results to return
 
 Not very useful as can't deal with nested datasets}
 }

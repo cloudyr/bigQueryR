@@ -16,6 +16,6 @@ Imports:
 Suggests:
     shiny (>= 0.12.1),
     jsonlite (>= 0.9.19),
-    openssl (>= 0.9.2),
+    httr (>= 1.1.0),
     knitr
 RoxygenNote: 5.0.1
