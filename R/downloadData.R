@@ -5,8 +5,8 @@
 #' 
 #' @param projectId The BigQuery project ID.
 #' @param datasetId A datasetId within projectId.
-#' @param tableId Name of table you want.
-#' @param cloudStorageBucket URI of the bucket to extract via.
+#' @param tableId ID of table you wish to extract.
+#' @param cloudStorageBucket URI of the bucket to extract into.
 #' @param filename Include a wildcard (*) if extract expected to be > 1GB.
 #' @param compression Compression of file.
 #' @param destinationFormat Format of file.

@@ -4,7 +4,7 @@
 #' 
 #' @param projectId The BigQuery project ID.
 #' @param datasetId A datasetId within projectId.
-#' @param tableId Name of table you want.
+#' @param tableId ID of table where data will end up.
 #' @param upload_data The data to upload, a data.fame.
 #' @param create If TRUE will create the table if it isn't present.
 #' @param overwrite If TRUE will delete any existing table and upload new data.

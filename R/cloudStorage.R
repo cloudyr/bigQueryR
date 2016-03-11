@@ -13,7 +13,6 @@
 #' @seealso \href{https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls/insert}
 #' 
 #' @return TRUE if successful
-#' @export
 gcs_update_acl <- function(bucket,
                            object,
                            entity,
