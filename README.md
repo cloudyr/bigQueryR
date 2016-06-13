@@ -15,6 +15,22 @@ It also has support for data extracts to Google Cloud Storage, meaning you can d
 
 An example of a BigQuery Shiny app running OAuth2 is here, the [BigQuery Visualiser](https://mark.shinyapps.io/bigquery-viz/)
 
+## Installation
+
+Stable version is now on CRAN
+
+```r
+install.packages("bigQueryR")
+```
+
+Development version off github:
+
+```r
+devtools::install_github("MarkEdmondson1234/bigQueryR")
+```
+
+See the NEWS to see whats in each version. 
+
 ## Authentication
 
 Authentication is as used in other `googleAuthR` libraries:
