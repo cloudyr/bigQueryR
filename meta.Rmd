@@ -1,0 +1,34 @@
+---
+title: "BigQuery Meta data"
+---
+
+## Listing BigQuery meta data
+
+Various functions for listing what is in your BigQuery account.
+
+```r
+library(bigQueryR)
+  
+## this will open your browser
+## Authenticate with an email that has access to the BigQuery project you need
+bqr_auth()
+  
+## verify under a new user
+bqr_auth(new_user=TRUE)
+  
+## get projects
+projects <- bqr_list_projects()
+  
+my_project <- projects[1]
+  
+## for first project, get datasets
+datasets <- bqr_list_datasets[my_project]
+
+my_dataset <- datasets[1]
+## list tables
+my_table <- bqr_list_tables(my_project, my_dataset)
+
+## get metadata for table
+meta_table <- bqr_table_meta(my_project, my_dataset, my_table)
+
+```

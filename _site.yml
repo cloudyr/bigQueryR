@@ -1,0 +1,21 @@
+name: "bigQueryR - A BigQuery library"
+output_dir: "."
+output:
+  html_document:
+    include: 
+      after_body: footer.html
+navbar:
+  title: "bigQueryR"
+  left:
+    - text: "Home"
+      href: index.html
+      icon: fa-home
+    - text: "Meta Data"
+      href: meta.html
+      icon: fa-wrench
+    - text: "Queries"
+      href: query.html
+      icon: fa-search
+    - text: "Shiny"
+      icon: fa-cloud-upload
+      href: shiny.html

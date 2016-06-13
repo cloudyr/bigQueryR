@@ -1,0 +1,14 @@
+---
+title: "BigQuery Queries"
+---
+
+## Working with Shiny
+
+Multi-user authentication is possible using the `googleAuthR` functions `with_shiny`.
+
+An example of this is the [BigQuery Visualiser](https://mark.shinyapps.io/bigquery-viz/)
+
+The code for this is [open sourced.](https://github.com/MarkEdmondson1234/BigQuery-Visualiser)
+
+![](https://raw.githubusercontent.com/MarkEdmondson1234/BigQuery-Visualiser/master/bigQueryViz-demo-image.png)
+

@@ -11,7 +11,7 @@
 
 
 
-<title>Welcome to bigQueryR</title>
+<title>BigQuery Queries</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -217,43 +217,20 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Welcome to bigQueryR</h1>
+<h1 class="title toc-ignore">BigQuery Queries</h1>
 
 </div>
 
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<p>This is a package for interating with <a href="https://cloud.google.com/bigquery/">BigQuery</a> from within R.</p>
-<p>You may want instead to use <a href="https://github.com/hadley/bigrquery">bigrquery</a> which is more developed with integration with <code>dplyr</code> etc. Some functions from <code>bigrquery</code> are used in this package.</p>
-<div id="why-this-package-then" class="section level3">
-<h3>Why this package then?</h3>
-<p>This package is here as it uses <a href="https://github.com/MarkEdmondson1234/googleAuthR">googleAuthR</a> as backend, so has Shiny support, and compatibility with other googleAuthR dependent packages.</p>
-<p>It also has support for data extracts to Google Cloud Storage, meaning you can download data and make the download URL available to a user via their Google email. If you do a query normally with over 100000 results it hangs and errors.</p>
-<p>An example of a BigQuery Shiny app running OAuth2 is here, the <a href="https://mark.shinyapps.io/bigquery-viz/">BigQuery Visualiser</a></p>
-</div>
-</div>
-<div id="installation" class="section level2">
-<h2>Installation</h2>
-<p>Stable version is now on CRAN</p>
-<pre class="r"><code>install.packages(&quot;bigQueryR&quot;)</code></pre>
-<p>Development version off github:</p>
-<pre class="r"><code>devtools::install_github(&quot;MarkEdmondson1234/bigQueryR&quot;)</code></pre>
-<p>See the NEWS to see whats in each version.</p>
-</div>
-<div id="authentication" class="section level2">
-<h2>Authentication</h2>
-<p>Authentication is as used in other <code>googleAuthR</code> libraries:</p>
-<pre class="r"><code>library(bigQueryR)
+<div id="working-with-shiny" class="section level2">
+<h2>Working with Shiny</h2>
+<p>Multi-user authentication is possible using the <code>googleAuthR</code> functions <code>with_shiny</code>.</p>
+<p>An example of this is the <a href="https://mark.shinyapps.io/bigquery-viz/">BigQuery Visualiser</a></p>
+<p>The code for this is <a href="https://github.com/MarkEdmondson1234/BigQuery-Visualiser">open sourced.</a></p>
+<div class="figure">
+<img src="https://raw.githubusercontent.com/MarkEdmondson1234/BigQuery-Visualiser/master/bigQueryViz-demo-image.png" />
 
-## this will open your browser
-## Authenticate with an email that has access to the BigQuery project you need
-bqr_auth()
-
-## verify under a new user
-bqr_auth(new_user=TRUE)</code></pre>
-<p>If you are authenticating under several APIs via <code>googleAuthR</code>then use <code>gar_auth()</code> instead with the appropriate scopes set.</p>
-<p>You can also use service-to-service JSON files and multi-user authentication under Shiny, see the <code>googleAuthR</code> readme for details.</p>
+</div>
 </div>
 
 <ul class="nav navbar-nav navbar-right">
