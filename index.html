@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Bigqueryr by MarkEdmondson1234</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Bigqueryr</h1>
+        <p>R Interface with Google BigQuery</p>
+
+        <p class="view"><a href="https://github.com/MarkEdmondson1234/bigQueryR">View the Project on GitHub <small>MarkEdmondson1234/bigQueryR</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/MarkEdmondson1234/bigQueryR/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/MarkEdmondson1234/bigQueryR/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/MarkEdmondson1234/bigQueryR">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="bigqueryr" class="anchor" href="#bigqueryr" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>bigQueryR</h1>
+
+<p><a href="https://travis-ci.org/MarkEdmondson1234/bigQueryR"><img src="https://travis-ci.org/MarkEdmondson1234/bigQueryR.svg?branch=master" alt="Travis-CI Build Status"></a></p>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>This is a package for interating with <a href="https://cloud.google.com/bigquery/">BigQuery</a> from within R.</p>
+
+<p>You may want instead to use <a href="https://github.com/hadley/bigrquery">bigrquery</a> which is more developed with integration with <code>dplyr</code> etc. Some functions from <code>bigrquery</code> are used in this package.</p>
+
+<h3>
+<a id="why-this-package-then" class="anchor" href="#why-this-package-then" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why this package then?</h3>
+
+<p>This package is here as it uses <a href="https://github.com/MarkEdmondson1234/googleAuthR">googleAuthR</a> as backend, so has Shiny support, and compatibility with other googleAuthR dependent packages.</p>
+
+<p>It also has support for data extracts to Google Cloud Storage, meaning you can download data and make the download URL available to a user via their Google email. If you do a query normally with over 100000 results it hangs and errors. </p>
+
+<p>An example of a BigQuery Shiny app running OAuth2 is here, the <a href="https://mark.shinyapps.io/bigquery-viz/">BigQuery Visualiser</a></p>
+
+<h2>
+<a id="authentication" class="anchor" href="#authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authentication</h2>
+
+<p>Authentication is as used in other <code>googleAuthR</code> libraries:</p>
+
+<div class="highlight highlight-source-r"><pre>library(<span class="pl-smi">bigQueryR</span>)
+
+<span class="pl-c">## this will open your browser</span>
+<span class="pl-c">## Authenticate with an email that has access to the BigQuery project you need</span>
+bqr_auth()
+
+<span class="pl-c">## verify under a new user</span>
+bqr_auth(<span class="pl-v">new_user</span><span class="pl-k">=</span><span class="pl-c1">TRUE</span>)</pre></div>
+
+<p>If you are authenticating under several APIs via <code>googleAuthR</code>then use <code>gar_auth()</code> instead with the appropriate scopes set.</p>
+
+<p>You can also use service-to-service JSON files and multi-user authentication under Shiny, see the <code>googleAuthR</code> readme for details.</p>
+
+<h2>
+<a id="listing-bigquery-meta-data" class="anchor" href="#listing-bigquery-meta-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Listing BigQuery meta data</h2>
+
+<p>Various functions for listing what is in your BigQuery account.</p>
+
+<div class="highlight highlight-source-r"><pre>library(<span class="pl-smi">bigQueryR</span>)
+
+<span class="pl-c">## this will open your browser</span>
+<span class="pl-c">## Authenticate with an email that has access to the BigQuery project you need</span>
+bqr_auth()
+
+<span class="pl-c">## verify under a new user</span>
+bqr_auth(<span class="pl-v">new_user</span><span class="pl-k">=</span><span class="pl-c1">TRUE</span>)
+
+<span class="pl-c">## get projects</span>
+<span class="pl-smi">projects</span> <span class="pl-k">&lt;-</span> bqr_list_projects()
+
+<span class="pl-smi">my_project</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">projects</span>[<span class="pl-c1">1</span>]
+
+<span class="pl-c">## for first project, get datasets</span>
+<span class="pl-smi">datasets</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">bqr_list_datasets</span>[<span class="pl-smi">my_project</span>]
+
+<span class="pl-smi">my_dataset</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">datasets</span>[<span class="pl-c1">1</span>]
+<span class="pl-c">## list tables</span>
+<span class="pl-smi">my_table</span> <span class="pl-k">&lt;-</span> bqr_list_tables(<span class="pl-smi">my_project</span>, <span class="pl-smi">my_dataset</span>)
+
+<span class="pl-c">## get metadata for table</span>
+<span class="pl-smi">meta_table</span> <span class="pl-k">&lt;-</span> bqr_table_meta(<span class="pl-smi">my_project</span>, <span class="pl-smi">my_dataset</span>, <span class="pl-smi">my_table</span>)
+</pre></div>
+
+<h2>
+<a id="simple-queries" class="anchor" href="#simple-queries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple Queries</h2>
+
+<p>You can pass in queries that have results under ~ 100000 rows using this command:</p>
+
+<div class="highlight highlight-source-r"><pre>bqr_query(<span class="pl-s"><span class="pl-pds">"</span>big-query-r<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>samples<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>SELECT COUNT(repository.url) FROM [publicdata:samples.github_nested]<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>More than that, and the API starts to hang and you are limited by your download bandwidth.</p>
+
+<h2>
+<a id="asynchronous-queries" class="anchor" href="#asynchronous-queries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Asynchronous Queries</h2>
+
+<p>For bigger queries, asynchronous queries save the results to another BigQuery table.  You can check the progress of the job via <code>bqr_get_job</code></p>
+
+<div class="highlight highlight-source-r"><pre>library(<span class="pl-smi">bigQueryR</span>)
+
+<span class="pl-c">## Auth with a project that has at least BigQuery and Google Cloud Storage scope</span>
+bqr_auth()
+
+<span class="pl-c">## make a big query</span>
+<span class="pl-smi">job</span> <span class="pl-k">&lt;-</span> bqr_query_asynch(<span class="pl-s"><span class="pl-pds">"</span>your_project<span class="pl-pds">"</span></span>, 
+                        <span class="pl-s"><span class="pl-pds">"</span>your_dataset<span class="pl-pds">"</span></span>,
+                        <span class="pl-s"><span class="pl-pds">"</span>SELECT * FROM blah LIMIT 9999999<span class="pl-pds">"</span></span>, 
+                        <span class="pl-v">destinationTableId</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>bigResultTable<span class="pl-pds">"</span></span>)
+
+<span class="pl-c">## poll the job to check its status</span>
+<span class="pl-c">## its done when job$status$state == "DONE"</span>
+bqr_get_job(<span class="pl-s"><span class="pl-pds">"</span>your_project<span class="pl-pds">"</span></span>, <span class="pl-smi">job</span><span class="pl-k">$</span><span class="pl-smi">jobReference</span><span class="pl-k">$</span><span class="pl-smi">jobId</span>)
+
+<span class="pl-c">##once done, the query results are in "bigResultTable"</span></pre></div>
+
+<p>You may now want to download this data.  For large datasets, this is best done via extracting the BigQuery result to Google Cloud Storage, then downloading the data from there. </p>
+
+<p>You can create a bucket at Google Cloud Storage at <a href="https://console.cloud.google.com/storage/browser">https://console.cloud.google.com/storage/browser</a>, or you can use <a href="https://github.com/MarkEdmondson1234/googleCloudStorageR">library(googleCloudStorageR)</a></p>
+
+<p>Once created, you can extract your data via the below:</p>
+
+<div class="highlight highlight-source-r"><pre><span class="pl-c">## Create the data extract from BigQuery to Cloud Storage</span>
+<span class="pl-smi">job_extract</span> <span class="pl-k">&lt;-</span> bqr_extract_data(<span class="pl-s"><span class="pl-pds">"</span>your_project<span class="pl-pds">"</span></span>,
+                                <span class="pl-s"><span class="pl-pds">"</span>your_dataset<span class="pl-pds">"</span></span>,
+                                <span class="pl-s"><span class="pl-pds">"</span>bigResultTable<span class="pl-pds">"</span></span>,
+                                <span class="pl-s"><span class="pl-pds">"</span>your_cloud_storage_bucket_name<span class="pl-pds">"</span></span>)
+
+<span class="pl-c">## poll the extract job to check its status</span>
+<span class="pl-c">## its done when job$status$state == "DONE"</span>
+bqr_get_job(<span class="pl-s"><span class="pl-pds">"</span>your_project<span class="pl-pds">"</span></span>, <span class="pl-smi">job_extract</span><span class="pl-k">$</span><span class="pl-smi">jobReference</span><span class="pl-k">$</span><span class="pl-smi">jobId</span>)
+
+<span class="pl-c">## to download via a URL and not logging in via Google Cloud Storage interface:</span>
+<span class="pl-c">## Use an email that is Google account enabled</span>
+<span class="pl-c">## Requires scopes:</span>
+<span class="pl-c">##  https://www.googleapis.com/auth/devstorage.full_control</span>
+<span class="pl-c">##  https://www.googleapis.com/auth/cloud-platform</span>
+<span class="pl-c">## set via options("bigQueryR.scopes") and reauthenticate if needed</span>
+
+<span class="pl-smi">download_url</span> <span class="pl-k">&lt;-</span> bqr_grant_extract_access(<span class="pl-smi">job_extract</span>, <span class="pl-s"><span class="pl-pds">"</span>your@email.com<span class="pl-pds">"</span></span>)
+
+<span class="pl-c">## download_url may be multiple if the data is &gt; 1GB</span>
+<span class="pl-k">&gt;</span> [<span class="pl-c1">1</span>] <span class="pl-s"><span class="pl-pds">"</span>https://storage.cloud.google.com/big-query-r-extracts/extract-20160311112410-000000000000.csv<span class="pl-pds">"</span></span>
+<span class="pl-k">&gt;</span> [<span class="pl-c1">2</span>] <span class="pl-s"><span class="pl-pds">"</span>https://storage.cloud.google.com/big-query-r-extracts/extract-20160311112410-000000000001.csv<span class="pl-pds">"</span></span>
+<span class="pl-k">&gt;</span> [<span class="pl-c1">3</span>] <span class="pl-s"><span class="pl-pds">"</span>https://storage.cloud.google.com/big-query-r-extracts/extract-20160311112410-000000000002.csv<span class="pl-pds">"</span></span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/MarkEdmondson1234">MarkEdmondson1234</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
