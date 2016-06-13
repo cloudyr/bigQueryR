@@ -4,6 +4,8 @@ title: "Welcome to bigQueryR"
 
 ## Introduction 
 
+![](bigqueryR.png)
+
 This is a package for interating with [BigQuery](https://cloud.google.com/bigquery/) from within R.
 
 You may want instead to use [bigrquery](https://github.com/hadley/bigrquery) which is more developed with integration with `dplyr` etc. Some functions from `bigrquery` are used in this package.
