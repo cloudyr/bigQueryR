@@ -8,6 +8,8 @@ Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
 Description: Interface with Google BigQuery,
     this uses googleAuthR so is compatible with similar packages, 
     including Google Cloud Storage for result extracts. 
+URL: http://code.markedmondson.me/bigQueryR/
+BugReports: https://github.com/MarkEdmondson1234/bigQueryR/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
