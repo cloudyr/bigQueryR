@@ -1,13 +1,14 @@
 Package: bigQueryR
-Title: Interface with Google BigQuery with Shiny compatibility
+Title: Interface with Google BigQuery with Shiny Compatibility
 Version: 0.1.0
 Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
                   role = c("aut", "cre")),
              person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb")
                   )
 Description: Interface with Google BigQuery,
-    this uses googleAuthR so is compatible with similar packages, 
-    including Google Cloud Storage for result extracts. 
+    see <https://cloud.google.com/bigquery/> for more information.
+    This package uses 'googleAuthR' so is compatible with similar packages, 
+    including Google Cloud Storage (<https://cloud.google.com/storage/>) for result extracts. 
 URL: http://code.markedmondson.me/bigQueryR/
 BugReports: https://github.com/MarkEdmondson1234/bigQueryR/issues
 License: MIT + file LICENSE
