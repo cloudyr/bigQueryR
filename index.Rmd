@@ -6,9 +6,9 @@ title: "Welcome to bigQueryR"
 
 ![](bigqueryR.png)
 
-This is a package for interating with [BigQuery](https://cloud.google.com/bigquery/) from within R.
+This is a package for use with [BigQuery](https://cloud.google.com/bigquery/) from within R.
 
-You may want instead to use [bigrquery](https://github.com/hadley/bigrquery) which is more developed with integration with `dplyr` etc. Some functions from `bigrquery` are used in this package.
+You may want to use [bigrquery](https://github.com/hadley/bigrquery) instead which is more developed with integration with `dplyr` etc. Some functions from `bigrquery` are used within this package.
 
 ### Why this package then?
 
@@ -20,7 +20,7 @@ An example of a BigQuery Shiny app running OAuth2 is here, the [BigQuery Visuali
 
 ## Installation
 
-Stable version is now on CRAN
+Stable version `0.1.0` is now on CRAN
 
 ```r
 install.packages("bigQueryR")
