@@ -33,7 +33,7 @@ For large datasets, this is best done via extracting the BigQuery result to Goog
 then downloading the data from there. 
 
 You can create a bucket at Google Cloud Storage 
-at \link{https://console.cloud.google.com/storage/browser}
+at \url{https://console.cloud.google.com/storage/browser}
 
 writeDisposition - behaviour if destinationTable already exists: 
 \itemize{
