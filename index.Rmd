@@ -20,13 +20,13 @@ An example of a BigQuery Shiny app running OAuth2 is here, the [BigQuery Visuali
 
 ## Installation
 
-Stable version `0.1.0` is now on CRAN
+Stable version ![CRAN](http://www.r-pkg.org/badges/version/bigQueryR) is now on CRAN
 
 ```r
 install.packages("bigQueryR")
 ```
 
-Development version off github:
+Development version off github: [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/bigQueryR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/bigQueryR)
 
 ```r
 devtools::install_github("MarkEdmondson1234/bigQueryR")
