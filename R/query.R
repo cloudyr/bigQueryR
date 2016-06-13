@@ -104,8 +104,8 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
 #' For large datasets, this is best done via extracting the BigQuery result to Google Cloud Storage, 
 #' then downloading the data from there. 
 #' 
-#' You can create a bucket at Google Cloud Storage 
-#' at \url{https://console.cloud.google.com/storage/browser}
+#' You can read how to create a bucket at Google Cloud Storage 
+#' at \url{https://cloud.google.com/storage/docs/cloud-console}
 #' 
 #' writeDisposition - behaviour if destinationTable already exists: 
 #' \itemize{
