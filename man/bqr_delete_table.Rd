@@ -20,6 +20,6 @@ TRUE if deleted, error if not.
 Delete a Table
 }
 \details{
-
+Deletes a BigQuery table
 }
 

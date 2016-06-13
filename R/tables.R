@@ -97,7 +97,7 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' 
 #' @details 
 #' 
-#' 
+#' Creates a BigQuery table 
 #' 
 #' @export
 bqr_create_table <- function(projectId, datasetId, tableId, template_data){
@@ -151,7 +151,7 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
 #' 
 #' @details 
 #' 
-#' 
+#' Deletes a BigQuery table
 #' 
 #' @export
 bqr_delete_table <- function(projectId, datasetId, tableId){

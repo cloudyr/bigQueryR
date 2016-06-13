@@ -22,6 +22,6 @@ TRUE if created, FALSE if not.
 Create a Table
 }
 \details{
-
+Creates a BigQuery table
 }
 
