@@ -2,7 +2,7 @@
 #' 
 #' Provides an interface with Google BigQuery
 #' 
-#' @seealso https://cloud.google.com/bigquery/docs/reference/v2/?hl=en
+#' @seealso \url{https://cloud.google.com/bigquery/docs/reference/v2/?hl=en}
 #' 
 #' @docType package
 #' @name bigQueryR
@@ -19,7 +19,21 @@ NULL
 #'   
 #' @seealso \code{\link[googleAuthR]{gar_auth}}
 #' 
+#' @examples 
 #' 
+#' \dontrun{
+#'   library(bigQueryR)
+#'   
+#'   ## this will open your browser
+#'   ## Authenticate with an email that has access to the BigQuery project you need
+#'   bqr_auth()
+#'   
+#'   ## verify under a new user
+#'   bqr_auth(new_user=TRUE)
+#'   
+#' }
+#' 
+#' @family bigQuery meta functions
 #' @export
 bqr_auth <- function(token=NULL, new_user=FALSE){
   options("googleAuthR.scopes.selected" = getOption("bigQueryR.scope") )

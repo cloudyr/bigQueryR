@@ -18,7 +18,30 @@ Do OAuth2 authentication
 This function just wraps \code{\link[googleAuthR]{gar_auth}} from googleAuthR, 
   but means you don't need to explictly load that library.
 }
+\examples{
+
+\dontrun{
+  library(bigQueryR)
+  
+  ## this will open your browser
+  ## Authenticate with an email that has access to the BigQuery project you need
+  bqr_auth()
+  
+  ## verify under a new user
+  bqr_auth(new_user=TRUE)
+  
+}
+
+}
 \seealso{
 \code{\link[googleAuthR]{gar_auth}}
+
+Other bigQuery meta functions: \code{\link{bqr_create_table}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_datasets}},
+  \code{\link{bqr_list_projects}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_table_data}},
+  \code{\link{bqr_table_meta}}
 }
 

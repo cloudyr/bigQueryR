@@ -13,11 +13,23 @@ bqr_table_data(projectId, datasetId, tableId, maxResults = 1000)
 
 \item{tableId}{The tableId within the datasetId}
 
-\item{maxResults}{Number of results to return
+\item{maxResults}{Number of results to return}
+}
+\value{
+data.frame of table data
 
-Not very useful as can't deal with nested datasets}
+This won't work with nested datasets, for that use \link{bqr_query} as that flattens results.
 }
 \description{
 Get BigQuery Table's data list
+}
+\seealso{
+Other bigQuery meta functions: \code{\link{bqr_auth}},
+  \code{\link{bqr_create_table}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_datasets}},
+  \code{\link{bqr_list_projects}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_table_meta}}
 }
 

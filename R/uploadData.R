@@ -1,5 +1,3 @@
-## see https://cloud.google.com/bigquery/loading-data-post-request
-
 #' Upload data to BigQuery
 #' 
 #' @param projectId The BigQuery project ID.
@@ -13,10 +11,13 @@
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
+#' @seealso url{https://cloud.google.com/bigquery/loading-data-post-request}
+#' 
 #' @details 
 #' 
 #' A temporary csv file is created when uploading. 
 #' 
+#' @family bigQuery upload functions
 #' @export
 bqr_upload_data <- function(projectId, 
                             datasetId, 

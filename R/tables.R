@@ -3,8 +3,15 @@
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
 #' 
-#' Example: bqr_list_tables("publicdata", "samples")
+#' @return dataframe of tables in dataset
 #' 
+#' @examples 
+#' 
+#' \dontrun{
+#'  bqr_list_tables("publicdata", "samples")
+#' }
+#' 
+#' @family bigQuery meta functions
 #' @export
 bqr_list_tables <- function(projectId, datasetId){
   
@@ -32,8 +39,16 @@ bqr_list_tables <- function(projectId, datasetId){
 #' @param datasetId A datasetId within projectId
 #' @param tableId The tableId within the datasetId
 #' 
-#' Example: bqr_table_meta("publicdata", "samples", "github_nested")
+#' @return list of table metadata
 #' 
+#' @examples 
+#' 
+#' \dontrun{
+#'   bqr_table_meta("publicdata", "samples", "github_nested")
+#' }
+#' 
+#' 
+#' @family bigQuery meta functions
 #' @export
 bqr_table_meta <- function(projectId, datasetId, tableId){
   
@@ -63,8 +78,11 @@ bqr_table_meta <- function(projectId, datasetId, tableId){
 #' @param tableId The tableId within the datasetId
 #' @param maxResults Number of results to return
 #' 
-#' Not very useful as can't deal with nested datasets
+#' @return data.frame of table data
 #' 
+#' This won't work with nested datasets, for that use \link{bqr_query} as that flattens results.
+#' 
+#' @family bigQuery meta functions
 #' @export
 bqr_table_data <- function(projectId, datasetId, tableId,
                            maxResults = 1000){
@@ -99,6 +117,7 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' 
 #' Creates a BigQuery table 
 #' 
+#' @family bigQuery meta functions
 #' @export
 bqr_create_table <- function(projectId, datasetId, tableId, template_data){
   
@@ -153,6 +172,7 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
 #' 
 #' Deletes a BigQuery table
 #' 
+#' @family bigQuery meta functions
 #' @export
 bqr_delete_table <- function(projectId, datasetId, tableId){
   
@@ -163,9 +183,9 @@ bqr_delete_table <- function(projectId, datasetId, tableId){
                                                        tables = tableId)
   )
   
-  req <- l(path_arguments = list(projects = projectId, 
-                                     datasets = datasetId,
-                                     tables = tableId), silent = TRUE)
+  l(path_arguments = list(projects = projectId, 
+                          datasets = datasetId,
+                          tables = tableId))
   
   TRUE
   

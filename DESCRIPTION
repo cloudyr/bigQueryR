@@ -6,7 +6,8 @@ Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
              person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb")
                   )
 Description: Interface with Google BigQuery,
-    this uses googleAuthR as a backend so is compatible with similar packages.
+    this uses googleAuthR so is compatible with similar packages, 
+    including Google Cloud Storage for result extracts. 
 License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
@@ -17,5 +18,7 @@ Suggests:
     shiny (>= 0.12.1),
     jsonlite (>= 0.9.19),
     httr (>= 1.1.0),
-    knitr
+    knitr,
+    rmarkdown
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

@@ -25,16 +25,15 @@ a data.frame.
 MaxResults is how many results to return per page of results, which can be less than the 
 total results you have set in your  query using LIMIT.  Google recommends for bigger datasets
 to set maxResults = 1000, but this will use more API calls.
+}
+\examples{
 
-Example: 
+\dontrun{
+
 bqr_query("big-query-r","samples",
           "SELECT COUNT(repository.url) FROM [publicdata:samples.github_nested]")
-          
-SELECT COUNT(repository.url) as freq, repository.language FROM
-[publicdata:samples.github_nested]
-GROUP BY repository.language
-ORDER BY freq DESC
-LIMIT
-1000
+
+}
+
 }
 

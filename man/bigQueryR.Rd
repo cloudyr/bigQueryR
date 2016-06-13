@@ -9,6 +9,6 @@
 Provides an interface with Google BigQuery
 }
 \seealso{
-https://cloud.google.com/bigquery/docs/reference/v2/?hl=en
+\url{https://cloud.google.com/bigquery/docs/reference/v2/?hl=en}
 }
 

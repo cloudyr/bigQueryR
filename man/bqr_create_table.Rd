@@ -24,4 +24,13 @@ Create a Table
 \details{
 Creates a BigQuery table
 }
+\seealso{
+Other bigQuery meta functions: \code{\link{bqr_auth}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_datasets}},
+  \code{\link{bqr_list_projects}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_table_data}},
+  \code{\link{bqr_table_meta}}
+}
 

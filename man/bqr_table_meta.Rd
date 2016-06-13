@@ -11,11 +11,29 @@ bqr_table_meta(projectId, datasetId, tableId)
 
 \item{datasetId}{A datasetId within projectId}
 
-\item{tableId}{The tableId within the datasetId
-
-Example: bqr_table_meta("publicdata", "samples", "github_nested")}
+\item{tableId}{The tableId within the datasetId}
+}
+\value{
+list of table metadata
 }
 \description{
 Get BigQuery Table meta data
+}
+\examples{
+
+\dontrun{
+  bqr_table_meta("publicdata", "samples", "github_nested")
+}
+
+
+}
+\seealso{
+Other bigQuery meta functions: \code{\link{bqr_auth}},
+  \code{\link{bqr_create_table}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_datasets}},
+  \code{\link{bqr_list_projects}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_table_data}}
 }
 

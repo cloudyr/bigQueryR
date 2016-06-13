@@ -10,6 +10,38 @@ bqr_list_datasets(projectId)
 \item{projectId}{The BigQuery project ID}
 }
 \description{
-List BigQuery datasets
+Each projectId can have multiple datasets.
+}
+\examples{
+
+\dontrun{
+  library(bigQueryR)
+  
+  ## this will open your browser
+  ## Authenticate with an email that has access to the BigQuery project you need
+  bqr_auth()
+  
+  ## verify under a new user
+  bqr_auth(new_user=TRUE)
+  
+  ## get projects
+  projects <- bqr_list_projects()
+  
+  my_project <- projects[1]
+  
+  ## for first project, get datasets
+  datasets <- bqr_list_datasets[my_project]
+  
+}
+
+}
+\seealso{
+Other bigQuery meta functions: \code{\link{bqr_auth}},
+  \code{\link{bqr_create_table}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_projects}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_table_data}},
+  \code{\link{bqr_table_meta}}
 }
 

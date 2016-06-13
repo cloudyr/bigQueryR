@@ -32,4 +32,9 @@ Upload data to BigQuery
 \details{
 A temporary csv file is created when uploading.
 }
+\seealso{
+url{https://cloud.google.com/bigquery/loading-data-post-request}
+
+Other bigQuery upload functions: \code{\link{gcs_update_acl}}
+}
 
