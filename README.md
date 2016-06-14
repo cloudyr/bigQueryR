@@ -19,5 +19,5 @@ install.packages("bigQueryR")
 Development version off github:
 
 ```r
-devtools::install_github("MarkEdmondson1234/bigQueryR")
+devtools::install_github("cloudyr/bigQueryR")
 ```
