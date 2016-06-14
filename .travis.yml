@@ -1,5 +1,12 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: R
 sudo: false
 cache: packages
+r_packages:
+- covr
+- drat
+after_success:
+- Rscript -e 'library("covr");codecov()'
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash drat.sh
+env:
+  global:
+    secure: VImarTVdIrH8LGBt4z4j2b0A0fRWD/RJ/IrwZujzpIUwO5tRMnKvTJXJuYPch1IG7InGvlceUK1PNKtpeINfUdFbppLaq6HX69q2xeOo18+OBCdQb60ztiwnJC5/yPlpmpeAl9915Fy7PuwVxHiO6J+njLj7Yc5t6TO6rlfgiM+gusCHhiqhjOlFhR14cQ+gPRGtMVKy8oZwK16AGJ0X/pjzDWdlS36PqKfewZeOQCqqi7jqwgrIdN6hrehq/95LE5IKKxW/DCjZbmdE56ibyO+ZIIDyQVVNhkK0Sef7Zk/3EGTH9Q3WPAK8DiwQNfgJAchlWufDogjZ+pJxbp7g0kXb4oelUP1Z89EYVLS1ZWPxonAtQka8w9jo29vd98KZ9njK9x6BzZ8ghv53EIXrsns3bWJjxZ5EsIl+NRg8BV80I7tpSW3t+DSPGVTPgsGFEUOpVAI0T0QTjy10F4seCGrGYzENVoRx53MBg4LybA3ekQCv11xb+VxFv7gVGa3nybco2+q8TgVH0ot3R5sohlFKwBxmZm4t71zM8RmH5SDPyU4AHuiKQzqNST5ZX6+2rUwZMqsaR2asIGmJCD0r88hSUjDV5Tv+RHAgFO4ZdIO+yOvd90Sivr45Nh5sXffcOlU6ouTQCGRymDA8sP0EAurKxkw69Ea0y9Lt2UBxE6s=
