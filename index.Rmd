@@ -29,7 +29,7 @@ install.packages("bigQueryR")
 Development version off github: [![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/bigQueryR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/bigQueryR)
 
 ```r
-devtools::install_github("MarkEdmondson1234/bigQueryR")
+devtools::install_github("cloudyr/bigQueryR")
 ```
 
 See the NEWS to see whats in each version. 
