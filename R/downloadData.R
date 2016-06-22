@@ -164,8 +164,6 @@ bqr_download_extract <- function(extractJob,
     stop("Job not done")
   }
   
-  stopifnot(inherits(filename, "character"))
-  
   ## if multiple files, create the suffixs 000000000000, 000000000001, etc.
   file_suffix <- make_suffix(extractJob$statistics$extract$destinationUriFileCounts)
   
@@ -177,7 +175,9 @@ bqr_download_extract <- function(extractJob,
   bucketnames <- gsub("gs://(.+)/(.+)$","\\1",uris)
   objectnames <- gsub("gs://(.+)/(.+)$","\\2",uris)
   
-  if(is.null(filename)){
+  if(!is.null(filename)){
+    stopifnot(inherits(filename, "character"))
+  } else {
     filename <- objectnames
   }
   
@@ -190,7 +190,6 @@ bqr_download_extract <- function(extractJob,
     googleCloudStorageR::gcs_get_object(
       bucket = bucketnames[[1]],
       object_name = f_name,
-      meta = false,
       saveToDisk = f_name
     )
   }
