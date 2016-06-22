@@ -68,7 +68,8 @@ download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 
 }
 \seealso{
-Other BigQuery asynch query functions: \code{\link{bqr_extract_data}},
+Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
+  \code{\link{bqr_extract_data}},
   \code{\link{bqr_get_job}}, \code{\link{bqr_query_asynch}}
 }
 
