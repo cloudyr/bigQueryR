@@ -109,7 +109,7 @@ bqr_get_job("your_project", job$jobReference$jobId)
 
 You may now want to download this data.  For large datasets, this is best done via extracting the BigQuery result to Google Cloud Storage, then downloading the data from there. 
 
-You can create a bucket at Google Cloud Storage see <https://cloud.google.com/storage/docs/cloud-console>, or you can use [library(googleCloudStorageR)](https://github.com/MarkEdmondson1234/googleCloudStorageR)
+You can create a bucket at Google Cloud Storage see <https://cloud.google.com/storage/docs/cloud-console>, or you can use [library(googleCloudStorageR)](https://github.com/cloudyr/googleCloudStorageR)
 
 Once created, you can extract your data via the below:
 

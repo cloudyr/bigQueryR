@@ -143,6 +143,61 @@ bqr_extract_data <- function(projectId,
 
 }
 
+#' Download extract data
+#' 
+#' After extracting data via \link{bqr_extract_data} download the 
+#'   extract from the Google Storage bucket.
+#'   
+#' If more than 1GB, will save multiple .csv files with prefix "N_" to filename.
+#' 
+#' @param extractJob An extract job from \link{bqr_extract_data}
+#' @param fileName Where to save the csv file. If NULL then uses objectname.
+#' 
+#' @return TRUE if successfully downloaded
+#' @import googleCloudStorageR
+#' @family BigQuery asynch query functions 
+#' @export
+bqr_download_extract <- function(extractJob,
+                                 filename = NULL){
+  
+  if(extractJob$status$state != "DONE"){
+    stop("Job not done")
+  }
+  
+  ## if multiple files, create the suffixs 000000000000, 000000000001, etc.
+  file_suffix <- make_suffix(extractJob$statistics$extract$destinationUriFileCounts)
+  
+  ## replace filename * with suffixes
+  uris <- gsub("\\*", "%s", extractJob$configuration$extract$destinationUris)
+  uris <- sprintf(uris, file_suffix)
+  
+  ## extract bucket names and object names
+  bucketnames <- gsub("gs://(.+)/(.+)$","\\1",uris)
+  objectnames <- gsub("gs://(.+)/(.+)$","\\2",uris)
+  
+  if(!is.null(filename)){
+    stopifnot(inherits(filename, "character"))
+  } else {
+    filename <- objectnames
+  }
+  
+  if(length(objectnames) > 1){
+    message("Multiple files to download.")
+    filename <- paste0(as.character(1:length(objectnames),"_",filename))
+  }
+  
+  dl <- function(f_name){
+    googleCloudStorageR::gcs_get_object(
+      bucket = bucketnames[[1]],
+      object_name = f_name,
+      saveToDisk = f_name
+    )
+  }
+  
+  lapply(filename, dl)
+  
+}
+
 #' Grant access to an extract on Google Cloud Storage
 #' 
 #' To access the data created in \link{bqr_extract_data}.

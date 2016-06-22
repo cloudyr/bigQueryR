@@ -85,7 +85,8 @@ download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 \seealso{
 \url{https://cloud.google.com/bigquery/exporting-data-from-bigquery}
 
-Other BigQuery asynch query functions: \code{\link{bqr_get_job}},
+Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
+  \code{\link{bqr_get_job}},
   \code{\link{bqr_grant_extract_access}},
   \code{\link{bqr_query_asynch}}
 }
