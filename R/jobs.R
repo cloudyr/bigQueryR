@@ -1,3 +1,43 @@
+#' Wait for a bigQuery job
+#' 
+#' Wait for a bigQuery job to finish.
+#' 
+#' @param jobObject A job object 
+#' @param wait The number of seconds to wait between checks
+#' 
+#' Use this function to do a loop to check progress of a job running
+#' 
+#' @return After a while, a completed job
+#' 
+#' @family BigQuery asynch query functions  
+#' @export
+bqr_wait_for_job <- function(job, wait=5){
+  
+  stopifnot(job$kind == "bigquery#job")
+  
+  status <- FALSE
+  time <- Sys.time()
+  
+  while(!status){
+    Sys.sleep(wait)
+    message("Waiting for BigQuery...job timer: ", format(difftime(Sys.time(), 
+                                                                       time), 
+                                                              format = "%H:%M:%S"))
+    
+    job <- bigQueryR::bqr_get_job(projectId = job$jobReference$projectId, 
+                                  jobId = job$jobReference$jobId)
+    
+    if(job$status$state == "DONE"){
+      status <- TRUE 
+    } else {
+      status <- FALSE
+    }
+  }
+  
+  job
+}
+
+
 #' Poll a jobId
 #' 
 #' @param projectId projectId of job
