@@ -70,6 +70,7 @@ download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
   \code{\link{bqr_extract_data}},
   \code{\link{bqr_grant_extract_access}},
-  \code{\link{bqr_query_asynch}}
+  \code{\link{bqr_query_asynch}},
+  \code{\link{bqr_wait_for_job}}
 }
 

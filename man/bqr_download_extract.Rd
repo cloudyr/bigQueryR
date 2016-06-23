@@ -24,6 +24,7 @@ If more than 1GB, will save multiple .csv files with prefix "N_" to filename.
 Other BigQuery asynch query functions: \code{\link{bqr_extract_data}},
   \code{\link{bqr_get_job}},
   \code{\link{bqr_grant_extract_access}},
-  \code{\link{bqr_query_asynch}}
+  \code{\link{bqr_query_asynch}},
+  \code{\link{bqr_wait_for_job}}
 }
 
