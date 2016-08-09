@@ -16,13 +16,13 @@ LazyData: TRUE
 Depends:
     R (>= 3.2.0)
 Imports:
-    googleAuthR (>= 0.2.0)
+    googleAuthR (>= 0.2.0),
+    googleCloudStorageR (>= 0.1.0)
 Suggests:
     shiny (>= 0.12.1),
     jsonlite (>= 0.9.21),
     httr (>= 1.1.0),
     knitr,
-    rmarkdown,
-    googleCloudStorageR
+    rmarkdown
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

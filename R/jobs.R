@@ -2,7 +2,7 @@
 #' 
 #' Wait for a bigQuery job to finish.
 #' 
-#' @param jobObject A job object 
+#' @param job A job object 
 #' @param wait The number of seconds to wait between checks
 #' 
 #' Use this function to do a loop to check progress of a job running

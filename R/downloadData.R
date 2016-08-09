@@ -151,7 +151,7 @@ bqr_extract_data <- function(projectId,
 #' If more than 1GB, will save multiple .csv files with prefix "N_" to filename.
 #' 
 #' @param extractJob An extract job from \link{bqr_extract_data}
-#' @param fileName Where to save the csv file. If NULL then uses objectname.
+#' @param filename Where to save the csv file. If NULL then uses objectname.
 #' 
 #' @return TRUE if successfully downloaded
 #' @import googleCloudStorageR
