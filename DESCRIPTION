@@ -16,12 +16,12 @@ LazyData: TRUE
 Depends:
     R (>= 3.2.0)
 Imports:
-    googleAuthR (>= 0.2.0),
+    googleAuthR (>= 0.3.1),
     googleCloudStorageR (>= 0.1.0)
 Suggests:
     shiny (>= 0.12.1),
-    jsonlite (>= 0.9.21),
-    httr (>= 1.1.0),
+    jsonlite (>= 1.0),
+    httr (>= 1.2.1),
     knitr,
     rmarkdown
 RoxygenNote: 5.0.1
