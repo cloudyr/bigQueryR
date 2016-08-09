@@ -9,7 +9,7 @@ bqr_download_extract(extractJob, filename = NULL)
 \arguments{
 \item{extractJob}{An extract job from \link{bqr_extract_data}}
 
-\item{fileName}{Where to save the csv file. If NULL then uses objectname.}
+\item{filename}{Where to save the csv file. If NULL then uses objectname.}
 }
 \value{
 TRUE if successfully downloaded

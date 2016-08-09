@@ -7,11 +7,11 @@
 bqr_wait_for_job(job, wait = 5)
 }
 \arguments{
+\item{job}{A job object}
+
 \item{wait}{The number of seconds to wait between checks
 
 Use this function to do a loop to check progress of a job running}
-
-\item{jobObject}{A job object}
 }
 \value{
 After a while, a completed job
