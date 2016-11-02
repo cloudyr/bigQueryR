@@ -8,7 +8,8 @@ parse_bqr_query <- function(x){
     float = as.double,
     boolean = as.logical,
     string = identity,
-    timestamp = function(x) as.POSIXct(as.integer(x), origin = "1970-01-01", tz = "UTC")
+    timestamp = function(x) as.POSIXct(as.integer(x), origin = "1970-01-01", tz = "UTC"),
+    date = as.Date
   )
 
   schema <- x$schema$fields
