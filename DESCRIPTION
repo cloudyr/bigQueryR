@@ -23,6 +23,7 @@ Suggests:
     jsonlite (>= 1.0),
     httr (>= 1.2.1),
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
