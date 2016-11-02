@@ -13,16 +13,16 @@ parse_bqr_query <- function(x){
 
   schema <- x$schema$fields
   
-  ## when only one row, it makes it 3 obs. of 1 variable instead of 1 obs. of 3
-  data_f <- as.data.frame(Reduce(rbind, lapply(x$rows$f, function(x) x$v)), 
-                          stringsAsFactors = FALSE)
+  template <- x$rows$f[[1]]$v
+  
+  data_f <- as.data.frame(t(vapply(x$rows$f, function(x) x$v, template)), stringsAsFactors = FALSE)
   
   types <- tolower(schema$type)
   
   out <- vector("list", length(types))
   for(i in seq_along(types)){
     ## this needs to behave when only length 1
-    out[[i]] <- converter[[types[i]]](data_f[,i])
+    out[[i]] <- converter[[types[i]]](data_f[[i]])
   }
   names(out) <- schema$name
   
