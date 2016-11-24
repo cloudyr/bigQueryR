@@ -4,6 +4,7 @@
 #' @param datasetId A datasetId within projectId
 #' @param query BigQuery SQL
 #' @param maxResults Max number per page of results. Set total rows with LIMIT in your query.
+#' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
 #' 
 #' @return a data.frame. 
 #'   If there is an SQL error, a data.frame with 
@@ -14,6 +15,8 @@
 #'   MaxResults is how many results to return per page of results, which can be less than the 
 #' total results you have set in your  query using LIMIT.  Google recommends for bigger datasets
 #' to set maxResults = 1000, but this will use more API calls.
+#' 
+#' @seealso \href{https://cloud.google.com/bigquery/sql-reference/}{BigQuery SQL reference}
 #' 
 #' @examples 
 #' 
@@ -26,7 +29,7 @@
 #' 
 #' @family BigQuery query functions
 #' @export
-bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
+bqr_query <- function(projectId, datasetId, query, maxResults = 1000, useLegacySql = TRUE){
   
   maxResults <- as.numeric(maxResults)
   if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
@@ -35,6 +38,7 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
     kind = "bigquery#queryRequest",
     query = query,
     maxResults = maxResults,
+    useLegacySql = useLegacySql,
     defaultDataset = list(
       datasetId = datasetId,
       projectId = projectId
@@ -94,6 +98,7 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000){
 #' @param query The BigQuery query as a string.
 #' @param destinationTableId Id of table the results will be written to.
 #' @param writeDisposition Behaviour if destination table exists. See Details.
+#' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
 #' 
 #' @details 
 #' 
@@ -169,6 +174,7 @@ bqr_query_asynch <- function(projectId,
                              datasetId, 
                              query, 
                              destinationTableId,
+                             useLegacySql = TRUE,
                              writeDisposition = c("WRITE_EMPTY",
                                                   "WRITE_TRUNCATE",
                                                   "WRITE_APPEND")){
@@ -200,6 +206,7 @@ bqr_query_asynch <- function(projectId,
           tableId = destinationTableId
         ),
         query = query,
+        useLegacySql = useLegacySql,
         writeDisposition = writeDisposition
       )
     )
