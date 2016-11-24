@@ -98,6 +98,7 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000, useLegacyS
 #' @param query The BigQuery query as a string.
 #' @param destinationTableId Id of table the results will be written to.
 #' @param writeDisposition Behaviour if destination table exists. See Details.
+#' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
 #' 
 #' @details 
 #' 
@@ -173,6 +174,7 @@ bqr_query_asynch <- function(projectId,
                              datasetId, 
                              query, 
                              destinationTableId,
+                             useLegacySql = TRUE,
                              writeDisposition = c("WRITE_EMPTY",
                                                   "WRITE_TRUNCATE",
                                                   "WRITE_APPEND")){
@@ -204,6 +206,7 @@ bqr_query_asynch <- function(projectId,
           tableId = destinationTableId
         ),
         query = query,
+        useLegacySql = useLegacySql,
         writeDisposition = writeDisposition
       )
     )
