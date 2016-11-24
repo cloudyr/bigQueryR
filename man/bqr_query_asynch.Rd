@@ -5,7 +5,8 @@
 \title{BigQuery query asynchronously}
 \usage{
 bqr_query_asynch(projectId, datasetId, query, destinationTableId,
-  writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE", "WRITE_APPEND"))
+  useLegacySql = TRUE, writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE",
+  "WRITE_APPEND"))
 }
 \arguments{
 \item{projectId}{projectId to be billed.}
@@ -15,6 +16,8 @@ bqr_query_asynch(projectId, datasetId, query, destinationTableId,
 \item{query}{The BigQuery query as a string.}
 
 \item{destinationTableId}{Id of table the results will be written to.}
+
+\item{useLegacySql}{Whether the query you pass is legacy SQL or not. Default TRUE}
 
 \item{writeDisposition}{Behaviour if destination table exists. See Details.}
 }
