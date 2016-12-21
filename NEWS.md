@@ -1,6 +1,7 @@
 # bigQueryR 0.2.0.9000
 
 * Add support for standard SQL
+* Add support for hms/timestamp class uploads
 
 # bigQueryR 0.2.0 (CRAN)
 
