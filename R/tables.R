@@ -23,7 +23,8 @@ bqr_list_tables <- function(projectId, datasetId, maxResults = 1000, pageToken =
                                                        datasets = datasetId,
                                                        tables = ""),
                                       pars_args = list(maxResults = maxResults,
-                                                       pageToken = pageToken))
+                                                       pageToken = pageToken),
+                                      data_parse_function = parse_bqr_list_tables)
   
   out <- l(path_arguments = list(projects = projectId, 
                                  datasets = datasetId))

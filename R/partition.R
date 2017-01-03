@@ -40,12 +40,12 @@
 #' @export
 bqr_partition <- function(sharded,
                           partition,
-                          project,
-                          dataset,
+                          projectId,
+                          datasetId ,
                           delete_sharded = FALSE){
   
   ## check for shared tables
-  tables <- bqr_list_tables()
+  tables <- bqr_list_tables(projectId = projectId, datasetId = datasetId)
   
   ## check for partition table, creating if not there
   
