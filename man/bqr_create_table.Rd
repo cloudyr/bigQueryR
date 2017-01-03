@@ -4,7 +4,8 @@
 \alias{bqr_create_table}
 \title{Create a Table}
 \usage{
-bqr_create_table(projectId, datasetId, tableId, template_data)
+bqr_create_table(projectId, datasetId, tableId, template_data,
+  timePartitioning = FALSE, expirationMs = 0L)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -14,6 +15,10 @@ bqr_create_table(projectId, datasetId, tableId, template_data)
 \item{tableId}{Name of table you want.}
 
 \item{template_data}{A dataframe with the correct types of data}
+
+\item{timePartitioning}{Whether to create a partioned table}
+
+\item{expirationMs}{If a partioned table, whether to have an expiration time on the data. The default \code{0} is no expiration.}
 }
 \value{
 TRUE if created, FALSE if not.
@@ -22,7 +27,10 @@ TRUE if created, FALSE if not.
 Create a Table
 }
 \details{
-Creates a BigQuery table
+Creates a BigQuery table.
+
+If setting \code{timePartioning} to \code{TRUE} then the table will be a 
+  \href{partioned table}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 }
 \seealso{
 Other bigQuery meta functions: \code{\link{bqr_auth}},

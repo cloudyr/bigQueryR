@@ -110,16 +110,26 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' @param datasetId A datasetId within projectId.
 #' @param tableId Name of table you want.
 #' @param template_data A dataframe with the correct types of data
+#' @param timePartitioning Whether to create a partioned table
+#' @param expirationMs If a partioned table, whether to have an expiration time on the data. The default \code{0} is no expiration.
 #' 
 #' @return TRUE if created, FALSE if not.  
 #' 
 #' @details 
 #' 
-#' Creates a BigQuery table 
+#' Creates a BigQuery table.
+#' 
+#' If setting \code{timePartioning} to \code{TRUE} then the table will be a 
+#'   \href{partioned table}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_create_table <- function(projectId, datasetId, tableId, template_data){
+bqr_create_table <- function(projectId, 
+                             datasetId, 
+                             tableId, 
+                             template_data,
+                             timePartitioning = FALSE,
+                             expirationMs = 0L){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "POST",
@@ -127,6 +137,12 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
                                                        datasets = datasetId,
                                                        tables = "")
                                       )
+  expirationMs <- as.integer(expirationMs)
+  timeP <- NULL
+  if(timePartitioning){
+    if(expirationMs == 0) expirationMs <- NULL
+    timeP <- list(type = "DAY", expirationMs = expirationMs)
+  }
   
   config <- list(
         schema = list(
@@ -136,26 +152,29 @@ bqr_create_table <- function(projectId, datasetId, tableId, template_data){
           projectId = projectId,
           datasetId = datasetId,
           tableId = tableId
-        )
+        ),
+        timePartitioning = timeP
   )
   
- req <- try(l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId),
-           the_body = config), silent = TRUE)
- 
- if(is.error(req)){
-   if(grepl("Already Exists", error.message(req))){
-     message("Table exists: ", tableId, "Returning FALSE")
-     out <- FALSE
-   } else {
-     stop(error.message(req))
-   }
- } else {
-   message("Table created: ", tableId)
-   out <- TRUE
- }
- 
- out
+  config <- rmNullObs(config)
+  
+  req <- try(l(path_arguments = list(projects = projectId, 
+                                     datasets = datasetId),
+               the_body = config), silent = TRUE)
+  
+  if(is.error(req)){
+    if(grepl("Already Exists", error.message(req))){
+      message("Table exists: ", tableId, "Returning FALSE")
+      out <- FALSE
+    } else {
+      stop(error.message(req))
+    }
+  } else {
+    message("Table created: ", tableId)
+    out <- TRUE
+  }
+  
+  out
   
 }
 
