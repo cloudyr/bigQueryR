@@ -2,9 +2,8 @@
 #' 
 #' Moves the old style date-shareded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
 #' 
-#' @param sharded The date-sharded tables to merge into one partitioned table
+#' @param sharded The prefix of date-sharded tables to merge into one partitioned table
 #' @param partition Name of partitioned table. Will create if not present already
-#' @param delete_sharded If \code{TRUE}, will delete the sharded tables when done
 #' @param project The project ID
 #' @param dataset The dataset ID
 #' 
@@ -34,29 +33,62 @@
 #'   tables increases. There is also a limit of 1,000 tables that can be referenced in a 
 #'   single query. Partitioned tables have none of these disadvantages.
 #' 
-#' @return The partition table object
+#' @return \code{TRUE} if all parition jobs start running successfully
 #' 
 #' @seealso \href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 #' @export
 bqr_partition <- function(sharded,
                           partition,
                           projectId,
-                          datasetId ,
-                          delete_sharded = FALSE){
+                          datasetId){
   
   ## check for shared tables
   tables <- bqr_list_tables(projectId = projectId, datasetId = datasetId)
   
+  shard_tables <- tables[grepl(paste0("^",sharded), tables$tableId),]
+  if(nrow(shard_tables) == 0){
+    stop("No sharded tables not found - is your tableID correct? Got ", sharded)
+  }
+  
   ## check for partition table, creating if not there
-  
+  part_table <- tables[grepl(paste0("^",partition,"$"), tables$tableId),"tableId"]
+  if(length(part_table) == 0){
+    myMessage("Creating Partition Table: ", partition, level = 3)
+    
+    shard_schema <- bqr_query(projectId = projectId, 
+                              datasetId = datasetId, 
+                              query = sprintf('SELECT * FROM %s LIMIT 1', shard_tables$tableId[[1]]))
+    
+    part_table <- bqr_create_table(projectId = projectId,
+                                   datasetId = datasetId,
+                                   tableId = partition,
+                                   template_data = shard_schema,
+                                   timePartitioning = TRUE)
+  }
   ## extract shard dates
+  ex <- function(x) {
+    gsub(".+?([0-9]{8}$)","\\1",x)
+  }
   
-  ## build queries
+  shard_dates <- vapply(shard_tables$tableId, ex, character(1), USE.NAMES = TRUE)
   
   ## query sharded tables, putting results in partition table
+  part_query <- function(sdn){
+    
+    myMessage("Partitioning ", sdn, level = 3)
+    ## build queries
+    bqr_query_asynch(projectId = projectId,
+                     datasetId = datasetId,
+                     query = paste0('SELECT * FROM ',sdn),
+                     destinationTableId = paste0(partition,"$",shard_dates[[sdn]]))
+  }
   
-  ## delete sharded tables
+  result <- lapply(names(shard_dates), part_query)
   
-  ## return partition table details
+  if(all(vapply(result, function(x) x$status$state, character(1))) == "RUNNING"){
+    myMessage("All partition jobs running, check project job queue for outcome.")
+  }
+  
+  TRUE
   
 }

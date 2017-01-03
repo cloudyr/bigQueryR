@@ -4,22 +4,19 @@
 \alias{bqr_partition}
 \title{Convert date-sharded tables to a single partitioned table}
 \usage{
-bqr_partition(sharded, partition, projectId, datasetId,
-  delete_sharded = FALSE)
+bqr_partition(sharded, partition, projectId, datasetId)
 }
 \arguments{
-\item{sharded}{The date-sharded tables to merge into one partitioned table}
+\item{sharded}{The prefix of date-sharded tables to merge into one partitioned table}
 
 \item{partition}{Name of partitioned table. Will create if not present already}
-
-\item{delete_sharded}{If \code{TRUE}, will delete the sharded tables when done}
 
 \item{project}{The project ID}
 
 \item{dataset}{The dataset ID}
 }
 \value{
-The partition table object
+\code{TRUE} if all parition jobs start running successfully
 }
 \description{
 Moves the old style date-shareded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
