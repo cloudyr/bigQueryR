@@ -4,12 +4,16 @@
 \alias{bqr_list_tables}
 \title{List BigQuery tables in a dataset}
 \usage{
-bqr_list_tables(projectId, datasetId)
+bqr_list_tables(projectId, datasetId, maxResults = 1000, pageToken = "")
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
 
 \item{datasetId}{A datasetId within projectId}
+
+\item{maxResults}{Number of results to return, default \code{1000}}
+
+\item{pageToken}{The tableID to start listing from, for more than 1000 result paging}
 }
 \value{
 dataframe of tables in dataset

@@ -2,6 +2,8 @@
 #' 
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
+#' @param maxResults Number of results to return, default \code{1000}
+#' @param pageToken The tableID to start listing from, for more than 1000 result paging
 #' 
 #' @return dataframe of tables in dataset
 #' 
@@ -13,23 +15,33 @@
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_list_tables <- function(projectId, datasetId){
+bqr_list_tables <- function(projectId, datasetId, maxResults = 1000, pageToken = ""){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "GET",
                                       path_args = list(projects = projectId,
                                                        datasets = datasetId,
                                                        tables = ""),
-                                      data_parse_function = function(x) {
-                                        d <- x$tables
-                                        out <- data.frame(id = d$id,
-                                                          projectId = d$tableReference$projectId,
-                                                          datasetId = d$tableReference$datasetId,
-                                                          tableId = d$tableReference$tableId)
-                                        
-                                      })
-  l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId))
+                                      pars_args = list(maxResults = maxResults,
+                                                       pageToken = pageToken))
+  
+  out <- l(path_arguments = list(projects = projectId, 
+                                 datasets = datasetId))
+  
+  # if(!is.null(out$content$nextPageToken)){
+  #   npt <- out$content$nextPageToken
+  #   myMessage("Paging through results: ", npt, level = 2)
+  # }
+  
+  out
+}
+
+parse_bqr_list_tables <- function(x) {
+  d <- x$tables
+  data.frame(id = d$id,
+             projectId = d$tableReference$projectId,
+             datasetId = d$tableReference$datasetId,
+             tableId = d$tableReference$tableId, stringsAsFactors = FALSE)
   
 }
 
