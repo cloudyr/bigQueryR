@@ -5,6 +5,7 @@
 #' @param query BigQuery SQL
 #' @param maxResults Max number per page of results. Set total rows with LIMIT in your query.
 #' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
+#' @param useCache Whether to use the query cache. Default TRUE, set to FALSE for realtime queries. 
 #' 
 #' @return a data.frame. 
 #'   If there is an SQL error, a data.frame with 
@@ -29,7 +30,7 @@
 #' 
 #' @family BigQuery query functions
 #' @export
-bqr_query <- function(projectId, datasetId, query, maxResults = 1000, useLegacySql = TRUE){
+bqr_query <- function(projectId, datasetId, query, maxResults = 1000, useLegacySql = TRUE, useCache = TRUE){
   
   maxResults <- as.numeric(maxResults)
   if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
@@ -39,6 +40,7 @@ bqr_query <- function(projectId, datasetId, query, maxResults = 1000, useLegacyS
     query = query,
     maxResults = maxResults,
     useLegacySql = useLegacySql,
+    useCache = useCache,
     defaultDataset = list(
       datasetId = datasetId,
       projectId = projectId
