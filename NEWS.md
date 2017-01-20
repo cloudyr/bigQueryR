@@ -1,7 +1,10 @@
 # bigQueryR 0.2.0.9000
 
-* Add support for standard SQL
 * Add support for realtime queries, `useQueryCache = FALSE`
+* Add support for standard SQL (#21)
+* Add support for hms/timestamp class uploads (#27)
+* Add support for partitioned tables (#28)
+
 
 # bigQueryR 0.2.0 (CRAN)
 

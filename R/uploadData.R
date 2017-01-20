@@ -132,6 +132,8 @@ data_type <- function(x) {
          factor = "STRING",
          Date = "TIMESTAMP",
          POSIXct = "TIMESTAMP",
+         hms = "INTEGER",
+         difftime = "INTEGER",
          stop("Unknown class ", paste0(class(x), collapse = "/"))
   )
 }
