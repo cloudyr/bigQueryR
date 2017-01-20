@@ -5,7 +5,7 @@
 \title{Query a BigQuery Table}
 \usage{
 bqr_query(projectId, datasetId, query, maxResults = 1000,
-  useLegacySql = TRUE, useCache = TRUE)
+  useLegacySql = TRUE, useQueryCache = TRUE)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
@@ -18,7 +18,7 @@ bqr_query(projectId, datasetId, query, maxResults = 1000,
 
 \item{useLegacySql}{Whether the query you pass is legacy SQL or not. Default TRUE}
 
-\item{useCache}{Whether to use the query cache. Default TRUE, set to FALSE for realtime queries.}
+\item{useQueryCache}{Whether to use the query cache. Default TRUE, set to FALSE for realtime queries.}
 }
 \value{
 a data.frame. 
