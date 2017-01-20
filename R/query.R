@@ -30,7 +30,12 @@
 #' 
 #' @family BigQuery query functions
 #' @export
-bqr_query <- function(projectId, datasetId, query, maxResults = 1000, useLegacySql = TRUE, useCache = TRUE){
+bqr_query <- function(projectId, 
+                      datasetId, 
+                      query, 
+                      maxResults = 1000, 
+                      useLegacySql = TRUE, 
+                      useCache = TRUE){
   
   maxResults <- as.numeric(maxResults)
   if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
