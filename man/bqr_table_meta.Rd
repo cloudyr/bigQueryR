@@ -36,4 +36,3 @@ Other bigQuery meta functions: \code{\link{bqr_auth}},
   \code{\link{bqr_list_tables}},
   \code{\link{bqr_table_data}}
 }
-

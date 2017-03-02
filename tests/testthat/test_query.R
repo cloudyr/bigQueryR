@@ -23,3 +23,13 @@ test_that("Can query test set", {
   expect_equal(result$ID, test_data$ID)
   
 })
+
+test_that("Single query bug", {
+  
+  result <- bqr_query("big-query-r","samples",
+                      "SELECT repository.url FROM [publicdata:samples.github_nested] LIMIT 10")
+  
+  ## should be 10, not 1
+  expect_equal(nrow(result), 10)
+  
+})

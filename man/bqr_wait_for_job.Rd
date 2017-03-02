@@ -26,4 +26,3 @@ Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
   \code{\link{bqr_grant_extract_access}},
   \code{\link{bqr_query_asynch}}
 }
-

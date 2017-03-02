@@ -44,4 +44,3 @@ bqr_query("big-query-r","samples",
 \seealso{
 \href{https://cloud.google.com/bigquery/sql-reference/}{BigQuery SQL reference}
 }
-

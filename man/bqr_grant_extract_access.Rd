@@ -74,4 +74,3 @@ Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
   \code{\link{bqr_query_asynch}},
   \code{\link{bqr_wait_for_job}}
 }
-

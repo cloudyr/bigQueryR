@@ -10,4 +10,3 @@ parse_bqr_query(x)
 Parse table data
 }
 \keyword{internal}
-

@@ -78,4 +78,3 @@ download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 
 Other bigQuery upload functions: \code{\link{bqr_upload_data}}
 }
-

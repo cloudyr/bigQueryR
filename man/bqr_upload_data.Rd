@@ -37,4 +37,3 @@ url{https://cloud.google.com/bigquery/loading-data-post-request}
 
 Other bigQuery upload functions: \code{\link{gcs_update_acl}}
 }
-

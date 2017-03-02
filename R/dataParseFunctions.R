@@ -13,19 +13,25 @@ parse_bqr_query <- function(x){
   )
 
   schema <- x$schema$fields
-  
-  template <- x$rows$f[[1]]$v
-  
-  data_f <- as.data.frame(t(vapply(x$rows$f, function(x) x$v, template)), stringsAsFactors = FALSE)
+
+  ## ffs
+  data_f <- as.data.frame(matrix(unlist(unlist(x$rows)), 
+                                 ncol = length(schema$name),
+                                 byrow = TRUE), 
+                          stringsAsFactors = FALSE)
   
   types <- tolower(schema$type)
   
-  out <- vector("list", length(types))
-  for(i in seq_along(types)){
-    ## this needs to behave when only length 1
-    out[[i]] <- converter[[types[i]]](data_f[[i]])
+  converter_funcs <- converter[types]
+  
+  for(i in seq_along(converter_funcs)){
+    
+    data_f[,i] <- converter_funcs[[i]](data_f[, i])
   }
-  names(out) <- schema$name
+  
+  names(data_f) <- schema$name
+  
+  out <- data_f
   
   out <- as.data.frame(out, stringsAsFactors = FALSE)
   attr(out, "jobReference") <- x$jobReference

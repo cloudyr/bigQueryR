@@ -11,4 +11,3 @@ Provides an interface with Google BigQuery
 \seealso{
 \url{https://cloud.google.com/bigquery/docs/reference/v2/?hl=en}
 }
-

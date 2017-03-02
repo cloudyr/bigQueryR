@@ -29,4 +29,3 @@ The job list is sorted in reverse chronological order, by job creation time.
 Requires the Can View project role, or the 
   Is Owner project role if you set the allUsers property.
 }
-

@@ -4,6 +4,7 @@
 * Add support for standard SQL (#21)
 * Add support for hms/timestamp class uploads (#27)
 * Add support for partitioned tables (#28)
+* Fix bug that only returned one row for single column queries (#31 - thanks Rob)
 
 
 # bigQueryR 0.2.0 (CRAN)
