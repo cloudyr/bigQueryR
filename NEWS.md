@@ -5,9 +5,10 @@
 * Add support for hms/timestamp class uploads (#27)
 * Add support for partitioned tables (#28)
 * Fix bug that only returned one row for single column queries (#31 - thanks Rob)
+* Allow loading of data from Google Cloud Storage to BigQuery for large files
 
 
-# bigQueryR 0.2.0 (CRAN)
+# bigQueryR 0.2.0
 
 * Download asynch queries straight to disk via googleCloudStorageR
 

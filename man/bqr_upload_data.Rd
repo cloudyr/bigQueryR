@@ -4,8 +4,10 @@
 \alias{bqr_upload_data}
 \title{Upload data to BigQuery}
 \usage{
-bqr_upload_data(projectId, datasetId, tableId, upload_data, create = TRUE,
-  overwrite = FALSE, uploadType = c("multipart", "resumable"))
+bqr_upload_data(projectId, datasetId, tableId, upload_data,
+  create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
+  schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
+  "NEWLINE_DELIMITED_JSON", "AVRO"))
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -14,14 +16,15 @@ bqr_upload_data(projectId, datasetId, tableId, upload_data, create = TRUE,
 
 \item{tableId}{ID of table where data will end up.}
 
-\item{upload_data}{The data to upload, a data.fame.}
+\item{upload_data}{The data to upload, a data.frame object or a Google Cloud Storage URI}
 
-\item{create}{If TRUE will create the table if it isn't present.}
+\item{create}{Whether to create a new table if necessary, or error if it already exists.}
 
 \item{overwrite}{If TRUE will delete any existing table and upload new data.}
 
-\item{uploadType}{'multipart' for small data, 
-'resumable' for big. (not implemented yet)}
+\item{schema}{If \link{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample}
+
+\item{sourceFormat}{If \link{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}}
 }
 \value{
 TRUE if successful, FALSE if not.
@@ -30,7 +33,43 @@ TRUE if successful, FALSE if not.
 Upload data to BigQuery
 }
 \details{
-A temporary csv file is created when uploading.
+A temporary csv file is created when uploading from a local data.frame
+
+For larger file sizes up to 5TB, upload to Google Cloud Storage first via \link[googleCloudStorageR]{gcs_upload} then supply the object URI of the form \code{gs://project-name/object-name} to the \code{upload_data} argument.  
+  
+You also need to supply a data schema.  Remember that the file should not have a header row.
+}
+\examples{
+
+\dontrun{
+
+ library(googleCloudStorageR)
+ library(bigQueryR)
+ 
+ gcs_global_bucket("your-project")
+ 
+ ## custom upload function to ignore quotes and column headers
+ f <- function(input, output) {
+   write.table(input, sep = ",", col.names = FALSE, row.names = FALSE, quote = FALSE, file = output, qmethod = "double")}
+   
+ ## upload files to Google Cloud Storage
+ gcs_upload(mtcars, name = "mtcars_test1.csv", object_function = f)
+ gcs_upload(mtcars, name = "mtcars_test2.csv", object_function = f)
+ 
+ ## create the schema of the files you just uploaded
+ user_schema <- schema_fields(mtcars)
+ 
+ ## load files from Google Cloud Storage into BigQuery
+ bqr_upload_data(projectId = "your-project", 
+                datasetId = "test", 
+                tableId = "from_gcs_mtcars", 
+                upload_data = c("gs://your-project/mtcars_test1.csv", "gs://your-project/mtcars_test2.csv"),
+                schema = user_schema)
+
+
+
+}
+
 }
 \seealso{
 url{https://cloud.google.com/bigquery/loading-data-post-request}

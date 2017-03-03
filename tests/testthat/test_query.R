@@ -8,7 +8,7 @@ test_data <- data.frame(Name = c("Season","Test"),
 
 test_that("Can upload test set",{
   
-  out <- bqr_upload_data("iih-tools-analytics", "tests", "test1", test_data)
+  out <- bqr_upload_data("mark-edmondson-gde", "test2", "test1", test_data)
   
   expect_true(out)
   
@@ -16,7 +16,7 @@ test_that("Can upload test set",{
 
 test_that("Can query test set", {
   
-  result <- bqr_query("iih-tools-analytics", "tests", "SELECT * FROM test1")
+  result <- bqr_query("mark-edmondson-gde", "test2", "SELECT * FROM test1")
   
   expect_equal(result$Name, test_data$Name)
   expect_equal(as.Date(result$Date), test_data$Date)
@@ -32,4 +32,27 @@ test_that("Single query bug", {
   ## should be 10, not 1
   expect_equal(nrow(result), 10)
   
+})
+
+test_that("Can upload via Google Cloud Storage",{
+  library(googleCloudStorageR)
+  gcs_global_bucket("bigqueryr-tests")
+  
+  f <- function(input, output) {
+    write.table(input, sep = ",", 
+                col.names = FALSE, 
+                row.names = FALSE, 
+                quote = FALSE, 
+                file = output, 
+                qmethod = "double")
+  }
+  gcs_upload(mtcars, name = "mtcars_test3.csv", object_function = f)
+  gcs_upload(mtcars, name = "mtcars_test4.csv", object_function = f)
+  
+  user_schema <- schema_fields(mtcars)
+  bqr_upload_data(projectId = "mark-edmondson-gde", 
+                  datasetId = "test", 
+                  tableId = "from_gcs_mtcars", 
+                  upload_data = c("gs://bigqueryr-tests/mtcars_test3.csv","gs://bigqueryr-tests/mtcars_test4.csv"),
+                  schema = user_schema)
 })

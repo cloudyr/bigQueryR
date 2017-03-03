@@ -34,6 +34,11 @@ bqr_wait_for_job <- function(job, wait=5){
     }
   }
   
+  if(!is.null(job$status$errorResult)){
+    myMessage("Job failed")
+    myMessage(paste(job$status$errors, collapse = " "), level = 3)
+  }
+  
   job
 }
 
