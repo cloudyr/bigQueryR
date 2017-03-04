@@ -4,8 +4,8 @@
 \alias{bqr_create_table}
 \title{Create a Table}
 \usage{
-bqr_create_table(projectId, datasetId, tableId, template_data,
-  timePartitioning = FALSE, expirationMs = 0L)
+bqr_create_table(projectId = bq_get_global_project(), datasetId, tableId,
+  template_data, timePartitioning = FALSE, expirationMs = 0L)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -33,8 +33,7 @@ If setting \code{timePartioning} to \code{TRUE} then the table will be a
   \href{partioned table}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_auth}},
-  \code{\link{bqr_delete_table}},
+Other bigQuery meta functions: \code{\link{bqr_delete_table}},
   \code{\link{bqr_list_datasets}},
   \code{\link{bqr_list_projects}},
   \code{\link{bqr_list_tables}},

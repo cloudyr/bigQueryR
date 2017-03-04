@@ -30,7 +30,7 @@
 #' 
 #' @family BigQuery query functions
 #' @export
-bqr_query <- function(projectId, 
+bqr_query <- function(projectId = bq_get_global_project(), 
                       datasetId, 
                       query, 
                       maxResults = 1000, 
@@ -177,7 +177,7 @@ bqr_query <- function(projectId,
 #'
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_query_asynch <- function(projectId, 
+bqr_query_asynch <- function(projectId = bq_get_global_project(), 
                              datasetId, 
                              query, 
                              destinationTableId,

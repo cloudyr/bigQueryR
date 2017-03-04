@@ -4,7 +4,8 @@
 \alias{bqr_table_data}
 \title{Get BigQuery Table's data list}
 \usage{
-bqr_table_data(projectId, datasetId, tableId, maxResults = 1000)
+bqr_table_data(projectId = bq_get_global_project(), datasetId, tableId,
+  maxResults = 1000)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
@@ -24,8 +25,7 @@ This won't work with nested datasets, for that use \link{bqr_query} as that flat
 Get BigQuery Table's data list
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_auth}},
-  \code{\link{bqr_create_table}},
+Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_delete_table}},
   \code{\link{bqr_list_datasets}},
   \code{\link{bqr_list_projects}},

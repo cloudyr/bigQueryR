@@ -31,8 +31,7 @@ Example: bqr_list_projects()
 
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_auth}},
-  \code{\link{bqr_create_table}},
+Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_delete_table}},
   \code{\link{bqr_list_datasets}},
   \code{\link{bqr_list_tables}},

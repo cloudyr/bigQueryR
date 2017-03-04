@@ -15,7 +15,8 @@
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_list_tables <- function(projectId, datasetId, maxResults = 1000, pageToken = ""){
+bqr_list_tables <- function(projectId = bq_get_global_project(), 
+                            datasetId, maxResults = 1000, pageToken = ""){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "GET",
@@ -63,7 +64,7 @@ parse_bqr_list_tables <- function(x) {
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_table_meta <- function(projectId, datasetId, tableId){
+bqr_table_meta <- function(projectId = bq_get_global_project(), datasetId, tableId){
   
   
   f <- function(x){
@@ -97,7 +98,7 @@ bqr_table_meta <- function(projectId, datasetId, tableId){
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_table_data <- function(projectId, datasetId, tableId,
+bqr_table_data <- function(projectId = bq_get_global_project(), datasetId, tableId,
                            maxResults = 1000){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
@@ -137,7 +138,7 @@ bqr_table_data <- function(projectId, datasetId, tableId,
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_create_table <- function(projectId, 
+bqr_create_table <- function(projectId = bq_get_global_project(), 
                              datasetId, 
                              tableId, 
                              template_data,
@@ -206,7 +207,7 @@ bqr_create_table <- function(projectId,
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_delete_table <- function(projectId, datasetId, tableId){
+bqr_delete_table <- function(projectId = bq_get_global_project(), datasetId, tableId){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "DELETE",

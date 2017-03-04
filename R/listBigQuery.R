@@ -28,7 +28,7 @@
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_list_datasets <- function(projectId){
+bqr_list_datasets <- function(projectId = bq_get_global_project()){
   
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",

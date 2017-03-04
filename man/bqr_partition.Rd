@@ -4,7 +4,8 @@
 \alias{bqr_partition}
 \title{Convert date-sharded tables to a single partitioned table}
 \usage{
-bqr_partition(sharded, partition, projectId, datasetId)
+bqr_partition(sharded, partition, projectId = bq_get_global_project(),
+  datasetId)
 }
 \arguments{
 \item{sharded}{The prefix of date-sharded tables to merge into one partitioned table}

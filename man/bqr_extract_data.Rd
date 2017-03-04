@@ -4,11 +4,11 @@
 \alias{bqr_extract_data}
 \title{Extract data asynchronously}
 \usage{
-bqr_extract_data(projectId, datasetId, tableId, cloudStorageBucket,
-  filename = paste0("big-query-extract-", gsub(" |:|-", "", Sys.time()),
-  "-*.csv"), compression = c("NONE", "GZIP"), destinationFormat = c("CSV",
-  "NEWLINE_DELIMITED_JSON", "AVRO"), fieldDelimiter = ",",
-  printHeader = TRUE)
+bqr_extract_data(projectId = bq_get_global_project(), datasetId, tableId,
+  cloudStorageBucket, filename = paste0("big-query-extract-", gsub(" |:|-",
+  "", Sys.time()), "-*.csv"), compression = c("NONE", "GZIP"),
+  destinationFormat = c("CSV", "NEWLINE_DELIMITED_JSON", "AVRO"),
+  fieldDelimiter = ",", printHeader = TRUE)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}

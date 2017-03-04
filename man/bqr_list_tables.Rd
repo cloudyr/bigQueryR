@@ -4,7 +4,8 @@
 \alias{bqr_list_tables}
 \title{List BigQuery tables in a dataset}
 \usage{
-bqr_list_tables(projectId, datasetId, maxResults = 1000, pageToken = "")
+bqr_list_tables(projectId = bq_get_global_project(), datasetId,
+  maxResults = 1000, pageToken = "")
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
@@ -29,8 +30,7 @@ List BigQuery tables in a dataset
 
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_auth}},
-  \code{\link{bqr_create_table}},
+Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_delete_table}},
   \code{\link{bqr_list_datasets}},
   \code{\link{bqr_list_projects}},

@@ -4,7 +4,7 @@
 \alias{bqr_delete_table}
 \title{Delete a Table}
 \usage{
-bqr_delete_table(projectId, datasetId, tableId)
+bqr_delete_table(projectId = bq_get_global_project(), datasetId, tableId)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -23,8 +23,7 @@ Delete a Table
 Deletes a BigQuery table
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_auth}},
-  \code{\link{bqr_create_table}},
+Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_list_datasets}},
   \code{\link{bqr_list_projects}},
   \code{\link{bqr_list_tables}},

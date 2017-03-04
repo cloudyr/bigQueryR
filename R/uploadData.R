@@ -54,7 +54,7 @@
 #' 
 #' @family bigQuery upload functions
 #' @export
-bqr_upload_data <- function(projectId, 
+bqr_upload_data <- function(projectId = bq_get_global_project(), 
                             datasetId, 
                             tableId, 
                             upload_data, 

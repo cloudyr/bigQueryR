@@ -4,7 +4,7 @@
 \alias{bqr_list_datasets}
 \title{List BigQuery datasets}
 \usage{
-bqr_list_datasets(projectId)
+bqr_list_datasets(projectId = bq_get_global_project())
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
@@ -36,8 +36,7 @@ Each projectId can have multiple datasets.
 
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_auth}},
-  \code{\link{bqr_create_table}},
+Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_delete_table}},
   \code{\link{bqr_list_projects}},
   \code{\link{bqr_list_tables}},

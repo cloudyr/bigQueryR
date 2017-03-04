@@ -1,18 +1,43 @@
 .onLoad <- function(libname, pkgname) {
   
-  op <- options()
-  op.bigQueryR <- list(
-    bigQueryR.client_id = "68483650948-28g1na33slr3bt8rk7ikeog5ur19ldq6.apps.googleusercontent.com",
-    bigQueryR.client_secret = "f0npd8zUhmqf8IqrIypBs6Cy",
-    bigQueryR.webapp.client_id = "68483650948-sufabj4nq9h1hjofp03hcjhk4af93080.apps.googleusercontent.com",
-    bigQueryR.webapp.client_secret = "0tWYjliwXD32XhvDJHTl4NgN",
-    bigQueryR.scope = c("https://www.googleapis.com/auth/bigquery",
-                        "https://www.googleapis.com/auth/devstorage.full_control",
-                        "https://www.googleapis.com/auth/cloud-platform")
-  )
-  toset <- !(names(op.bigQueryR) %in% names(op))
-  if(any(toset)) options(op.bigQueryR[toset])
+  
   
   invisible()
   
 }
+
+.onAttach <- function(libname, pkgname){
+  
+  attempt <- try(googleAuthR::gar_attach_auto_auth("https://www.googleapis.com/auth/bigquery",
+                                                   environment_var = "BQ_AUTH_FILE",
+                                                   travis_environment_var = "TRAVIS_BQ_AUTH_FILE"))
+  
+  if(inherits(attempt, "try-error")){
+    warning("Problem using auto-authentication when loading from BQ_AUTH_FILE.  
+            Run googleAuthR::gar_auth() or googleAuthR::gar_auth_service() instead.")
+  }
+  
+  if(Sys.getenv("BQ_CLIENT_ID") != ""){
+    options(googleAuthR.client_id = Sys.getenv("BQ_CLIENT_ID"))
+  }
+  
+  if(Sys.getenv("BQ_CLIENT_SECRET") != ""){
+    options(googleAuthR.client_secret = Sys.getenv("BQ_CLIENT_SECRET"))
+  }
+  
+  if(Sys.getenv("BQ_WEB_CLIENT_ID") != ""){
+    options(googleAuthR.webapp.client_id = Sys.getenv("BQ_WEB_CLIENT_ID"))
+  }
+  
+  if(Sys.getenv("BQ_WEB_CLIENT_SECRET") != ""){
+    options(googleAuthR.webapp.client_id = Sys.getenv("BQ_WEB_CLIENT_SECRET"))
+  }
+  
+  if(Sys.getenv("BQ_DEFAULT_PROJECT_ID") != ""){
+    .bqr_env$project <- Sys.getenv("BQ_DEFAULT_PROJECT_ID")
+    packageStartupMessage("Set default project to '", Sys.getenv("BQ_DEFAULT_PROJECT_ID"),"'")
+  }
+  
+  invisible()
+  
+  }

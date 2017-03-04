@@ -65,7 +65,7 @@
 #'
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_extract_data <- function(projectId, 
+bqr_extract_data <- function(projectId = bq_get_global_project(), 
                              datasetId, 
                              tableId,
                              cloudStorageBucket,
