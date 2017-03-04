@@ -281,19 +281,19 @@ bqr_grant_extract_access <- function(extractJob, email){
   
   # helper function with prefilled params
   updateAccess <- function(object){
-    gcs_update_acl(bucket = bucketnames[1], # should all be in same bucket
-                   object = object,
-                   entity = email,
-                   entity_type = "user",
-                   role = "READER")
+    googleCloudStorageR::gcs_update_object_acl(
+      object_name = object,
+      bucket = bucketnames[[1]],
+      entity = email,
+      entity_type = "user",
+      role = "READER"
+    )
   }
   
   result <- vapply(objectnames, updateAccess, logical(1))
   
   ## the download URLs
-  downloadUri <- paste0("https://storage.cloud.google.com", 
-                        "/",bucketnames,
-                        "/", objectnames)
+  downloadUri <- googleCloudStorageR::gcs_download_url(object_name = objectnames, bucket = bucketnames)
   
   if(all(result)){
     out <- downloadUri

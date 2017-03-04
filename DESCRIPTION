@@ -17,7 +17,7 @@ Depends:
     R (>= 3.2.0)
 Imports:
     googleAuthR (>= 0.5.0),
-    googleCloudStorageR
+    googleCloudStorageR (>= 0.2.0)
 Suggests:
     shiny (>= 0.12.1),
     jsonlite (>= 1.0),

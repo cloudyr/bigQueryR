@@ -73,6 +73,4 @@ You also need to supply a data schema.  Remember that the file should not have a
 }
 \seealso{
 url{https://cloud.google.com/bigquery/loading-data-post-request}
-
-Other bigQuery upload functions: \code{\link{gcs_update_acl}}
 }
