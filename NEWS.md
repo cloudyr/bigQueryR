@@ -6,7 +6,7 @@
 * Add support for partitioned tables (#28)
 * Fix bug that only returned one row for single column queries (#31 - thanks Rob)
 * Allow loading of data from Google Cloud Storage to BigQuery for large files
-
+* no error if delete non-existent table (#26)
 
 # bigQueryR 0.2.0
 

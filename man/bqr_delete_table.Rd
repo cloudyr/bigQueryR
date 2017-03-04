@@ -14,7 +14,7 @@ bqr_delete_table(projectId, datasetId, tableId)
 \item{tableId}{Name of table you want to delete.}
 }
 \value{
-TRUE if deleted, error if not.
+TRUE if deleted, FALSE if not.
 }
 \description{
 Delete a Table

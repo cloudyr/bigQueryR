@@ -198,7 +198,7 @@ bqr_create_table <- function(projectId,
 #' @param datasetId A datasetId within projectId.
 #' @param tableId Name of table you want to delete.
 #' 
-#' @return TRUE if deleted, error if not.  
+#' @return TRUE if deleted, FALSE if not.  
 #' 
 #' @details 
 #' 
@@ -215,10 +215,20 @@ bqr_delete_table <- function(projectId, datasetId, tableId){
                                                        tables = tableId)
   )
   
-  l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId,
-                          tables = tableId))
+  req <- try(suppressWarnings(l(path_arguments = list(projects = projectId, 
+                                           datasets = datasetId,
+                                           tables = tableId))), silent = TRUE)
+  if(is.error(req)){
+    if(grepl("Not found", error.message(req))){
+      myMessage(error.message(req), level = 3)
+      out <- FALSE
+    } else {
+      stop(error.message(req))
+    }
+  } else {
+    out <- TRUE
+  }
   
-  TRUE
+  out
   
 }
