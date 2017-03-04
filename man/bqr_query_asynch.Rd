@@ -4,9 +4,10 @@
 \alias{bqr_query_asynch}
 \title{BigQuery query asynchronously}
 \usage{
-bqr_query_asynch(projectId = bq_get_global_project(), datasetId, query,
-  destinationTableId, useLegacySql = TRUE,
-  writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE", "WRITE_APPEND"))
+bqr_query_asynch(projectId = bq_get_global_project(),
+  datasetId = bq_get_global_dataset(), query, destinationTableId,
+  useLegacySql = TRUE, writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE",
+  "WRITE_APPEND"))
 }
 \arguments{
 \item{projectId}{projectId to be billed.}

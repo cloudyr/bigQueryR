@@ -4,10 +4,11 @@
 \alias{bqr_upload_data}
 \title{Upload data to BigQuery}
 \usage{
-bqr_upload_data(projectId = bq_get_global_project(), datasetId, tableId,
-  upload_data, create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
-  overwrite = FALSE, schema = NULL, sourceFormat = c("CSV",
-  "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON", "AVRO"))
+bqr_upload_data(projectId = bq_get_global_project(),
+  datasetId = bq_get_global_dataset(), tableId, upload_data,
+  create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
+  schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
+  "NEWLINE_DELIMITED_JSON", "AVRO"))
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}

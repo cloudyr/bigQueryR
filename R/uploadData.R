@@ -55,7 +55,7 @@
 #' @family bigQuery upload functions
 #' @export
 bqr_upload_data <- function(projectId = bq_get_global_project(), 
-                            datasetId, 
+                            datasetId = bq_get_global_dataset(), 
                             tableId, 
                             upload_data, 
                             create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),

@@ -2,19 +2,19 @@
 % Please edit documentation in R/globals.R
 \name{bq_get_global_project}
 \alias{bq_get_global_project}
-\title{Get global bucket name}
+\title{Get global project name}
 \usage{
 bq_get_global_project()
 }
 \value{
-Bucket name
+project name
 }
 \description{
-Bucket name set this session to use by default
+project name set this session to use by default
 }
 \details{
-Set the bucket name via \link{gcs_global_bucket}
+Set the project name via \link{gcs_global_project}
 }
 \seealso{
-Other bucket functions: \code{\link{bq_global_project}}
+Other project functions: \code{\link{bq_global_project}}
 }

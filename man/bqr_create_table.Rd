@@ -4,8 +4,9 @@
 \alias{bqr_create_table}
 \title{Create a Table}
 \usage{
-bqr_create_table(projectId = bq_get_global_project(), datasetId, tableId,
-  template_data, timePartitioning = FALSE, expirationMs = 0L)
+bqr_create_table(projectId = bq_get_global_project(),
+  datasetId = bq_get_global_dataset(), tableId, template_data,
+  timePartitioning = FALSE, expirationMs = 0L)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}

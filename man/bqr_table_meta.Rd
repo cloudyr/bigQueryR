@@ -4,7 +4,8 @@
 \alias{bqr_table_meta}
 \title{Get BigQuery Table meta data}
 \usage{
-bqr_table_meta(projectId = bq_get_global_project(), datasetId, tableId)
+bqr_table_meta(projectId = bq_get_global_project(),
+  datasetId = bq_get_global_dataset(), tableId)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}

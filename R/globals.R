@@ -1,19 +1,19 @@
-## store bucket name
+## store project name
 .bqr_env <- new.env(parent = emptyenv())
 
-#' Set global bucket name
+#' Set global project name
 #'
-#' Set a bucket name used for this R session
+#' Set a project name used for this R session
 #'
-#' @param bucket bucket name you want this session to use by default, or a bucket object
+#' @param project project name you want this session to use by default, or a project object
 #'
 #' @details
-#'   This sets a bucket to a global environment value so you don't need to
-#' supply the bucket argument to other API calls.
+#'   This sets a project to a global environment value so you don't need to
+#' supply the project argument to other API calls.
 #'
-#' @return The bucket name (invisibly)
+#' @return The project name (invisibly)
 #'
-#' @family bucket functions
+#' @family project functions
 #' @export
 bq_global_project <- function(project){
   
@@ -26,16 +26,16 @@ bq_global_project <- function(project){
   
 }
 
-#' Get global bucket name
+#' Get global project name
 #'
-#' Bucket name set this session to use by default
+#' project name set this session to use by default
 #'
-#' @return Bucket name
+#' @return project name
 #'
 #' @details
-#'   Set the bucket name via \link{gcs_global_bucket}
+#'   Set the project name via \link{gcs_global_project}
 #'
-#' @family bucket functions
+#' @family project functions
 #' @export
 bq_get_global_project <- function(){
   
@@ -45,5 +45,52 @@ bq_get_global_project <- function(){
   }
   
   .bqr_env$project
+  
+}
+
+#' Set global dataset name
+#'
+#' Set a dataset name used for this R session
+#'
+#' @param dataset dataset name you want this session to use by default, or a dataset object
+#'
+#' @details
+#'   This sets a dataset to a global environment value so you don't need to
+#' supply the dataset argument to other API calls.
+#'
+#' @return The dataset name (invisibly)
+#'
+#' @family dataset functions
+#' @export
+bq_global_dataset <- function(dataset){
+  
+  stopifnot(inherits(dataset, "character"),
+            length(dataset) == 1)
+  
+  .bqr_env$dataset <- dataset
+  message("Set default dataset to '", dataset,"'")
+  return(invisible(.bqr_env$dataset))
+  
+}
+
+#' Get global dataset name
+#'
+#' dataset name set this session to use by default
+#'
+#' @return dataset name
+#'
+#' @details
+#'   Set the dataset name via \link{gcs_global_dataset}
+#'
+#' @family dataset functions
+#' @export
+bq_get_global_dataset <- function(){
+  
+  if(!exists("dataset", envir = .bqr_env)){
+    stop("dataset is NULL and couldn't find global dataset ID name.
+         Set it via bq_global_dataset")
+  }
+  
+  .bqr_env$dataset
   
   }

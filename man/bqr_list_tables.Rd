@@ -4,8 +4,8 @@
 \alias{bqr_list_tables}
 \title{List BigQuery tables in a dataset}
 \usage{
-bqr_list_tables(projectId = bq_get_global_project(), datasetId,
-  maxResults = 1000, pageToken = "")
+bqr_list_tables(projectId = bq_get_global_project(),
+  datasetId = bq_get_global_dataset(), maxResults = 1000, pageToken = "")
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}

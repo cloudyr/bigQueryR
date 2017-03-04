@@ -7,6 +7,8 @@
 * Fix bug that only returned one row for single column queries (#31 - thanks Rob)
 * Allow loading of data from Google Cloud Storage to BigQuery for large files
 * no error if delete non-existent table (#26)
+* Add auto authentication if set environment var `BQ_AUTH_FILE` to location of auth file
+* Add default project if set environment var `BQ_DEFAULT_PROJECT_ID` to project-id
 
 # bigQueryR 0.2.0
 

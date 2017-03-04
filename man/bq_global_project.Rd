@@ -2,23 +2,23 @@
 % Please edit documentation in R/globals.R
 \name{bq_global_project}
 \alias{bq_global_project}
-\title{Set global bucket name}
+\title{Set global project name}
 \usage{
 bq_global_project(project)
 }
 \arguments{
-\item{bucket}{bucket name you want this session to use by default, or a bucket object}
+\item{project}{project name you want this session to use by default, or a project object}
 }
 \value{
-The bucket name (invisibly)
+The project name (invisibly)
 }
 \description{
-Set a bucket name used for this R session
+Set a project name used for this R session
 }
 \details{
-This sets a bucket to a global environment value so you don't need to
-supply the bucket argument to other API calls.
+This sets a project to a global environment value so you don't need to
+supply the project argument to other API calls.
 }
 \seealso{
-Other bucket functions: \code{\link{bq_get_global_project}}
+Other project functions: \code{\link{bq_get_global_project}}
 }

@@ -38,6 +38,11 @@
     packageStartupMessage("Set default project to '", Sys.getenv("BQ_DEFAULT_PROJECT_ID"),"'")
   }
   
+  if(Sys.getenv("BQ_DEFAULT_DATASET") != ""){
+    .bqr_env$project <- Sys.getenv("BQ_DEFAULT_DATASET")
+    packageStartupMessage("Set default dataset to '", Sys.getenv("BQ_DEFAULT_DATASET"),"'")
+  }
+  
   invisible()
   
   }
