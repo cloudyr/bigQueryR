@@ -1,3 +1,15 @@
+#' As job
+as.job <- function(x){
+  stopifnot(x$kind == "bigquery#job")
+  structure(x, class = c("bqr_job", class(x)))
+}
+
+#' Is job
+is.job <- function(x){
+  inherits(x, "bqr_job")
+}
+
+
 #' Wait for a bigQuery job
 #' 
 #' Wait for a bigQuery job to finish.
@@ -13,7 +25,7 @@
 #' @export
 bqr_wait_for_job <- function(job, wait=5){
   
-  stopifnot(job$kind == "bigquery#job")
+  stopifnot(is.job(job))
   
   status <- FALSE
   time <- Sys.time()
@@ -24,8 +36,8 @@ bqr_wait_for_job <- function(job, wait=5){
                                                                        time), 
                                                               format = "%H:%M:%S"))
     
-    job <- bigQueryR::bqr_get_job(projectId = job$jobReference$projectId, 
-                                  jobId = job$jobReference$jobId)
+    job <- bqr_get_job(projectId = job$jobReference$projectId, 
+                       jobId = job$jobReference$jobId)
     
     if(job$status$state == "DONE"){
       status <- TRUE 
@@ -115,7 +127,7 @@ bqr_get_job <- function(projectId, jobId){
   req <- job(path_arguments = list(projects = projectId,
                                    jobs = jobId))
   
-  req$content
+  as.job(req$content)
   
 }
 
@@ -167,6 +179,6 @@ bqr_list_jobs <- function(projectId,
   out <- rmNullObs(req$content)
   options("googleAuthR.jsonlite.simplifyVector" = TRUE )
   
-  out
+  lapply(out$jobs, as.job)
   
 }

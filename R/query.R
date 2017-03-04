@@ -232,6 +232,6 @@ bqr_query_asynch <- function(projectId,
     # out <- FALSE
   }
   
-  out
+  as.job(out)
   
 }

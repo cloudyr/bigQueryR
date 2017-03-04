@@ -1,3 +1,56 @@
+#' if argument is NULL, no line output
+#'
+#' @keywords internal
+cat0 <- function(prefix = "", x){
+  if(!is.null(x)){
+    cat(prefix, x, "\n")
+  }
+}
+
+#' Javascript time to R time
+#'
+#' @keywords internal
+js_to_posix <- function(x){
+  as.POSIXct(as.numeric(x) / 1000, origin = "1970-01-01")
+}
+
+#' taken from utils:::format.object_size
+#'
+#' @keywords internal
+format_object_size <- function (x, units = "b", ...)
+{
+  units <- match.arg(units, c("b", "auto", "Kb", "Mb", "Gb",
+                              "Tb", "Pb", "B", "KB", "MB", "GB", "TB", "PB", "KiB",
+                              "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"))
+  if (units == "auto")
+    units <- if (x >= 1024^4)
+      "Tb"
+  else if (x >= 1024^3)
+    "Gb"
+  else if (x >= 1024^2)
+    "Mb"
+  else if (x >= 1024)
+    "Kb"
+  else "b"
+  switch(units, b = , B = paste(x, "bytes"), Kb = , KB = paste(round(x/1024,
+                                                                     1L), "Kb"), Mb = , MB = paste(round(x/1024^2, 1L), "Mb"),
+         Gb = , GB = paste(round(x/1024^3, 1L), "Gb"), Tb = ,
+         TB = paste(round(x/1024^4, 1L), "Tb"), Pb = , PB = paste(round(x/1024^5,
+                                                                        1L), "Pb"), KiB = paste(round(x/1024, 1L), "KiB"),
+         MiB = paste(round(x/1024^2, 1L), "MiB"), GiB = paste(round(x/1024^3,
+                                                                    1L), "GiB"), TiB = paste(round(x/1024^4, 1L), "TiB"),
+         PiB = paste(round(x/1024^5, 1L), "PiB"), EiB = paste(round(x/1024^6,
+                                                                    1L), "EiB"), ZiB = paste(round(x/1024^7, 1L), "ZiB"),
+         YiB = paste(round(x/1024^8, 1L), "YiB"))
+}
+
+#' Timestamp to R date
+#' @keywords internal
+timestamp_to_r <- function(t){
+  as.POSIXct(t, format = "%Y-%m-%dT%H:%M:%S")
+}
+
+
 #' A helper function that tests whether an object is either NULL _or_
 #' a list of NULLs
 #'

@@ -229,10 +229,9 @@ bqr_do_upload.character <- function(upload_data,
                           tableId = tableId),
     the_body = config)
   
-  myMessage("BigQuery load from Google Cloud Storage job started: ", req$content$jobReference$jobId, ". 
-            Use bqr_get_job('", req$content$jobReference$jobId, "',projectId = '", req$content$jobReference$projectId,"') to track progress.")
+  myMessage("Returning: BigQuery load from Google Cloud Storage Job object: ", req$content$jobReference$jobId, level = 3)
   
-  TRUE
+  bqr_get_job(req$content$jobReference$jobId, projectId = req$content$jobReference$projectId)
 
 }
 
