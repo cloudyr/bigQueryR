@@ -9,6 +9,8 @@
 * no error if delete non-existent table (#26)
 * Add auto authentication if set environment var `BQ_AUTH_FILE` to location of auth file
 * Add default project if set environment var `BQ_DEFAULT_PROJECT_ID` to project-id
+* Add default dataset if set environment var `BQ_DEFAULT_DATASET` to dataset-id
+* Add auto paging through table lists in `bqr_list_tables()` (#29)
 
 # bigQueryR 0.2.0
 

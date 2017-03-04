@@ -39,7 +39,7 @@
   }
   
   if(Sys.getenv("BQ_DEFAULT_DATASET") != ""){
-    .bqr_env$project <- Sys.getenv("BQ_DEFAULT_DATASET")
+    .bqr_env$dataset <- Sys.getenv("BQ_DEFAULT_DATASET")
     packageStartupMessage("Set default dataset to '", Sys.getenv("BQ_DEFAULT_DATASET"),"'")
   }
   

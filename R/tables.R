@@ -16,8 +16,8 @@
 #' @family bigQuery meta functions
 #' @export
 bqr_list_tables <- function(projectId = bq_get_global_project(), 
-                            datasetId = bq_get_global_dataset(), 
-                            maxResults = 1000, pageToken = ""){
+                            datasetId = bq_get_global_dataset(),
+                            maxResults = 1000){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "GET",
@@ -25,26 +25,49 @@ bqr_list_tables <- function(projectId = bq_get_global_project(),
                                                        datasets = datasetId,
                                                        tables = ""),
                                       pars_args = list(maxResults = maxResults,
-                                                       pageToken = pageToken),
+                                                       pageToken = ""),
                                       data_parse_function = parse_bqr_list_tables)
   
-  out <- l(path_arguments = list(projects = projectId, 
-                                 datasets = datasetId))
+  req <- l()
   
-  # if(!is.null(out$content$nextPageToken)){
-  #   npt <- out$content$nextPageToken
-  #   myMessage("Paging through results: ", npt, level = 2)
-  # }
+  ## if maxResults < 1000 we are in first page
+  if(nrow(req) == maxResults){
+    return(req)
+  }
   
-  out
+  if(!is.null(attr(req, "nextPageToken"))){
+    npt <- attr(req, "nextPageToken")
+    
+    while(!is.null(npt)){
+      myMessage("Paging through results: ", npt, level = 3)
+      more_req <- l(pars_arguments = list(pageToken = npt))
+      npt <- attr(more_req, "nextPageToken")
+      req <- rbind(req, more_req)
+      
+      ## if this batch of 10000 over what we need, just return the rows we want
+      if(nrow(req) > maxResults){
+        return(req[1:maxResults,])
+      }
+    }
+    
+  }
+  
+  req
 }
 
 parse_bqr_list_tables <- function(x) {
   d <- x$tables
-  data.frame(id = d$id,
-             projectId = d$tableReference$projectId,
-             datasetId = d$tableReference$datasetId,
-             tableId = d$tableReference$tableId, stringsAsFactors = FALSE)
+  out <- data.frame(id = d$id,
+                    projectId = d$tableReference$projectId,
+                    datasetId = d$tableReference$datasetId,
+                    tableId = d$tableReference$tableId, stringsAsFactors = FALSE)
+  
+  if(!is.null(x$nextPageToken)){
+    attr(out, "nextPageToken") <- x$nextPageToken
+  }
+  
+  out
+
   
 }
 
