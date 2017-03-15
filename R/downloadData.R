@@ -133,7 +133,7 @@ bqr_extract_data <- function(projectId = bq_get_global_project(),
   
   if(req$status_code == 200){
     myMessage("Extract request successful", level=2)
-    out <- req$content
+    out <- as.job(req$content)
   } else {
     stop("Error in extraction job")
     # out <- FALSE

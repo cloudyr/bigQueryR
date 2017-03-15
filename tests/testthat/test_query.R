@@ -1,3 +1,16 @@
+context("Authentication")
+
+test_that("Can authenticate", {
+  
+  Sys.setenv(BQ_AUTH_FILE = "auth.json")
+  bqr_auth()
+  
+  projects <- bqr_list_projects()
+  expect_s3_class(projects, "data.frame")
+  
+})
+
+
 ## for now assumes local authentication 
 context("Do a query")
 
