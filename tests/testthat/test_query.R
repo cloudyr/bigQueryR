@@ -55,7 +55,7 @@ context("List tables")
 test_that("Can list tables", {
   
   result <- bqr_list_tables("mark-edmondson-gde", "test2")
-  expect_equal(result$tableId, "test1")
+  expect_true("test1" %in% result$tableId)
   
 })
 
@@ -63,7 +63,7 @@ context("Query")
 
 test_that("Can query test set", {
   
-  result <- bqr_query("mark-edmondson-gde", "test2", "SELECT * FROM [mark-edmondson-gde:test2.test1]")
+  result <- bqr_query("mark-edmondson-gde", "test2", "SELECT Name FROM [mark-edmondson-gde:test2.test1]")
   
   expect_equal(result$Name, test_data$Name)
   expect_equal(as.Date(result$Date), test_data$Date)
