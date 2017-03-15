@@ -12,9 +12,9 @@ bqr_partition(sharded, partition, projectId = bq_get_global_project(),
 
 \item{partition}{Name of partitioned table. Will create if not present already}
 
-\item{project}{The project ID}
+\item{projectId}{The project ID}
 
-\item{dataset}{The dataset ID}
+\item{datasetId}{The dataset ID}
 }
 \value{
 \code{TRUE} if all parition jobs start running successfully

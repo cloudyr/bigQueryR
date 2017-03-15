@@ -1,10 +1,10 @@
-#' As job
+# As job
 as.job <- function(x){
   stopifnot(x$kind == "bigquery#job")
   structure(x, class = c("bqr_job", class(x)))
 }
 
-#' Is job
+# Is job
 is.job <- function(x){
   inherits(x, "bqr_job")
 }

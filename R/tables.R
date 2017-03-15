@@ -3,7 +3,6 @@
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
 #' @param maxResults Number of results to return, default \code{1000}
-#' @param pageToken The tableID to start listing from, for more than 1000 result paging
 #' 
 #' @return dataframe of tables in dataset
 #' 

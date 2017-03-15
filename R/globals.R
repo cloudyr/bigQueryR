@@ -33,7 +33,7 @@ bq_global_project <- function(project){
 #' @return project name
 #'
 #' @details
-#'   Set the project name via \link{gcs_global_project}
+#'   Set the project name via \link{bq_global_project}
 #'
 #' @family project functions
 #' @export
@@ -80,7 +80,7 @@ bq_global_dataset <- function(dataset){
 #' @return dataset name
 #'
 #' @details
-#'   Set the dataset name via \link{gcs_global_dataset}
+#'   Set the dataset name via \link{bq_global_dataset}
 #'
 #' @family dataset functions
 #' @export

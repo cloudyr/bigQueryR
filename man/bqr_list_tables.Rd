@@ -13,8 +13,6 @@ bqr_list_tables(projectId = bq_get_global_project(),
 \item{datasetId}{A datasetId within projectId}
 
 \item{maxResults}{Number of results to return, default \code{1000}}
-
-\item{pageToken}{The tableID to start listing from, for more than 1000 result paging}
 }
 \value{
 dataframe of tables in dataset

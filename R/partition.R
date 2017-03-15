@@ -4,8 +4,8 @@
 #' 
 #' @param sharded The prefix of date-sharded tables to merge into one partitioned table
 #' @param partition Name of partitioned table. Will create if not present already
-#' @param project The project ID
-#' @param dataset The dataset ID
+#' @param projectId The project ID
+#' @param datasetId The dataset ID
 #' 
 #' @details 
 #' 

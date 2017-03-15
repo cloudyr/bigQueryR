@@ -23,9 +23,9 @@ bqr_upload_data(projectId = bq_get_global_project(),
 
 \item{overwrite}{If TRUE will delete any existing table and upload new data.}
 
-\item{schema}{If \link{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample}
+\item{schema}{If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample}
 
-\item{sourceFormat}{If \link{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}}
+\item{sourceFormat}{If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}}
 }
 \value{
 TRUE if successful, FALSE if not.

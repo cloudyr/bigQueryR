@@ -13,7 +13,7 @@ dataset name
 dataset name set this session to use by default
 }
 \details{
-Set the dataset name via \link{gcs_global_dataset}
+Set the dataset name via \link{bq_global_dataset}
 }
 \seealso{
 Other dataset functions: \code{\link{bq_global_dataset}}

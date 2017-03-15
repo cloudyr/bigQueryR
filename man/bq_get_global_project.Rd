@@ -13,7 +13,7 @@ project name
 project name set this session to use by default
 }
 \details{
-Set the project name via \link{gcs_global_project}
+Set the project name via \link{bq_global_project}
 }
 \seealso{
 Other project functions: \code{\link{bq_global_project}}

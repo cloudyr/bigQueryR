@@ -6,8 +6,8 @@
 #' @param upload_data The data to upload, a data.frame object or a Google Cloud Storage URI
 #' @param create Whether to create a new table if necessary, or error if it already exists.
 #' @param overwrite If TRUE will delete any existing table and upload new data.
-#' @param schema If \link{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample
-#' @param sourceFormat If \link{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
+#' @param schema If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample
+#' @param sourceFormat If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -95,7 +95,7 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
   
 }
 
-#' S3 generic dispatch
+# S3 generic dispatch
 bqr_do_upload <- function(upload_data, 
                           projectId, 
                           datasetId, 
@@ -107,7 +107,7 @@ bqr_do_upload <- function(upload_data,
   UseMethod("bqr_do_upload", upload_data)
 }
 
-#' upload for local data.fram
+# upload for local data.fram
 bqr_do_upload.data.frame <- function(upload_data, 
                                      projectId, 
                                      datasetId, 
@@ -183,7 +183,7 @@ bqr_do_upload.data.frame <- function(upload_data,
   out
 }
 
-#' upload for gs:// character vector
+# upload for gs:// character vector
 bqr_do_upload.character <- function(upload_data, 
                                     projectId, 
                                     datasetId, 
