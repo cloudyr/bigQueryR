@@ -12,6 +12,22 @@ test_that("Can authenticate", {
   
 })
 
+test_that("Set global project", {
+  
+  project <- bq_global_project("mark-edmondson-gde")
+  
+  expect_equal(project, "mark-edmondson-gde")
+  
+})
+
+test_that("Set global dataset", {
+  
+  ds <- bq_global_dataset("test2")
+  
+  expect_equal(ds, "test2")
+  
+})
+
 test_data <- data.frame(Name = c("Season","Test"),
                         Date = as.Date(c("2010-06-30","2010-06-30")),
                         ID = c(1,2),
@@ -22,7 +38,7 @@ context("Uploads")
 test_that("Can upload test set",{
   
   ## canøt query against this too quickly if creating at same runtime
-  out <- bqr_upload_data("mark-edmondson-gde", "test2", "test2", test_data)
+  out <- bqr_upload_data(tableId = "test2", upload_data = test_data)
   
   expect_true(out)
   
@@ -43,8 +59,7 @@ test_that("Can upload via Google Cloud Storage",{
   gcs_upload(mtcars, name = "mtcars_test4.csv", object_function = f)
   
   user_schema <- schema_fields(mtcars)
-  bqr_upload_data(projectId = "mark-edmondson-gde", 
-                  datasetId = "test", 
+  bqr_upload_data(datasetId = "test", 
                   tableId = "from_gcs_mtcars", 
                   upload_data = c("gs://bigqueryr-tests/mtcars_test3.csv","gs://bigqueryr-tests/mtcars_test4.csv"),
                   schema = user_schema)
@@ -54,7 +69,7 @@ context("List tables")
 
 test_that("Can list tables", {
   
-  result <- bqr_list_tables("mark-edmondson-gde", "test2")
+  result <- bqr_list_tables()
   expect_true("test1" %in% result$tableId)
   
 })
@@ -63,7 +78,7 @@ context("Query")
 
 test_that("Can query test set", {
   
-  result <- bqr_query("mark-edmondson-gde", "test2", "SELECT * FROM [mark-edmondson-gde:test2.test1]")
+  result <- bqr_query(query = "SELECT * FROM test1")
   
   expect_equal(result$Name, test_data$Name)
   expect_equal(as.Date(result$Date), test_data$Date)
@@ -73,11 +88,43 @@ test_that("Can query test set", {
 
 test_that("Single query bug", {
   
-  result <- bqr_query("big-query-r","samples",
-                      "SELECT repository.url FROM [publicdata:samples.github_nested] LIMIT 10")
+  result <- bqr_query(query = "SELECT repository.url FROM [publicdata:samples.github_nested] LIMIT 10")
   
   ## should be 10, not 1
   expect_equal(nrow(result), 10)
   
 })
 
+test_that("Async query", {
+  
+  result <- bqr_query_asynch(query = "SELECT * FROM test1", 
+                             destinationTableId = "test3", 
+                             writeDisposition = "WRITE_TRUNCATE")
+  
+  expect_equal(result$kind, "bigquery#job")
+  
+  job <- bqr_wait_for_job(result)
+  expect_equal(job$status$state, "DONE")
+  expect_null(job$status$errorResult)
+  
+})
+
+context("Downloading extracts")
+
+test_that("Extract data to Google Cloud Storage", {
+  
+  gcs_global_bucket("bigqueryr-tests")
+  job_extract <- bqr_extract_data(tableId = "test3",
+                                  cloudStorageBucket = gcs_get_global_bucket())
+  
+  expect_equal(job_extract, "job_extract$kind")
+  expect_null(job_extract$status$errorResult)
+  
+  job <- bqr_wait_for_job(job_extract)
+  
+  expect_equal(job$status$state, "DONE")
+  
+  urls <- bqr_grant_extract_access(job, email = "m@sunholo.com")
+  expect_equal(urls, "https://storage.cloud.google.com/bigqueryr-tests/big-query-extract-20170316174105-000000000000.csv")
+                                 
+})

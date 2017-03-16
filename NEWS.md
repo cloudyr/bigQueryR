@@ -11,6 +11,10 @@
 * Add default project if set environment var `BQ_DEFAULT_PROJECT_ID` to project-id
 * Add default dataset if set environment var `BQ_DEFAULT_DATASET` to dataset-id
 * Add auto paging through table lists in `bqr_list_tables()` (#29)
+* Make it clearer when jobs resulted in errors in the job print methods
+* Migrate to using `googleCloudStorageR` for Cloud Storage stuff
+* Set default authentication scope to `https://www.googleapis.com/auth/cloud-platform`
+* Unit tests
 
 # bigQueryR 0.2.0
 

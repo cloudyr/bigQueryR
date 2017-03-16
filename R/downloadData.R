@@ -32,7 +32,7 @@
 #'                         
 #' ## poll the job to check its status
 #' ## its done when job$status$state == "DONE"
-#' bqr_get_job("your_project", job$jobReference$jobId)
+#' bqr_get_job("your_project", job)
 #' 
 #' ##once done, the query results are in "bigResultTable"
 #' ## extract that table to GoogleCloudStorage:
@@ -48,12 +48,14 @@
 #' ## its done when job$status$state == "DONE"
 #' bqr_get_job("your_project", job_extract$jobReference$jobId)
 #' 
+#' You should also see the extract in the Google Cloud Storage bucket
+#' googleCloudStorageR::gcs_list_objects("your_cloud_storage_bucket_name")
+#' 
 #' ## to download via a URL and not logging in via Google Cloud Storage interface:
 #' ## Use an email that is Google account enabled
 #' ## Requires scopes:
 #' ##  https://www.googleapis.com/auth/devstorage.full_control
 #' ##  https://www.googleapis.com/auth/cloud-platform
-#' ## set via options("bigQueryR.scopes") and reauthenticate if needed
 #' 
 #' download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 #' 
@@ -81,6 +83,8 @@ bqr_extract_data <- function(projectId = bq_get_global_project(),
   
   compression <- match.arg(compression)
   destinationFormat <- match.arg(destinationFormat)
+  
+  check_gcs_auth()
   
   stopifnot(inherits(projectId, "character"),
             inherits(datasetId, "character"),
@@ -132,7 +136,7 @@ bqr_extract_data <- function(projectId = bq_get_global_project(),
                the_body = config)
   
   if(req$status_code == 200){
-    myMessage("Extract request successful", level=2)
+    myMessage("Extract request successful, use bqr_wait_for_job() to know when it is ready.", level=3)
     out <- as.job(req$content)
   } else {
     stop("Error in extraction job")
@@ -163,6 +167,8 @@ bqr_download_extract <- function(extractJob,
   if(extractJob$status$state != "DONE"){
     stop("Job not done")
   }
+  
+  check_gcs_auth()
   
   ## if multiple files, create the suffixs 000000000000, 000000000001, etc.
   file_suffix <- make_suffix(extractJob$statistics$extract$destinationUriFileCounts)
@@ -260,6 +266,7 @@ bqr_download_extract <- function(extractJob,
 #' @export
 bqr_grant_extract_access <- function(extractJob, email){
   
+  check_gcs_auth()
   if(extractJob$status$state != "DONE"){
     stop("Job not done")
   }
@@ -293,7 +300,8 @@ bqr_grant_extract_access <- function(extractJob, email){
   result <- vapply(objectnames, updateAccess, logical(1))
   
   ## the download URLs
-  downloadUri <- googleCloudStorageR::gcs_download_url(object_name = objectnames, bucket = bucketnames)
+  downloadUri <- googleCloudStorageR::gcs_download_url(object_name = objectnames, 
+                                                       bucket = bucketnames)
   
   if(all(result)){
     out <- downloadUri
@@ -312,4 +320,15 @@ make_suffix <- function(destinationUriFileCount){
   along <- 0:(as.numeric(destinationUriFileCount)-1)
 
   vapply(along, suff, "000000000000")
+}
+
+# check authenticated with correct scopes
+check_gcs_auth <- function(){
+  cloud_scopes <- c("https://www.googleapis.com/auth/cloud-platform", 
+                    "https://www.googleapis.com/auth/devstorage.full_control",
+                    "https://www.googleapis.com/auth/devstorage.read_write")
+  
+  if(!getOption("googleAuthR.scopes.selected") %in% cloud_scopes){
+    stop("Not authenticated with Google Cloud Storage.  Needs to be one of ", paste(cloud_scopes, collapse = " "))  
+  }
 }

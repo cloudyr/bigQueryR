@@ -230,7 +230,8 @@ bqr_create_table <- function(projectId = bq_get_global_project(),
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_delete_table <- function(projectId = bq_get_global_project(), datasetId = bq_get_global_dataset(), tableId){
+bqr_delete_table <- function(projectId = bq_get_global_project(), 
+                             datasetId = bq_get_global_dataset(), tableId){
   
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "DELETE",

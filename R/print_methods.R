@@ -8,10 +8,8 @@ print.bqr_job <- function(x, ...){
   cat0("Created:        ", as.character(js_to_posix(x$statistics$creationTime)))
   cat0("Start:          ", as.character(js_to_posix(x$statistics$startTime)))
   cat0("End:            ", as.character(js_to_posix(x$statistics$endTime)))
+  cat("## View job configuration via job$configuration\n")
   
-  if(!is.null(x$configuration)){
-    cat("\n# Job Configuration:\n")
-    print(x$configuration)
-  }
+  cat0("## Job had error: \n", x$status$errorResult$message)
   
 }
