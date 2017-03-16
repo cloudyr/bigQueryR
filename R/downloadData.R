@@ -267,6 +267,9 @@ bqr_download_extract <- function(extractJob,
 bqr_grant_extract_access <- function(extractJob, email){
   
   check_gcs_auth()
+  
+  stopifnot(is.job(extractJob))
+  
   if(extractJob$status$state != "DONE"){
     stop("Job not done")
   }
