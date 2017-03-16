@@ -126,3 +126,37 @@ test_that("Extract data to Google Cloud Storage", {
   expect_true(grepl("https://storage.cloud.google.com/bigqueryr-tests/big-query-extract", urls))
                                  
 })
+
+context("Tables")
+
+test_that("Create a table", {
+  
+  table <- bqr_create_table(tableId = "created_table", template_data = mtcars)
+  
+  expect_true(table)
+  
+})
+
+test_that("Get meta data of table", {
+  
+  meta <- bqr_table_meta(tableId = "created_table")
+  
+  expect_equal(meta$kind, "bigquery#table")
+  
+})
+
+test_that("Get data of table", {
+  
+  meta <- bqr_table_data(tableId = "created_table")
+  
+  expect_equal(meta$kind, "bigquery#tableDataList")
+  
+})
+
+test_that("Delete a table", {
+  
+  table <- bqr_delete_table(tableId = "created_table")
+  
+  expect_true(table)
+  
+})
