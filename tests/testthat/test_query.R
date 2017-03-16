@@ -14,17 +14,15 @@ test_that("Can authenticate", {
 
 test_that("Set global project", {
   
-  project <- bq_global_project("mark-edmondson-gde")
-  
-  expect_equal(project, "mark-edmondson-gde")
+  expect_equal(bq_global_project("mark-edmondson-gde"), 
+               "mark-edmondson-gde")
   
 })
 
 test_that("Set global dataset", {
   
-  ds <- bq_global_dataset("test2")
-  
-  expect_equal(ds, "test2")
+  expect_equal(bq_global_dataset("test2"), 
+               "test2")
   
 })
 
@@ -117,7 +115,7 @@ test_that("Extract data to Google Cloud Storage", {
   job_extract <- bqr_extract_data(tableId = "test3",
                                   cloudStorageBucket = gcs_get_global_bucket())
   
-  expect_equal(job_extract, "job_extract$kind")
+  expect_equal(job_extract$kind, "bigquery#job")
   expect_null(job_extract$status$errorResult)
   
   job <- bqr_wait_for_job(job_extract)
@@ -125,6 +123,6 @@ test_that("Extract data to Google Cloud Storage", {
   expect_equal(job$status$state, "DONE")
   
   urls <- bqr_grant_extract_access(job, email = "m@sunholo.com")
-  expect_equal(urls, "https://storage.cloud.google.com/bigqueryr-tests/big-query-extract-20170316174105-000000000000.csv")
+  expect_true(grepl("https://storage.cloud.google.com/bigqueryr-tests/big-query-extract", urls))
                                  
 })
