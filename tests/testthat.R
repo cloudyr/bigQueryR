@@ -1,5 +1,4 @@
 library(testthat)
-library(googleCloudStorageR)
 library(bigQueryR)
 
 

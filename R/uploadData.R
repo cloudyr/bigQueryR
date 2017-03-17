@@ -103,7 +103,7 @@ bqr_do_upload <- function(upload_data,
                           create,
                           user_schema,
                           sourceFormat){
-  
+  check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
 }
 

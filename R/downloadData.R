@@ -325,13 +325,3 @@ make_suffix <- function(destinationUriFileCount){
   vapply(along, suff, "000000000000")
 }
 
-# check authenticated with correct scopes
-check_gcs_auth <- function(){
-  cloud_scopes <- c("https://www.googleapis.com/auth/cloud-platform", 
-                    "https://www.googleapis.com/auth/devstorage.full_control",
-                    "https://www.googleapis.com/auth/devstorage.read_write")
-  
-  if(!getOption("googleAuthR.scopes.selected") %in% cloud_scopes){
-    stop("Not authenticated with Google Cloud Storage.  Needs to be one of ", paste(cloud_scopes, collapse = " "))  
-  }
-}

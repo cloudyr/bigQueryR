@@ -18,6 +18,7 @@ bqr_list_tables <- function(projectId = bq_get_global_project(),
                             datasetId = bq_get_global_dataset(),
                             maxResults = 1000){
   
+  check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "GET",
                                       path_args = list(projects = projectId,
@@ -89,7 +90,7 @@ parse_bqr_list_tables <- function(x) {
 #' @export
 bqr_table_meta <- function(projectId = bq_get_global_project(), datasetId = bq_get_global_dataset(), tableId){
   
-  
+  check_bq_auth()
   f <- function(x){
     x <- rmNullObs(x)
   }
@@ -123,7 +124,7 @@ bqr_table_meta <- function(projectId = bq_get_global_project(), datasetId = bq_g
 #' @export
 bqr_table_data <- function(projectId = bq_get_global_project(), datasetId = bq_get_global_dataset(), tableId,
                            maxResults = 1000){
-  
+  check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "GET",
                                       path_args = list(projects = projectId,
@@ -167,7 +168,7 @@ bqr_create_table <- function(projectId = bq_get_global_project(),
                              template_data,
                              timePartitioning = FALSE,
                              expirationMs = 0L){
-  
+  check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "POST",
                                       path_args = list(projects = projectId,
@@ -232,7 +233,7 @@ bqr_create_table <- function(projectId = bq_get_global_project(),
 #' @export
 bqr_delete_table <- function(projectId = bq_get_global_project(), 
                              datasetId = bq_get_global_dataset(), tableId){
-  
+  check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "DELETE",
                                       path_args = list(projects = projectId,

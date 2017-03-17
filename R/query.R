@@ -36,7 +36,7 @@ bqr_query <- function(projectId = bq_get_global_project(),
                       maxResults = 1000, 
                       useLegacySql = TRUE, 
                       useQueryCache = TRUE){
-  
+  check_bq_auth()
   maxResults <- as.numeric(maxResults)
   if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
   
@@ -186,7 +186,7 @@ bqr_query_asynch <- function(projectId = bq_get_global_project(),
                                                   "WRITE_TRUNCATE",
                                                   "WRITE_APPEND")){
   
-
+  check_bq_auth()
   ## make job
   job <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
