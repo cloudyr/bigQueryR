@@ -95,13 +95,13 @@ test_that("Single query bug", {
 
 test_that("Async query", {
   
-  result <- bqr_query_asynch(query = "SELECT * FROM test1", 
+  job <- bqr_query_asynch(query = "SELECT * FROM test1", 
                              destinationTableId = "test3", 
                              writeDisposition = "WRITE_TRUNCATE")
   
-  expect_equal(result$kind, "bigquery#job")
+  expect_equal(job$kind, "bigquery#job")
   
-  job <- bqr_wait_for_job(result)
+  job <- bqr_wait_for_job(job)
   expect_equal(job$status$state, "DONE")
   expect_null(job$status$errorResult)
   
@@ -109,7 +109,7 @@ test_that("Async query", {
 
 context("Downloading extracts")
 
-test_that("Extract data to Google Cloud Storage", {
+test_that("Extract data to Google Cloud Storage, and download", {
   
   gcs_global_bucket("bigqueryr-tests")
   job_extract <- bqr_extract_data(tableId = "test3",
@@ -124,7 +124,13 @@ test_that("Extract data to Google Cloud Storage", {
   
   urls <- bqr_grant_extract_access(job, email = "m@sunholo.com")
   expect_true(grepl("https://storage.cloud.google.com/bigqueryr-tests/big-query-extract", urls))
-                                 
+  
+  extract <- bqr_download_extract(job)
+  file_name <- basename(job$configuration$extract$destinationUri)
+  
+  downloaded <- list.files(pattern = gsub("-\\*\\.csv","", file_name))
+  expect_true(file.exists(downloaded))
+  unlink(downloaded)
 })
 
 context("Tables")
