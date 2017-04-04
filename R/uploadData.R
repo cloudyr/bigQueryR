@@ -173,8 +173,21 @@ bqr_do_upload.data.frame <- function(upload_data,
     the_body = mp_body)
   
   if(req$status_code == 200){
-    myMessage("Upload request successful, returning TRUE", level = 3)
-    out <- TRUE
+    myMessage("Upload job request made...", level = 3)
+    
+    if(req$content$kind == "bigquery#job"){
+      out <- bqr_wait_for_job(as.job(req$content))
+    } else {
+      stop("Upload table didn't return bqr_job object when it should have.")
+    }
+    
+    if(!is.null(out$status$errorResult)){
+        stop("Error in upload job: ", out$status$errors$message)
+    } else {
+      myMessage("Upload job completed", level = 3)
+      out <- TRUE
+    }
+    
   } else {
     myMessage("Error in upload, returning FALSE", level = 3)
     out <- FALSE

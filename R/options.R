@@ -1,10 +1,23 @@
 .onLoad <- function(libname, pkgname) {
   
+  op <- options()
+  op.bigQueryR <- list(
+    ## default Google project
+    googleAuthR.client_id = "68483650948-28g1na33slr3bt8rk7ikeog5ur19ldq6.apps.googleusercontent.com",
+    googleAuthR.client_secret = "f0npd8zUhmqf8IqrIypBs6Cy ",
+    googleAuthR.webapp.client_id = "68483650948-sufabj4nq9h1hjofp03hcjhk4af93080.apps.googleusercontent.com",
+    googleAuthR.webapp.client_secret = "0tWYjliwXD32XhvDJHTl4NgN ",
+    googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/cloud-platform")
+  )
   
+  toset <- !(names(op.bigQueryR) %in% names(op))
+  
+  if(any(toset)) options(op.bigQueryR[toset])
   
   invisible()
   
 }
+
 
 .onAttach <- function(libname, pkgname){
   
