@@ -32,12 +32,19 @@ bqr_wait_for_job <- function(job, wait=5){
   
   while(!status){
     Sys.sleep(wait)
-    message("Waiting for BigQuery...job timer: ", format(difftime(Sys.time(), 
+    myMessage("Waiting for job: ", job$jobReference$jobId, " - Job timer: ", format(difftime(Sys.time(), 
                                                                        time), 
-                                                              format = "%H:%M:%S"))
+                                                              format = "%H:%M:%S"), level = 3)
     
     job <- bqr_get_job(projectId = job$jobReference$projectId, 
                        jobId = job$jobReference$jobId)
+    
+    if(getOption("googleAuthR.verbose") <= 2){
+      myMessage("job configuration:")
+      str(job)
+    }
+    
+    myMessage("Job status: ", job$status$state, level = 3)
     
     if(job$status$state == "DONE"){
       status <- TRUE 

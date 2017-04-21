@@ -15,7 +15,8 @@
 * Migrate to using `googleCloudStorageR` for Cloud Storage stuff
 * Set default authentication scope to `https://www.googleapis.com/auth/cloud-platform`
 * Unit tests
-* Upload table will now correctly report errors 
+* Upload table will now correctly report errors
+* More user feedback on BigQuery jobs when running
 
 # bigQueryR 0.2.0
 
