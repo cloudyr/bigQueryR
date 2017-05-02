@@ -34,7 +34,8 @@
 #'  
 #'  ## custom upload function to ignore quotes and column headers
 #'  f <- function(input, output) {
-#'    write.table(input, sep = ",", col.names = FALSE, row.names = FALSE, quote = FALSE, file = output, qmethod = "double")}
+#'    write.table(input, sep = ",", col.names = FALSE, row.names = FALSE, 
+#'                quote = FALSE, file = output, qmethod = "double")}
 #'    
 #'  ## upload files to Google Cloud Storage
 #'  gcs_upload(mtcars, name = "mtcars_test1.csv", object_function = f)
@@ -47,7 +48,8 @@
 #'  bqr_upload_data(projectId = "your-project", 
 #'                 datasetId = "test", 
 #'                 tableId = "from_gcs_mtcars", 
-#'                 upload_data = c("gs://your-project/mtcars_test1.csv", "gs://your-project/mtcars_test2.csv"),
+#'                 upload_data = c("gs://your-project/mtcars_test1.csv", 
+#'                                 "gs://your-project/mtcars_test2.csv"),
 #'                 schema = user_schema)
 #' 
 #' 
