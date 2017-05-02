@@ -9,6 +9,7 @@
 #' @param schema If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample
 #' @param sourceFormat If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
 #' @param wait If uploading a data.frame, whether to wait for it to upload before returning
+#' @param autodetect Experimental feature that auto-detects schema for CSV and JSON files
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -63,7 +64,8 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                             overwrite = FALSE,
                             schema = NULL,
                             sourceFormat = c("CSV", "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON","AVRO"),
-                            wait = TRUE){
+                            wait = TRUE,
+                            autodetect = FALSE){
   
 
   assertthat::assert_that(is.character(projectId),
@@ -80,8 +82,8 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
     myMessage("Uploading from Google Cloud Storage URI", level = 3)
     stopifnot(all(grepl("^gs://", upload_data)))
     
-    if(is.null(schema)){
-      stop("Must supply a data schema if loading from Google Cloud Storage - see ?schema_fields")
+    if(is.null(schema) && !autodetect){
+      stop("Must supply a data schema or use autodetect if loading from Google Cloud Storage - see ?schema_fields")
     }
   }
   
@@ -100,7 +102,8 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                 create = create,
                 user_schema = schema,
                 sourceFormat = sourceFormat,
-                wait = wait)
+                wait = wait,
+                autodetect = autodetect)
   
 }
 
@@ -112,7 +115,8 @@ bqr_do_upload <- function(upload_data,
                           create,
                           user_schema,
                           sourceFormat,
-                          wait = wait){
+                          wait,
+                          autodetect){
   check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
 }
@@ -125,7 +129,8 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      create,
                                      user_schema, # not used
                                      sourceFormat, # not used
-                                     wait){ 
+                                     wait,
+                                     autodetect){ 
   
   config <- list(
     configuration = list(
@@ -139,7 +144,8 @@ bqr_do_upload.data.frame <- function(upload_data,
           projectId = projectId,
           datasetId = datasetId,
           tableId = tableId
-        )
+        ),
+        autodetect = autodetect
       )
     )
   )
@@ -183,7 +189,7 @@ bqr_do_upload.data.frame <- function(upload_data,
                           tableId = tableId),
     the_body = mp_body)
   
-  if(!is.null(req$status$errorResult)){
+  if(!is.null(req$content$status$errorResult)){
     stop("Error in upload job: ", req$status$errors$message)
   } else {
     myMessage("Upload job made...", level = 3)
@@ -218,7 +224,9 @@ bqr_do_upload.character <- function(upload_data,
                                     tableId,
                                     create,
                                     user_schema,
-                                    sourceFormat){
+                                    sourceFormat,
+                                    wait,
+                                    autodetect){
   
   if(length(upload_data) > 1){
     source_uri <- upload_data
@@ -239,7 +247,8 @@ bqr_do_upload.character <- function(upload_data,
           projectId = projectId,
           datasetId = datasetId,
           tableId = tableId
-        )
+        ),
+        autodetect = autodetect
       )
     )
   )
