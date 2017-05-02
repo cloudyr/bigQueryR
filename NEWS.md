@@ -17,6 +17,8 @@
 * Unit tests
 * Upload table will now correctly report errors
 * More user feedback on BigQuery jobs when running
+* Allow upload of data.frames asynchrnously
+* Allow auto-detection of schema for uploads
 
 # bigQueryR 0.2.0
 

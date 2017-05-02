@@ -1,6 +1,6 @@
 Package: bigQueryR
 Title: Interface with Google BigQuery with Shiny Compatibility
-Version: 0.2.0.9000
+Version: 0.3.0
 Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
                   role = c("aut", "cre")),
              person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb")
@@ -17,14 +17,14 @@ Depends:
     R (>= 3.2.0)
 Imports:
     googleAuthR (>= 0.5.1),
-    googleCloudStorageR (>= 0.2.0)
-Suggests:
-    shiny (>= 0.12.1),
+    googleCloudStorageR (>= 0.2.0),
     jsonlite (>= 1.0),
     httr (>= 1.2.1),
+    assertthat
+Suggests:
+    shiny (>= 0.12.1),
     knitr,
     rmarkdown,
-    testthat,
-    assertthat
+    testthat
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
