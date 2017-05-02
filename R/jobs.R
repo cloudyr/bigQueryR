@@ -41,7 +41,7 @@ bqr_wait_for_job <- function(job, wait=5){
     
     if(getOption("googleAuthR.verbose") <= 2){
       myMessage("job configuration:")
-      str(job)
+      print(job)
     }
     
     myMessage("Job status: ", job$status$state, level = 3)

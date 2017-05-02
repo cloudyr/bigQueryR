@@ -225,7 +225,7 @@ bqr_do_upload.character <- function(upload_data,
                                     create,
                                     user_schema,
                                     sourceFormat,
-                                    wait,
+                                    wait, # not used
                                     autodetect){
   
   if(length(upload_data) > 1){
