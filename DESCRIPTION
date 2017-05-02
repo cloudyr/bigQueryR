@@ -24,6 +24,7 @@ Suggests:
     httr (>= 1.2.1),
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    assertthat
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr

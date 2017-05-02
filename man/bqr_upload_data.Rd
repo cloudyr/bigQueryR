@@ -8,7 +8,7 @@ bqr_upload_data(projectId = bq_get_global_project(),
   datasetId = bq_get_global_dataset(), tableId, upload_data,
   create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
   schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
-  "NEWLINE_DELIMITED_JSON", "AVRO"))
+  "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -26,6 +26,8 @@ bqr_upload_data(projectId = bq_get_global_project(),
 \item{schema}{If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample}
 
 \item{sourceFormat}{If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}}
+
+\item{wait}{If uploading a data.frame, whether to wait for it to upload before returning}
 }
 \value{
 TRUE if successful, FALSE if not.

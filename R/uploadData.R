@@ -8,6 +8,7 @@
 #' @param overwrite If TRUE will delete any existing table and upload new data.
 #' @param schema If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample
 #' @param sourceFormat If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
+#' @param wait If uploading a data.frame, whether to wait for it to upload before returning
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -61,8 +62,15 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                             create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
                             overwrite = FALSE,
                             schema = NULL,
-                            sourceFormat = c("CSV", "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON","AVRO")){
+                            sourceFormat = c("CSV", "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON","AVRO"),
+                            wait = TRUE){
   
+
+  assertthat::assert_that(is.character(projectId),
+                          is.character(datasetId),
+                          is.character(tableId),
+                          is.logical(overwrite),
+                          is.logical(wait))
   sourceFormat <- match.arg(sourceFormat)
   create <- match.arg(create)
   
@@ -91,7 +99,8 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                 tableId = tableId,
                 create = create,
                 user_schema = schema,
-                sourceFormat = sourceFormat)
+                sourceFormat = sourceFormat,
+                wait = wait)
   
 }
 
@@ -102,7 +111,8 @@ bqr_do_upload <- function(upload_data,
                           tableId,
                           create,
                           user_schema,
-                          sourceFormat){
+                          sourceFormat,
+                          wait = wait){
   check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
 }
@@ -114,7 +124,8 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      tableId,
                                      create,
                                      user_schema, # not used
-                                     sourceFormat){ # not used
+                                     sourceFormat, # not used
+                                     wait){ 
   
   config <- list(
     configuration = list(
@@ -172,20 +183,24 @@ bqr_do_upload.data.frame <- function(upload_data,
                           tableId = tableId),
     the_body = mp_body)
   
+  if(!is.null(req$status$errorResult)){
+    stop("Error in upload job: ", req$status$errors$message)
+  } else {
+    myMessage("Upload job made...", level = 3)
+  }
+  
   if(req$status_code == 200){
-    myMessage("Upload job request made...", level = 3)
     
     if(req$content$kind == "bigquery#job"){
-      out <- bqr_wait_for_job(as.job(req$content))
+      if(wait){
+        out <- bqr_wait_for_job(as.job(req$content))
+      } else {
+        myMessage("Returning: BigQuery load of local data.frame Job object: ", req$content$jobReference$jobId, level = 3)
+        out <- bqr_get_job(req$content$jobReference$jobId, projectId = req$content$jobReference$projectId)
+      }
+
     } else {
       stop("Upload table didn't return bqr_job object when it should have.")
-    }
-    
-    if(!is.null(out$status$errorResult)){
-        stop("Error in upload job: ", out$status$errors$message)
-    } else {
-      myMessage("Upload job completed", level = 3)
-      out <- TRUE
     }
     
   } else {
