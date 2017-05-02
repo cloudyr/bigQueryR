@@ -38,7 +38,7 @@ test_that("Can upload test set",{
   ## canøt query against this too quickly if creating at same runtime
   out <- bqr_upload_data(tableId = "test2", upload_data = test_data)
   
-  expect_true(out)
+  expect_equal(out$status$state, "DONE")
   
 })
 
