@@ -1,3 +1,7 @@
+# bigQuery 0.3.0.9000
+
+* 
+
 # bigQueryR 0.3.0
 
 * Add support for realtime queries, `useQueryCache = FALSE`
