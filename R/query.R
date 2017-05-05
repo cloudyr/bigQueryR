@@ -186,6 +186,8 @@ bqr_query_asynch <- function(projectId = bq_get_global_project(),
                                                   "WRITE_TRUNCATE",
                                                   "WRITE_APPEND")){
   
+  writeDisposition <- match.arg(writeDisposition)
+  
   check_bq_auth()
   ## make job
   job <- 
