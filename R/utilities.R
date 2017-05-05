@@ -117,5 +117,6 @@ myMessage <- function(..., level = 1){
 #' @return A random 15 digit hash
 #' @keywords internal
 idempotency <- function(){
+  set.seed(Sys.time())
   paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
 }
