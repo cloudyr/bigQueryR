@@ -1,6 +1,6 @@
 # bigQuery 0.3.0.9000
 
-* 
+* Fix asynch job fail if user previously `set.seed()` (#37)
 
 # bigQueryR 0.3.0
 

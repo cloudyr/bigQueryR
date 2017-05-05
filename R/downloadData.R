@@ -109,8 +109,8 @@ bqr_extract_data <- function(projectId = bq_get_global_project(),
   
   config <- list(
     jobReference = list(
-      projectId = projectId,
-      jobId = idempotency() ## uuid to stop duplicate exports
+      projectId = projectId
+      ##jobId = idempotency() ## uuid to stop duplicate exports - breaks if set.seed (#37)
     ),
     configuration = list(
       extract = list(
