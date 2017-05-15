@@ -1,6 +1,6 @@
 Package: bigQueryR
 Title: Interface with Google BigQuery with Shiny Compatibility
-Version: 0.3.0.9000
+Version: 0.3.1
 Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
                   role = c("aut", "cre")),
              person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb")
