@@ -17,10 +17,10 @@ bqr_partition(sharded, partition, projectId = bq_get_global_project(),
 \item{datasetId}{The dataset ID}
 }
 \value{
-\code{TRUE} if all parition jobs start running successfully
+\code{TRUE} if all partition jobs start running successfully
 }
 \description{
-Moves the old style date-shareded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
+Moves the old style date-sharded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
 }
 \details{
 WARNING: This can be an expensive operation for large datasets as it does a full column scan.

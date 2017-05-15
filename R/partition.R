@@ -1,6 +1,6 @@
 #' Convert date-sharded tables to a single partitioned table
 #' 
-#' Moves the old style date-shareded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
+#' Moves the old style date-sharded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
 #' 
 #' @param sharded The prefix of date-sharded tables to merge into one partitioned table
 #' @param partition Name of partitioned table. Will create if not present already
@@ -33,7 +33,7 @@
 #'   tables increases. There is also a limit of 1,000 tables that can be referenced in a 
 #'   single query. Partitioned tables have none of these disadvantages.
 #' 
-#' @return \code{TRUE} if all parition jobs start running successfully
+#' @return \code{TRUE} if all partition jobs start running successfully
 #' 
 #' @seealso \href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 #' @export

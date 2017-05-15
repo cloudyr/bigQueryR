@@ -58,7 +58,7 @@ bqr_list_datasets <- function(projectId = bq_get_global_project()){
 #' 
 #' Example: bqr_list_projects()
 #' 
-#' @return A dataframe of the projects you have access to under the authenitcation
+#' @return A dataframe of the projects you have access to under the authentication
 #' 
 #' @examples 
 #' 

@@ -7,7 +7,7 @@
 bqr_list_projects()
 }
 \value{
-A dataframe of the projects you have access to under the authenitcation
+A dataframe of the projects you have access to under the authentication
 }
 \description{
 Example: bqr_list_projects()
