@@ -44,6 +44,7 @@ test_that("Can upload test set",{
 
 test_that("Can upload via Google Cloud Storage",{
   skip_on_cran()
+  library(googleCloudStorageR)
   gcs_global_bucket("bigqueryr-tests")
   
   f <- function(input, output) {
