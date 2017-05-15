@@ -1,7 +1,11 @@
 ## Test environments
-* local OS X install, R 3.3.2
+* local OS X install, R 3.4.0
 * ubuntu 12.04 (on travis-ci), R 3.4.0
 * Windows (on rhub) R 3.4.0
+
+## Failed CRAN tests
+
+This is a patch to remove failing tests of 0.3.0 from being ran on CRAN - as they are authenticated API based they fail in CRANs autoamted testing. 
 
 ## R CMD check results
 
