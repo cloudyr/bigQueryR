@@ -1,6 +1,7 @@
-# bigQuery 0.3.0.9000
+# bigQuery 0.3.1
 
 * Fix asynch job fail if user previously `set.seed()` (#37)
+* skip tests on CRAN causing error
 
 # bigQueryR 0.3.0
 
