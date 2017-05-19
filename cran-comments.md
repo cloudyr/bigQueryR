@@ -5,7 +5,7 @@
 
 ## Failed CRAN tests
 
-This is a patch to remove failing tests of 0.3.0 from being ran on CRAN - as they are authenticated API based they fail in CRANs autoamted testing. 
+This is a patch to remove failing tests of 0.3.0 from being ran on CRAN - as they are authenticated API based they fail in CRANs automated testing. 
 
 ## R CMD check results
 
