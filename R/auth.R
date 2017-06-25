@@ -3,7 +3,7 @@ check_bq_auth <- function(){
   cloud_scopes <- c("https://www.googleapis.com/auth/cloud-platform",
                     "https://www.googleapis.com/auth/bigquery")
   
-  if(!getOption("googleAuthR.scopes.selected") %in% cloud_scopes){
+  if(!any(getOption("googleAuthR.scopes.selected") %in% cloud_scopes)){
     stop("Not authenticated with Google BigQuery.  Needs to be one of ", 
          paste(cloud_scopes, collapse = " "))
     current_op <- getOption("googleAuthR.verbose")
@@ -19,7 +19,7 @@ check_gcs_auth <- function(){
                     "https://www.googleapis.com/auth/devstorage.full_control",
                     "https://www.googleapis.com/auth/devstorage.read_write")
   
-  if(!getOption("googleAuthR.scopes.selected") %in% cloud_scopes){
+  if(!any(getOption("googleAuthR.scopes.selected") %in% cloud_scopes)){
     stop("Not authenticated with Google Cloud Storage.  Needs to be one of ", 
          paste(cloud_scopes, collapse = " "))
     current_op <- getOption("googleAuthR.verbose")
