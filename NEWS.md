@@ -1,9 +1,12 @@
+# bigQuery 0.3.2
+
+* Move to new batch endpoint (#41)
+
 # bigQuery 0.3.1
 
 * Fix asynch job fail if user previously `set.seed()` (#37)
 * skip tests on CRAN causing error
 * fix warning in scope check (#40)
-* Move to new batch endpoint (#41)
 
 # bigQueryR 0.3.0
 

@@ -23,8 +23,7 @@
 .onAttach <- function(libname, pkgname){
   
   attempt <- try(googleAuthR::gar_attach_auto_auth("https://www.googleapis.com/auth/cloud-platform",
-                                                   environment_var = "BQ_AUTH_FILE",
-                                                   travis_environment_var = "TRAVIS_BQ_AUTH_FILE"))
+                                                   environment_var = "BQ_AUTH_FILE"))
   
   if(inherits(attempt, "try-error")){
     warning("Problem using auto-authentication when loading from BQ_AUTH_FILE.  
