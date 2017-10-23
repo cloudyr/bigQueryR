@@ -1,6 +1,7 @@
 # bigQuery 0.3.2
 
 * Move to new batch endpoint (#41)
+* Remove travis env arg
 
 # bigQuery 0.3.1
 
