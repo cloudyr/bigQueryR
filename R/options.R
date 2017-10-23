@@ -7,7 +7,8 @@
     googleAuthR.client_secret = "f0npd8zUhmqf8IqrIypBs6Cy ",
     googleAuthR.webapp.client_id = "68483650948-sufabj4nq9h1hjofp03hcjhk4af93080.apps.googleusercontent.com",
     googleAuthR.webapp.client_secret = "0tWYjliwXD32XhvDJHTl4NgN ",
-    googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/cloud-platform")
+    googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/cloud-platform"),
+    googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/bigquery/v2"
   )
   
   toset <- !(names(op.bigQueryR) %in% names(op))
