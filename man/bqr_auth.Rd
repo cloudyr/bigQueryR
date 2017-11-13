@@ -4,9 +4,11 @@
 \alias{bqr_auth}
 \title{Authenticate this session}
 \usage{
-bqr_auth(new_user = FALSE, no_auto = FALSE)
+bqr_auth(token = NULL, new_user = FALSE, no_auto = FALSE)
 }
 \arguments{
+\item{token}{A preexisting token to authenticate with}
+
 \item{new_user}{If TRUE, reauthenticate via Google login screen}
 
 \item{no_auto}{Will ignore auto-authentication settings if TRUE

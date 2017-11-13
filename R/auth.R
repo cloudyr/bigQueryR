@@ -32,7 +32,8 @@ check_gcs_auth <- function(){
 #' Authenticate this session
 #'
 #' A wrapper for \link[googleAuthR]{gar_auth} and \link[googleAuthR]{gar_auth_service}
-#'
+#' 
+#' @param token A preexisting token to authenticate with
 #' @param new_user If TRUE, reauthenticate via Google login screen
 #' @param no_auto Will ignore auto-authentication settings if TRUE
 #'
@@ -49,18 +50,21 @@ check_gcs_auth <- function(){
 #'   service account JSON ending with file extension \code{.json}
 #'
 #' @return Invisibly, the token that has been saved to the session
-#' @import googleAuthR
+#' @importFrom googleAuthR gar_auth gar_auto_auth
 #' @importFrom tools file_ext
 #' @export
-bqr_auth <- function(new_user = FALSE, no_auto = FALSE){
+bqr_auth <- function(token = NULL, new_user = FALSE, no_auto = FALSE){
+  
+  if(!is.null(token)){
+    return(gar_auth(token = token))
+  }
   
   required_scopes <- c("https://www.googleapis.com/auth/bigquery",
                        "https://www.googleapis.com/auth/devstorage.full_control",
                        "https://www.googleapis.com/auth/cloud-platform")
   
-  googleAuthR::gar_auto_auth(required_scopes,
-                             new_user = new_user,
-                             no_auto = no_auto,
-                             environment_var = "BQ_AUTH_FILE",
-                             travis_environment_var = "TRAVIS_BQ_AUTH_FILE")
+  gar_auto_auth(required_scopes,
+                new_user = new_user,
+                no_auto = no_auto,
+                environment_var = "BQ_AUTH_FILE")
 }
