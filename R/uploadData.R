@@ -10,6 +10,8 @@
 #' @param sourceFormat If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
 #' @param wait If uploading a data.frame, whether to wait for it to upload before returning
 #' @param autodetect Experimental feature that auto-detects schema for CSV and JSON files
+#' @param nullMarker Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when loading a CSV file. The default value is the empty string. 
+#' @param maxBadRecords The maximum number of bad records that BigQuery can ignore when running the job
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -67,7 +69,9 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                             schema = NULL,
                             sourceFormat = c("CSV", "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON","AVRO"),
                             wait = TRUE,
-                            autodetect = FALSE){
+                            autodetect = FALSE,
+                            nullMarker = NULL,
+                            maxBadRecords = NULL){
   
 
   assertthat::assert_that(is.character(projectId),
@@ -118,7 +122,9 @@ bqr_do_upload <- function(upload_data,
                           user_schema,
                           sourceFormat,
                           wait,
-                          autodetect){
+                          autodetect,
+                          nullMarker,
+                          maxBadRecords){
   check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
 }
@@ -132,11 +138,15 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      user_schema, # not used
                                      sourceFormat, # not used
                                      wait,
-                                     autodetect){ 
+                                     autodetect,
+                                     nullMarker,
+                                     maxBadRecords){ 
   
   config <- list(
     configuration = list(
       load = list(
+        nullMarker = nullMarker,
+        maxBadRecords = maxBadRecords,
         sourceFormat = "CSV",
         createDisposition = jsonlite::unbox(create),
         schema = list(
@@ -228,7 +238,9 @@ bqr_do_upload.character <- function(upload_data,
                                     user_schema,
                                     sourceFormat,
                                     wait, # not used
-                                    autodetect){
+                                    autodetect,
+                                    nullMarker,
+                                    maxBadRecords){
   
   if(length(upload_data) > 1){
     source_uri <- upload_data
@@ -239,6 +251,8 @@ bqr_do_upload.character <- function(upload_data,
   config <- list(
     configuration = list(
       load = list(
+        nullMarker = nullMarker,
+        maxBadRecords = maxBadRecords,
         sourceFormat = sourceFormat,
         createDisposition = jsonlite::unbox(create),
         sourceUris = source_uri,

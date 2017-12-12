@@ -8,7 +8,8 @@ bqr_upload_data(projectId = bq_get_global_project(),
   datasetId = bq_get_global_dataset(), tableId, upload_data,
   create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
   schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
-  "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE)
+  "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE,
+  nullMarker = NULL, maxBadRecords = NULL)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -30,6 +31,10 @@ bqr_upload_data(projectId = bq_get_global_project(),
 \item{wait}{If uploading a data.frame, whether to wait for it to upload before returning}
 
 \item{autodetect}{Experimental feature that auto-detects schema for CSV and JSON files}
+
+\item{nullMarker}{Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when loading a CSV file. The default value is the empty string.}
+
+\item{maxBadRecords}{The maximum number of bad records that BigQuery can ignore when running the job}
 }
 \value{
 TRUE if successful, FALSE if not.

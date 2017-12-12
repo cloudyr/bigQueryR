@@ -1,8 +1,13 @@
-# bigQuery 0.3.2
+# bigQueryR 0.3.2.9000
+
+* support `nullMarker`, `maxBadRecords` in upload jobs
+
+# bigQueryR 0.3.2
 
 * Move to new batch endpoint (#41)
 
-# bigQuery 0.3.1
+
+# bigQueryR 0.3.1
 
 * Fix asynch job fail if user previously `set.seed()` (#37)
 * skip tests on CRAN causing error
