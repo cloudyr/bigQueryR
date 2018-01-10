@@ -109,7 +109,9 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                 user_schema = schema,
                 sourceFormat = sourceFormat,
                 wait = wait,
-                autodetect = autodetect)
+                autodetect = autodetect,
+                nullMarker = nullMarker,
+                maxBadRecords = maxBadRecords)
   
 }
 
