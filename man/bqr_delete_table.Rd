@@ -4,8 +4,8 @@
 \alias{bqr_delete_table}
 \title{Delete a Table}
 \usage{
-bqr_delete_table(projectId = bq_get_global_project(),
-  datasetId = bq_get_global_dataset(), tableId)
+bqr_delete_table(projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(), tableId)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}

@@ -4,8 +4,8 @@
 \alias{bqr_query_asynch}
 \title{BigQuery query asynchronously}
 \usage{
-bqr_query_asynch(projectId = bq_get_global_project(),
-  datasetId = bq_get_global_dataset(), query, destinationTableId,
+bqr_query_asynch(projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(), query, destinationTableId,
   useLegacySql = TRUE, writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE",
   "WRITE_APPEND"))
 }

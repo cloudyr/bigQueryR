@@ -4,7 +4,7 @@
 \alias{bqr_get_job}
 \title{Poll a jobId}
 \usage{
-bqr_get_job(projectId = bq_get_global_project(), jobId)
+bqr_get_job(projectId = bqr_get_global_project(), jobId)
 }
 \arguments{
 \item{projectId}{projectId of job}

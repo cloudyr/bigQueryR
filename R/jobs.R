@@ -120,7 +120,7 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_get_job <- function(projectId = bq_get_global_project(), jobId){
+bqr_get_job <- function(projectId = bqr_get_global_project(), jobId){
   check_bq_auth()
   stopifnot(inherits(projectId, "character"),
             inherits(jobId, "character"))
@@ -158,7 +158,7 @@ bqr_get_job <- function(projectId = bq_get_global_project(), jobId){
 #' 
 #' @return A list of jobs resources
 #' @export
-bqr_list_jobs <- function(projectId = bq_get_global_project(),
+bqr_list_jobs <- function(projectId = bqr_get_global_project(),
                           allUsers = FALSE,
                           projection = c("full","minimal"),
                           stateFilter = c("done","pending","running")){

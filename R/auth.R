@@ -63,7 +63,8 @@ bqr_auth <- function(token = NULL, new_user = FALSE, no_auto = FALSE){
                        "https://www.googleapis.com/auth/devstorage.full_control",
                        "https://www.googleapis.com/auth/cloud-platform")
   
-  gar_set_client(system.file("client.json", package = "bigQueryR"))
+  gar_set_client(system.file("client.json", package = "bigQueryR"),
+                 scopes = required_scopes)
   
   gar_auto_auth(required_scopes,
                 new_user = new_user,

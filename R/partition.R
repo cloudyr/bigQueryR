@@ -39,8 +39,8 @@
 #' @export
 bqr_partition <- function(sharded,
                           partition,
-                          projectId = bq_get_global_project(),
-                          datasetId = bq_get_global_dataset()){
+                          projectId = bqr_get_global_project(),
+                          datasetId = bqr_get_global_dataset()){
   
   ## check for shared tables
   tables <- bqr_list_tables(projectId = projectId, datasetId = datasetId)

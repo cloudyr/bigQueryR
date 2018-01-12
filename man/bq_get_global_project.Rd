@@ -2,9 +2,12 @@
 % Please edit documentation in R/globals.R
 \name{bq_get_global_project}
 \alias{bq_get_global_project}
+\alias{bqr_get_global_project}
 \title{Get global project name}
 \usage{
 bq_get_global_project()
+
+bqr_get_global_project()
 }
 \value{
 project name

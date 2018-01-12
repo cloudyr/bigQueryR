@@ -4,8 +4,8 @@
 \alias{bqr_table_data}
 \title{Get BigQuery Table's data list}
 \usage{
-bqr_table_data(projectId = bq_get_global_project(),
-  datasetId = bq_get_global_dataset(), tableId, maxResults = 1000)
+bqr_table_data(projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(), tableId, maxResults = 1000)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}

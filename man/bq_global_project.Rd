@@ -2,9 +2,12 @@
 % Please edit documentation in R/globals.R
 \name{bq_global_project}
 \alias{bq_global_project}
+\alias{bqr_global_project}
 \title{Set global project name}
 \usage{
 bq_global_project(project)
+
+bqr_global_project(project)
 }
 \arguments{
 \item{project}{project name you want this session to use by default, or a project object}

@@ -30,8 +30,8 @@
 #' 
 #' @family BigQuery query functions
 #' @export
-bqr_query <- function(projectId = bq_get_global_project(), 
-                      datasetId = bq_get_global_dataset(), 
+bqr_query <- function(projectId = bqr_get_global_project(), 
+                      datasetId = bqr_get_global_dataset(), 
                       query, 
                       maxResults = 1000, 
                       useLegacySql = TRUE, 
@@ -177,8 +177,8 @@ bqr_query <- function(projectId = bq_get_global_project(),
 #'
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_query_asynch <- function(projectId = bq_get_global_project(), 
-                             datasetId = bq_get_global_dataset(), 
+bqr_query_asynch <- function(projectId = bqr_get_global_project(), 
+                             datasetId = bqr_get_global_dataset(), 
                              query, 
                              destinationTableId,
                              useLegacySql = TRUE,

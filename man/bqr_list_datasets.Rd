@@ -4,7 +4,7 @@
 \alias{bqr_list_datasets}
 \title{List BigQuery datasets}
 \usage{
-bqr_list_datasets(projectId = bq_get_global_project())
+bqr_list_datasets(projectId = bqr_get_global_project())
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}

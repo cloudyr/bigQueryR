@@ -14,8 +14,8 @@
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_list_tables <- function(projectId = bq_get_global_project(), 
-                            datasetId = bq_get_global_dataset(),
+bqr_list_tables <- function(projectId = bqr_get_global_project(), 
+                            datasetId = bqr_get_global_dataset(),
                             maxResults = 1000){
   
   check_bq_auth()
@@ -88,7 +88,9 @@ parse_bqr_list_tables <- function(x) {
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_table_meta <- function(projectId = bq_get_global_project(), datasetId = bq_get_global_dataset(), tableId){
+bqr_table_meta <- function(projectId = bqr_get_global_project(), 
+                           datasetId = bqr_get_global_dataset(), 
+                           tableId){
   
   check_bq_auth()
   f <- function(x){
@@ -122,7 +124,9 @@ bqr_table_meta <- function(projectId = bq_get_global_project(), datasetId = bq_g
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_table_data <- function(projectId = bq_get_global_project(), datasetId = bq_get_global_dataset(), tableId,
+bqr_table_data <- function(projectId = bqr_get_global_project(), 
+                           datasetId = bqr_get_global_dataset(), 
+                           tableId,
                            maxResults = 1000){
   check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
@@ -162,8 +166,8 @@ bqr_table_data <- function(projectId = bq_get_global_project(), datasetId = bq_g
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_create_table <- function(projectId = bq_get_global_project(), 
-                             datasetId = bq_get_global_dataset(), 
+bqr_create_table <- function(projectId = bqr_get_global_project(), 
+                             datasetId = bqr_get_global_dataset(), 
                              tableId, 
                              template_data,
                              timePartitioning = FALSE,
@@ -231,8 +235,9 @@ bqr_create_table <- function(projectId = bq_get_global_project(),
 #' 
 #' @family bigQuery meta functions
 #' @export
-bqr_delete_table <- function(projectId = bq_get_global_project(), 
-                             datasetId = bq_get_global_dataset(), tableId){
+bqr_delete_table <- function(projectId = bqr_get_global_project(), 
+                             datasetId = bqr_get_global_dataset(), 
+                             tableId){
   check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "DELETE",

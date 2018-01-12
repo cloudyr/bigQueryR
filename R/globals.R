@@ -16,7 +16,7 @@
 #' @family project functions
 #' @export
 bq_global_project <- function(project){
-  
+  .Deprecated("bqr_global_project")
   stopifnot(inherits(project, "character"),
             length(project) == 1)
   
@@ -25,6 +25,10 @@ bq_global_project <- function(project){
   return(invisible(.bqr_env$project))
   
 }
+
+#' @rdname bq_global_project
+#' @export
+bqr_global_project <- bq_global_project
 
 #' Get global project name
 #'
@@ -38,7 +42,7 @@ bq_global_project <- function(project){
 #' @family project functions
 #' @export
 bq_get_global_project <- function(){
-  
+  .Deprecated("bqr_get_global_project")
   if(!exists("project", envir = .bqr_env)){
     stop("Project is NULL and couldn't find global project ID name.
          Set it via bq_global_project")
@@ -47,6 +51,10 @@ bq_get_global_project <- function(){
   .bqr_env$project
   
 }
+
+#' @rdname bq_get_global_project
+#' @export
+bqr_get_global_project <- bq_get_global_project
 
 #' Set global dataset name
 #'
@@ -63,7 +71,7 @@ bq_get_global_project <- function(){
 #' @family dataset functions
 #' @export
 bq_global_dataset <- function(dataset){
-  
+  .Deprecated("bqr_global_dataset")
   stopifnot(inherits(dataset, "character"),
             length(dataset) == 1)
   
@@ -72,6 +80,10 @@ bq_global_dataset <- function(dataset){
   return(invisible(.bqr_env$dataset))
   
 }
+
+#' @rdname bq_global_dataset
+#' @export
+bqr_global_dataset <- bq_global_dataset
 
 #' Get global dataset name
 #'
@@ -85,7 +97,7 @@ bq_global_dataset <- function(dataset){
 #' @family dataset functions
 #' @export
 bq_get_global_dataset <- function(){
-  
+  .Deprecated("bqr_get_global_dataset")
   if(!exists("dataset", envir = .bqr_env)){
     stop("dataset is NULL and couldn't find global dataset ID name.
          Set it via bq_global_dataset")
@@ -93,4 +105,8 @@ bq_get_global_dataset <- function(){
   
   .bqr_env$dataset
   
-  }
+}
+
+#' @rdname bq_get_global_dataset
+#' @export
+bqr_get_global_dataset <- bq_get_global_dataset

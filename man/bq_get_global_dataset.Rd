@@ -2,9 +2,12 @@
 % Please edit documentation in R/globals.R
 \name{bq_get_global_dataset}
 \alias{bq_get_global_dataset}
+\alias{bqr_get_global_dataset}
 \title{Get global dataset name}
 \usage{
 bq_get_global_dataset()
+
+bqr_get_global_dataset()
 }
 \value{
 dataset name

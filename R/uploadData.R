@@ -10,7 +10,8 @@
 #' @param sourceFormat If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
 #' @param wait If uploading a data.frame, whether to wait for it to upload before returning
 #' @param autodetect Experimental feature that auto-detects schema for CSV and JSON files
-#' @param nullMarker Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value when loading a CSV file. The default value is the empty string. 
+#' @param nullMarker Specifies a string that represents a null value in a CSV file. 
+#'   For example, if you specify \code{\\N}, BigQuery interprets \code{\\N} as a null value when loading a CSV file. The default value is the empty string. 
 #' @param maxBadRecords The maximum number of bad records that BigQuery can ignore when running the job
 #' 
 #' @return TRUE if successful, FALSE if not. 
@@ -61,8 +62,8 @@
 #' @family bigQuery upload functions
 #' @export
 #' @import assertthat
-bqr_upload_data <- function(projectId = bq_get_global_project(), 
-                            datasetId = bq_get_global_dataset(), 
+bqr_upload_data <- function(projectId = bqr_get_global_project(), 
+                            datasetId = bqr_get_global_dataset(), 
                             tableId, 
                             upload_data, 
                             create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),

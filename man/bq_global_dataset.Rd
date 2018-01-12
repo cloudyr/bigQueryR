@@ -2,9 +2,12 @@
 % Please edit documentation in R/globals.R
 \name{bq_global_dataset}
 \alias{bq_global_dataset}
+\alias{bqr_global_dataset}
 \title{Set global dataset name}
 \usage{
 bq_global_dataset(dataset)
+
+bqr_global_dataset(dataset)
 }
 \arguments{
 \item{dataset}{dataset name you want this session to use by default, or a dataset object}
