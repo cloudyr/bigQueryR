@@ -6,5 +6,5 @@
 .httr-oauth-SUSPENDED
 inst/doc
 *.Rproj
-
 auth.json
+bq.oauth

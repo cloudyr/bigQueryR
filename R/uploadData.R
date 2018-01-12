@@ -60,6 +60,7 @@
 #' 
 #' @family bigQuery upload functions
 #' @export
+#' @import assertthat
 bqr_upload_data <- function(projectId = bq_get_global_project(), 
                             datasetId = bq_get_global_dataset(), 
                             tableId, 
@@ -67,18 +68,19 @@ bqr_upload_data <- function(projectId = bq_get_global_project(),
                             create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
                             overwrite = FALSE,
                             schema = NULL,
-                            sourceFormat = c("CSV", "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON","AVRO"),
+                            sourceFormat = c("CSV", "DATASTORE_BACKUP", 
+                                             "NEWLINE_DELIMITED_JSON","AVRO"),
                             wait = TRUE,
                             autodetect = FALSE,
                             nullMarker = NULL,
                             maxBadRecords = NULL){
   
 
-  assertthat::assert_that(is.character(projectId),
-                          is.character(datasetId),
-                          is.character(tableId),
-                          is.logical(overwrite),
-                          is.logical(wait))
+  assert_that(is.string(projectId),
+              is.string(datasetId),
+              is.string(tableId),
+              is.flag(overwrite),
+              is.flag(wait))
   sourceFormat <- match.arg(sourceFormat)
   create <- match.arg(create)
   
@@ -190,7 +192,8 @@ bqr_do_upload.data.frame <- function(upload_data,
                          line_break,
                          line_break,
                          csv)
-  mp_body <- paste(mp_body_schema, mp_body_data, paste0(boundary, "--"), sep = "\r\n")
+  mp_body <- paste(mp_body_schema, mp_body_data, 
+                   paste0(boundary, "--"), sep = "\r\n")
   
   l <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/upload/bigquery/v2",
@@ -221,8 +224,11 @@ bqr_do_upload.data.frame <- function(upload_data,
       if(wait){
         out <- bqr_wait_for_job(as.job(req$content))
       } else {
-        myMessage("Returning: BigQuery load of local data.frame Job object: ", req$content$jobReference$jobId, level = 3)
-        out <- bqr_get_job(req$content$jobReference$jobId, projectId = req$content$jobReference$projectId)
+        myMessage("Returning: BigQuery load of local data.frame Job object: ", 
+                  req$content$jobReference$jobId, level = 3)
+        
+        out <- bqr_get_job(req$content$jobReference$jobId, 
+                           projectId = req$content$jobReference$projectId)
       }
 
     } else {
@@ -290,7 +296,8 @@ bqr_do_upload.character <- function(upload_data,
                           tableId = tableId),
     the_body = config)
   
-  myMessage("Returning: BigQuery load from Google Cloud Storage Job object: ", req$content$jobReference$jobId, level = 3)
+  myMessage("Returning: BigQuery load from Google Cloud Storage Job object: ", 
+            req$content$jobReference$jobId, level = 3)
   
   bqr_get_job(req$content$jobReference$jobId, projectId = req$content$jobReference$projectId)
 
@@ -346,8 +353,8 @@ standard_csv <- function(values) {
   is_time <- vapply(values, function(x) inherits(x, "POSIXct"), logical(1))
   values[is_time] <- lapply(values[is_time], as.numeric)
   
-  is_date <- vapply(values, function(x) inherits(x, "Date"), logical(1))
-  values[is_date] <- lapply(values[is_date], function(x) as.numeric(as.POSIXct(x)))
+  # is_date <- vapply(values, function(x) inherits(x, "Date"), logical(1))
+  # values[is_date] <- lapply(values[is_date], function(x) as.numeric(as.POSIXct(x)))
   
   tmp <- tempfile(fileext = ".csv")
   on.exit(unlink(tmp))
