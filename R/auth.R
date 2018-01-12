@@ -50,7 +50,7 @@ check_gcs_auth <- function(){
 #'   service account JSON ending with file extension \code{.json}
 #'
 #' @return Invisibly, the token that has been saved to the session
-#' @importFrom googleAuthR gar_auth gar_auto_auth
+#' @importFrom googleAuthR gar_auth gar_auto_auth gar_set_client
 #' @importFrom tools file_ext
 #' @export
 bqr_auth <- function(token = NULL, new_user = FALSE, no_auto = FALSE){
@@ -62,6 +62,8 @@ bqr_auth <- function(token = NULL, new_user = FALSE, no_auto = FALSE){
   required_scopes <- c("https://www.googleapis.com/auth/bigquery",
                        "https://www.googleapis.com/auth/devstorage.full_control",
                        "https://www.googleapis.com/auth/cloud-platform")
+  
+  gar_set_client(system.file("client.json", package = "bigQueryR"))
   
   gar_auto_auth(required_scopes,
                 new_user = new_user,

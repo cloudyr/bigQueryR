@@ -2,8 +2,6 @@
 .Rproj
 .Rhistory
 .RData
-.httr-oauth
-.httr-oauth-SUSPENDED
 inst/doc
 *.Rproj
 auth.json
