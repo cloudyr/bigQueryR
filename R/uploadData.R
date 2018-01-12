@@ -317,7 +317,7 @@ data_type <- function(x) {
          numeric = "FLOAT",
          integer = "INTEGER",
          factor = "STRING",
-         Date = "TIMESTAMP",
+         Date = "DATE",
          POSIXct = "TIMESTAMP",
          hms = "INTEGER",
          difftime = "INTEGER",

@@ -11,6 +11,8 @@
     googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/bigquery/v2"
   )
   
+  options(googleAuthR.httr_oauth_cache = "bq.oauth")
+  
   toset <- !(names(op.bigQueryR) %in% names(op))
   
   if(any(toset)) options(op.bigQueryR[toset])
