@@ -1,11 +1,12 @@
+library(googleAuthR)
+
 context("Authentication")
 
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
 
 test_that("Can authenticate", {
   skip_on_cran()
-  Sys.setenv(BQ_AUTH_FILE = "auth.json")
-  bqr_auth()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
   
   projects <- bqr_list_projects()
   expect_s3_class(projects, "data.frame")
@@ -14,6 +15,7 @@ test_that("Can authenticate", {
 
 test_that("Set global project", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
   expect_equal(bq_global_project("mark-edmondson-gde"), 
                "mark-edmondson-gde")
   
@@ -21,6 +23,7 @@ test_that("Set global project", {
 
 test_that("Set global dataset", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
   expect_equal(bq_global_dataset("test2"), 
                "test2")
   
@@ -35,6 +38,7 @@ context("Uploads")
 
 test_that("Can upload test set",{
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
   ## canøt query against this too quickly if creating at same runtime
   out <- bqr_upload_data(tableId = "test2", upload_data = test_data)
   
@@ -44,6 +48,8 @@ test_that("Can upload test set",{
 
 test_that("Can upload via Google Cloud Storage",{
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   library(googleCloudStorageR)
   gcs_global_bucket("bigqueryr-tests")
   
@@ -69,6 +75,8 @@ context("List tables")
 
 test_that("Can list tables", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   result <- bqr_list_tables()
   expect_true("test1" %in% result$tableId)
   
@@ -78,6 +86,7 @@ context("Query")
 
 test_that("Can query test set", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
   result <- bqr_query(query = "SELECT * FROM test1")
   
   expect_equal(result$Name, test_data$Name)
@@ -88,6 +97,8 @@ test_that("Can query test set", {
 
 test_that("Single query bug", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   result <- bqr_query(query = "SELECT repository.url FROM [publicdata:samples.github_nested] LIMIT 10")
   
   ## should be 10, not 1
@@ -97,6 +108,8 @@ test_that("Single query bug", {
 
 test_that("Async query", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   job <- bqr_query_asynch(query = "SELECT * FROM test1", 
                              destinationTableId = "test3", 
                              writeDisposition = "WRITE_TRUNCATE")
@@ -113,6 +126,8 @@ context("Downloading extracts")
 
 test_that("Extract data to Google Cloud Storage, and download", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   gcs_global_bucket("bigqueryr-tests")
   job_extract <- bqr_extract_data(tableId = "test3",
                                   cloudStorageBucket = gcs_get_global_bucket())
@@ -139,6 +154,8 @@ context("Tables")
 
 test_that("Create a table", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   table <- bqr_create_table(tableId = "created_table", template_data = mtcars)
   
   expect_true(table)
@@ -147,6 +164,8 @@ test_that("Create a table", {
 
 test_that("Get meta data of table", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   meta <- bqr_table_meta(tableId = "created_table")
   
   expect_equal(meta$kind, "bigquery#table")
@@ -155,6 +174,8 @@ test_that("Get meta data of table", {
 
 test_that("Get data of table", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   meta <- bqr_table_data(tableId = "created_table")
   
   expect_equal(meta$kind, "bigquery#tableDataList")
@@ -163,6 +184,8 @@ test_that("Get data of table", {
 
 test_that("Delete a table", {
   skip_on_cran()
+  skip_if_no_env_auth("BQ_AUTH_FILE")
+  
   table <- bqr_delete_table(tableId = "created_table")
   
   expect_true(table)
