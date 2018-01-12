@@ -137,12 +137,18 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      datasetId, 
                                      tableId,
                                      create,
-                                     user_schema, # not used
+                                     user_schema,
                                      sourceFormat, # not used
                                      wait,
                                      autodetect,
                                      nullMarker,
                                      maxBadRecords){ 
+  
+  if(!is.null(user_schema)){
+    schema <- user_schema
+  } else {
+    schema <- schema_fields(upload_data)
+  }
   
   config <- list(
     configuration = list(
@@ -152,7 +158,7 @@ bqr_do_upload.data.frame <- function(upload_data,
         sourceFormat = "CSV",
         createDisposition = jsonlite::unbox(create),
         schema = list(
-          fields = schema_fields(upload_data)
+          fields = schema
         ),
         destinationTable = list(
           projectId = projectId,
