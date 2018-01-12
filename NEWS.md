@@ -2,6 +2,7 @@
 
 * support `nullMarker`, `maxBadRecords` in upload jobs
 * Support BigQuery type `DATE` for R class `Date` data.frame columns (BigQuery type `TIMESTAMP` still default for `POSIXct`columns) (#48)
+* Allow custom user schema for uploads of data.frames (#48)
 
 # bigQueryR 0.3.2
 
