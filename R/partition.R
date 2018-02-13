@@ -11,7 +11,7 @@
 #' 
 #' \dontrun{
 #'  
-#'  bqr_partition("sharded_", "new_partition")
+#'  bqr_partition("ga_sessions_", "ga_partition")
 #' 
 #' }
 #' 
