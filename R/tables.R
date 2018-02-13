@@ -40,15 +40,15 @@ bqr_copy_table <- function(source_tableid,
     configuration = list(
       copy = list(
         createDisposition = createDisposition,
-        destinationTable = list(
+        sourceTable = list(
           projectId = source_projectid,
           datasetId = source_datasetid,
-          tableID = source_tableid
+          tableId = source_tableid
         ),
-        sourceTable = list(
+        destinationTable = list(
           projectId = destination_projectid,
           datasetId = destination_datasetid,
-          tableID = destination_tableid
+          tableId = destination_tableid
         ),
         writeDisposition = writeDisposition
       )

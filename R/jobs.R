@@ -15,7 +15,8 @@ call_job <- function(projectId, config){
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = "")
+                                                    jobs = ""),
+                                   data_parse_function = function(x) x
     )
   
   o <- l(the_body = config)
