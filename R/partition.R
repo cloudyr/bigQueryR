@@ -76,11 +76,14 @@ bqr_partition <- function(sharded,
   part_query <- function(sdn){
     
     myMessage("Partitioning ", sdn, level = 3)
-    ## build queries
-    bqr_query_asynch(projectId = projectId,
-                     datasetId = datasetId,
-                     query = paste0('SELECT * FROM ',sdn),
-                     destinationTableId = paste0(partition,"$",shard_dates[[sdn]]))
+    
+    bqr_copy_table(source_projectid = projectId,
+                   source_datasetid = datasetId,
+                   source_tableid = sdn,
+                   destination_projectid = projectId,
+                   destination_datasetid = datasetId,
+                   destination_tableid = paste0(partition,"$",shard_dates[[sdn]]),
+                   writeDisposition = "WRITE_EMPTY")
   }
   
   result <- lapply(names(shard_dates), part_query)
