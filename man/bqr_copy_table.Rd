@@ -4,23 +4,26 @@
 \alias{bqr_copy_table}
 \title{Copy BigQuery table}
 \usage{
-bqr_copy_table(source_projectid, source_datasetid, source_tableid,
-  destination_projectid, destination_datasetid, destination_tableid,
+bqr_copy_table(source_tableid, destination_tableid,
+  source_projectid = bqr_get_global_project(),
+  source_datasetid = bqr_get_global_dataset(),
+  destination_projectid = bqr_get_global_project(),
+  destination_datasetid = bqr_get_global_dataset(),
   createDisposition = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
   writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"))
 }
 \arguments{
+\item{source_tableid}{source table's tableId}
+
+\item{destination_tableid}{destination table's tableId}
+
 \item{source_projectid}{source table's projectId}
 
 \item{source_datasetid}{source table's datasetId}
 
-\item{source_tableid}{source table's tableId}
-
 \item{destination_projectid}{destination table's projectId}
 
 \item{destination_datasetid}{destination table's datasetId}
-
-\item{destination_tableid}{destination table's tableId}
 
 \item{createDisposition}{Create table's behaviour}
 

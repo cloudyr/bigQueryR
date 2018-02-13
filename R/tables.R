@@ -15,12 +15,12 @@
 #' 
 #' @export
 #' @import assertthat
-bqr_copy_table <- function(source_projectid,
-                           source_datasetid,
-                           source_tableid,
-                           destination_projectid,
-                           destination_datasetid,
+bqr_copy_table <- function(source_tableid,
                            destination_tableid,
+                           source_projectid = bqr_get_global_project(),
+                           source_datasetid = bqr_get_global_dataset(),
+                           destination_projectid = bqr_get_global_project(),
+                           destination_datasetid = bqr_get_global_dataset(),
                            createDisposition = c("CREATE_IF_NEEDED","CREATE_NEVER"),
                            writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY")){
   
@@ -37,19 +37,21 @@ bqr_copy_table <- function(source_projectid,
   )
   
   config <- list(
-    copy = list(
-      createDisposition = createDisposition,
-      destinationTable = list(
-        projectId = source_projectid,
-        datasetId = source_datasetid,
-        tableID = source_tableid
-      ),
-      sourceTable = list(
-        projectId = destination_projectid,
-        datasetId = destination_datasetid,
-        tableID = destination_tableid
-      ),
-      writeDisposition = writeDisposition
+    configuration = list(
+      copy = list(
+        createDisposition = createDisposition,
+        destinationTable = list(
+          projectId = source_projectid,
+          datasetId = source_datasetid,
+          tableID = source_tableid
+        ),
+        sourceTable = list(
+          projectId = destination_projectid,
+          datasetId = destination_datasetid,
+          tableID = destination_tableid
+        ),
+        writeDisposition = writeDisposition
+      )
     )
   )
   
