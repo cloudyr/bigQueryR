@@ -9,6 +9,19 @@ is.job <- function(x){
   inherits(x, "bqr_job")
 }
 
+# metadata only jobs
+call_job <- function(projectId, config){
+  l <- 
+    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                                   "POST",
+                                   path_args = list(projects = projectId,
+                                                    jobs = "")
+    )
+  
+  o <- l(the_body = config)
+  as.job(o)
+}
+
 
 #' Wait for a bigQuery job
 #' 

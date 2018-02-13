@@ -15,8 +15,7 @@ bqr_auth(token = NULL, new_user = FALSE, no_auto = FALSE)
 
 If you have set the environment variable \code{BQ_AUTH_FILE} to a valid file location,
   the function will look there for authentication details.
-Otherwise it will look in the working directory for the `.httr-oauth` file, which if not present
-  will trigger an authentication flow via Google login screen in your browser.
+Otherwise it will look in the working directory for the `bq.oauth` file, which if not present will trigger an authentication flow via Google login screen in your browser.
 
 If \code{BQ_AUTH_FILE} is specified, then \code{bqr_auth()} will be called upon loading the package
   via \code{library(bigQueryR)},
