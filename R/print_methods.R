@@ -11,5 +11,9 @@ print.bqr_job <- function(x, ...){
   cat("## View job configuration via job$configuration\n")
   
   cat0("## Job had error: \n", x$status$errorResult$message)
+  if(!is.null(x$status$errors)){
+    print(x$status$errors$message)
+  }
+
   
 }
