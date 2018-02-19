@@ -9,7 +9,8 @@ bqr_upload_data(projectId = bqr_get_global_project(),
   create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
   schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
   "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE,
-  nullMarker = NULL, maxBadRecords = NULL)
+  nullMarker = NULL, maxBadRecords = NULL, allowJaggedRows = FALSE,
+  allowQuotedNewlines = FALSE)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}

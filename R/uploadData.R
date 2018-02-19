@@ -74,7 +74,9 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                             wait = TRUE,
                             autodetect = FALSE,
                             nullMarker = NULL,
-                            maxBadRecords = NULL){
+                            maxBadRecords = NULL,
+                            allowJaggedRows = FALSE,
+                            allowQuotedNewlines = FALSE){
   
 
   assert_that(is.string(projectId),
@@ -114,7 +116,9 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                 wait = wait,
                 autodetect = autodetect,
                 nullMarker = nullMarker,
-                maxBadRecords = maxBadRecords)
+                maxBadRecords = maxBadRecords,
+                allowJaggedRows = allowJaggedRows,
+                allowQuotedNewlines = allowQuotedNewlines)
   
 }
 
@@ -129,7 +133,9 @@ bqr_do_upload <- function(upload_data,
                           wait,
                           autodetect,
                           nullMarker,
-                          maxBadRecords){
+                          maxBadRecords,
+                          allowJaggedRows,
+                          allowQuotedNewlines){
   check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
 }
@@ -145,7 +151,9 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      wait,
                                      autodetect,
                                      nullMarker,
-                                     maxBadRecords){ 
+                                     maxBadRecords,
+                                     allowJaggedRows,
+                                     allowQuotedNewlines){ 
   
   if(!is.null(user_schema)){
     schema <- user_schema
@@ -168,7 +176,9 @@ bqr_do_upload.data.frame <- function(upload_data,
           datasetId = datasetId,
           tableId = tableId
         ),
-        autodetect = autodetect
+        autodetect = autodetect,
+        allowJaggedRows = allowJaggedRows,
+        allowQuotedNewlines = allowQuotedNewlines
       )
     )
   )
@@ -255,7 +265,9 @@ bqr_do_upload.character <- function(upload_data,
                                     wait, # not used
                                     autodetect,
                                     nullMarker,
-                                    maxBadRecords){
+                                    maxBadRecords,
+                                    allowJaggedRows,
+                                    allowQuotedNewlines){
   
   if(length(upload_data) > 1){
     source_uri <- upload_data
@@ -279,7 +291,9 @@ bqr_do_upload.character <- function(upload_data,
           datasetId = datasetId,
           tableId = tableId
         ),
-        autodetect = autodetect
+        autodetect = autodetect,
+        allowJaggedRows = allowJaggedRows,
+        allowQuotedNewlines = allowQuotedNewlines
       )
     )
   )
