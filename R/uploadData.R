@@ -13,6 +13,8 @@
 #' @param nullMarker Specifies a string that represents a null value in a CSV file. 
 #'   For example, if you specify \code{\\N}, BigQuery interprets \code{\\N} as a null value when loading a CSV file. The default value is the empty string. 
 #' @param maxBadRecords The maximum number of bad records that BigQuery can ignore when running the job
+#' @param allowJaggedRows Whether to allow rows with variable length columns
+#' @param allowQuotedNewlines Whether to allow datasets with quoted new lines
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -83,7 +85,10 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
               is.string(datasetId),
               is.string(tableId),
               is.flag(overwrite),
-              is.flag(wait))
+              is.flag(wait),
+              is.flag(allowJaggedRows),
+              is.flag(allowQuotedNewlines),
+              is.flag(autodetect))
   sourceFormat <- match.arg(sourceFormat)
   create <- match.arg(create)
   

@@ -37,6 +37,10 @@ bqr_upload_data(projectId = bqr_get_global_project(),
 For example, if you specify \code{\\N}, BigQuery interprets \code{\\N} as a null value when loading a CSV file. The default value is the empty string.}
 
 \item{maxBadRecords}{The maximum number of bad records that BigQuery can ignore when running the job}
+
+\item{allowJaggedRows}{Whether to allow rows with variable length columns}
+
+\item{allowQuotedNewlines}{Whether to allow datasets with quoted new lines}
 }
 \value{
 TRUE if successful, FALSE if not.
