@@ -288,9 +288,9 @@ bqr_do_upload.character <- function(upload_data,
         sourceFormat = sourceFormat,
         createDisposition = jsonlite::unbox(create),
         sourceUris = source_uri,
-        schema = list(
-          fields = user_schema
-        ),
+        # schema = list(
+        #   fields = user_schema
+        # ),
         destinationTable = list(
           projectId = projectId,
           datasetId = datasetId,
@@ -302,6 +302,13 @@ bqr_do_upload.character <- function(upload_data,
       )
     )
   )
+  
+  ## only provide schema if autodetect is FALSE
+  if(!autodetect){
+    config <- config$configuration$schema <- list(
+      fields = user_schema
+    )
+  }
   
   
   l <- 
