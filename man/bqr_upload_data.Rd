@@ -10,7 +10,7 @@ bqr_upload_data(projectId = bqr_get_global_project(),
   schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
   "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE,
   nullMarker = NULL, maxBadRecords = NULL, allowJaggedRows = FALSE,
-  allowQuotedNewlines = FALSE)
+  allowQuotedNewlines = FALSE, fieldDelimiter = ",")
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -41,6 +41,8 @@ For example, if you specify \code{\\N}, BigQuery interprets \code{\\N} as a null
 \item{allowJaggedRows}{Whether to allow rows with variable length columns}
 
 \item{allowQuotedNewlines}{Whether to allow datasets with quoted new lines}
+
+\item{fieldDelimiter}{The separator for fields in a CSV file.  Default is comma - \code{,}}
 }
 \value{
 TRUE if successful, FALSE if not.

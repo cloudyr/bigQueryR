@@ -134,7 +134,7 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_get_job <- function(jobId, projectId = bqr_get_global_project()){
+bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project()){
   check_bq_auth()
   
   if(is.job(jobId)){
