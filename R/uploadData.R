@@ -57,6 +57,10 @@
 #'                 upload_data = c("gs://your-project/mtcars_test1.csv", 
 #'                                 "gs://your-project/mtcars_test2.csv"),
 #'                 schema = user_schema)
+#'  
+#'  ## for big files, its helpful to create your schema on a small sample
+#'  ## a quick way to do this on the command line is:
+#'  # "head bigfile.csv > head_bigfile.csv"
 #' 
 #' 
 #' 
