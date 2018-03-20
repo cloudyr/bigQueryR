@@ -40,6 +40,8 @@ bqr_download_query <- function(query = NULL,
                                global_dataset_name = bqr_get_global_dataset(),
                                global_bucket_name = googleCloudStorageR::gcs_get_global_bucket()
 ) {
+    invisible(sapply(c("data.table", "purrr"), assertRequirement))
+
     if (is.null(result_file_name)) {
         result_file_name <- "fast_bq_download_result"
     } else {
@@ -170,4 +172,11 @@ createFolder <- function(target_folder) {
 gzipDataAtPath <- function(full_result_file_name) {
     system(paste0("rm -f ", full_result_file_name, ".gz"))
     system(paste0("gzip ", full_result_file_name))
+}
+
+assertRequirement <- function(package_name) {
+    if (!requireNamespace(package_name, quietly = TRUE)) {
+       stop(paste0(package_name, " needed for this function to work. Please install it via install.packages('", package_name, "')"),
+            call. = FALSE)
+    }
 }
