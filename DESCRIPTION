@@ -27,8 +27,6 @@ Suggests:
     rmarkdown,
     testthat,
     data.table,
-    purrr,
-    glue,
-    stringr
+    purrr
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr

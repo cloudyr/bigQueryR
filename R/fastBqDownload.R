@@ -43,9 +43,7 @@ bqr_download_query <- function(query = NULL,
     if (is.null(result_file_name)) {
         result_file_name <- "fast_bq_download_result"
     } else {
-        result_file_name <- stringr::str_replace(
-            result_file_name, "(\\.csv$)|(\\.csv\\.gz$)", ""
-        )
+        result_file_name <- gsub("(\\.csv$)|(\\.csv\\.gz$)", "", result_file_name)
     }
 
     full_result_path <- paste0(target_folder, "/", result_file_name, ".csv.gz")
@@ -56,7 +54,7 @@ bqr_download_query <- function(query = NULL,
     setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name)
 
     gcp_result_name_raw <- paste0(result_file_name, "_", Sys.getenv("LOGNAME"), "_", Sys.time())
-    gcp_result_name <- stringr::str_replace_all(gcp_result_name_raw, "[^[:alnum:]]+", "_")
+    gcp_result_name <- gsub("[^[:alnum:]]+", "_", gcp_result_name_raw)
 
     object_names <- saveQueryToStorage(query, gcp_result_name, useLegacySql)
 
@@ -165,11 +163,11 @@ cleanIntermediateResults <- function(object_names, table_id, target_folder) {
 createFolder <- function(target_folder) {
     if (!dir.exists(target_folder)) {
         dir.create(target_folder, recursive = TRUE)
-        message(stringr::str_c(target_folder, ' folder does not exist. Creating folder.'))
+        message(paste0(target_folder, ' folder does not exist. Creating folder.'))
     }
 }
 
 gzipDataAtPath <- function(full_result_file_name) {
-    system(glue::glue("rm -f {full_result_file_name}.gz"))
-    system(glue::glue("gzip {full_result_file_name}"))
+    system(paste0("rm -f ", full_result_file_name, ".gz"))
+    system(paste0("gzip ", full_result_file_name))
 }
