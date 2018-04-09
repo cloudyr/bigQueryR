@@ -29,7 +29,8 @@
 #' 
 #' @return a data.table.
 #' 
-#' @export 
+#' @export
+#' @importFrom data.table fread
 bqr_download_query <- function(query = NULL,
                                target_folder = "data",
                                result_file_name = NULL,
@@ -42,15 +43,15 @@ bqr_download_query <- function(query = NULL,
 ) {
     invisible(sapply(c("data.table", "purrr"), assertRequirement))
 
-    if (is.null(result_file_name)) {
+    if(is.null(result_file_name)){
         result_file_name <- "fast_bq_download_result"
     } else {
         result_file_name <- gsub("(\\.csv$)|(\\.csv\\.gz$)", "", result_file_name)
     }
 
-    full_result_path <- paste0(target_folder, "/", result_file_name, ".csv.gz")
-    if (file.exists(full_result_path) & !refetch) {
-        return(data.table::fread(paste("gunzip -c", full_result_path)))
+    full_result_path <- file.path(target_folder, paste0(result_file_name, ".csv.gz"))
+    if(file.exists(full_result_path) & !refetch){
+        return(fread(paste("gunzip -c", full_result_path)))
     }
 
     setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name)
@@ -66,8 +67,9 @@ bqr_download_query <- function(query = NULL,
             unifyLocalChunks(output_dt, object_names, result_file_name, target_folder)
         },
         error = function(e) {
-            message("\n\nError while saving from Storage to local. Running cleanup of Storage and BigQuery. See original error message below:\n\n")
-            message(paste0(e, "\n\n"))
+            myMessage("\n# Error while saving from Storage to local. Running cleanup of Storage and BigQuery. See original error message below:\n",
+                      level = 3)
+            myMessage(paste0(e, "\n"), level = 3)
         },
         finally = {if (clean_intermediate_results == TRUE) {
                     cleanIntermediateResults(object_names, gcp_result_name, target_folder)
@@ -79,93 +81,113 @@ bqr_download_query <- function(query = NULL,
 }
 
 
+#' @noRd
+#' @importFrom googleCloudStorageR gcs_global_bucket gcs_list_objects
 setFastSqlDownloadOptions <- function(global_project_name, global_dataset_name, global_bucket_name) {
-    options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+    # options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
 
-    bigQueryR::bqr_global_project(global_project_name)
-    bigQueryR::bqr_global_dataset(global_dataset_name)
-    googleCloudStorageR::gcs_global_bucket(global_bucket_name)
+    bqr_global_project(global_project_name)
+    bqr_global_dataset(global_dataset_name)
+    gcs_global_bucket(global_bucket_name)
 }
 
+#' @noRd
+#' @importFrom googleCloudStorageR gcs_get_global_bucket
 saveQueryToStorage <- function(query, result_name, useLegacySql){
     time <- Sys.time()
-    message("Querying data and saving to BigQuery table")
-    query_job <- bigQueryR::bqr_query_asynch(
+    myMessage("Querying data and saving to BigQuery table", level = 3)
+    query_job <- bqr_query_asynch(
         query = query,
         useLegacySql = useLegacySql,
         destinationTableId = result_name,
         writeDisposition = "WRITE_TRUNCATE"
     )
+    
+    isDone <- suppressMessages(bqr_wait_for_job(query_job, wait = 2))$status$state == "DONE"
 
-    if (suppressMessages(bigQueryR::bqr_wait_for_job(query_job, wait = 2))$status$state == "DONE") {
-        time_elapsed <- difftime(Sys.time(), time)
-        message(paste("Querying job is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")))
-
-        time <- Sys.time()
-        message("Writing data to storage")
-        extract_job <- suppressMessages(bigQueryR::bqr_extract_data(
-                            tableId = result_name,
-                            cloudStorageBucket = googleCloudStorageR::gcs_get_global_bucket(),
-                            compression = "GZIP",
-                            filename = paste0(result_name, "_*.csv.gz")
-                ))
+    if(isDone){
+      time_elapsed <- difftime(Sys.time(), time)
+      myMessage(paste("Querying job is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")), level = 3)
+      
+      time <- Sys.time()
+      myMessage("Writing data to storage", level = 3)
+      extract_job <- suppressMessages(bqr_extract_data(tableId = result_name,
+                                                       cloudStorageBucket = gcs_get_global_bucket(),
+                                                       compression = "GZIP",
+                                                       filename = paste0(result_name, "_*.csv.gz")
+                                                       )
+                                      )
     }
+    
+    isDone2 <- suppressMessages(bqr_wait_for_job(extract_job, wait = 2))$status$state == "DONE"
 
-    if (suppressMessages(bigQueryR::bqr_wait_for_job(extract_job, wait = 2))$status$state == "DONE") {
+    if(isDone2){
         time_elapsed <- difftime(Sys.time(), time)
-        message(paste("Writing data to storage is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")))
-        object_names <- grep(
-            result_name,
-            googleCloudStorageR::gcs_list_objects()$name,
-            value = TRUE
-        )
+        myMessage(paste("Writing data to storage is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")))
+        object_names <- grep(result_name,
+                             gcs_list_objects()$name,
+                             value = TRUE)
     }
+    
     object_names
 }
 
+#' @noRd
+#' @importFrom googleCloudStorageR gcs_get_object
+#' @importFrom purrr map
+#' @importFrom data.table fread rbindlist
 readFromStorage <- function(object_names, target_folder) {
     createFolder(target_folder)
-    chunk_dt_list <- purrr::map(object_names, ~ {
+    chunk_dt_list <- map(object_names, ~ {
         object <- .
-        googleCloudStorageR::gcs_get_object(
+        gcs_get_object(
             object_name = object,
-            saveToDisk = paste0(target_folder, "/", object),
+            saveToDisk = file.path(target_folder, object),
             overwrite = TRUE
         )
-        data.table::fread(paste0("gunzip -c ", target_folder, "/", object))
+        fread(paste0("gunzip -c ", file.path(target_folder,object)))
     })
-    data.table::rbindlist(chunk_dt_list)
+    
+    rbindlist(chunk_dt_list)
 }
 
+#' @noRd
+#' @importFrom data.table fwrite
 unifyLocalChunks <- function(output_dt, object_names, result_file_name, target_folder) {
-    if (length(object_names) > 1) {
-        data.table::fwrite(output_dt, paste0(target_folder, "/", result_file_name, ".csv"))
-        gzipDataAtPath(paste0(target_folder, "/", result_file_name, ".csv"))
+    if(length(object_names) > 1) {
+      full_result_file_name <- file.path(target_folder, paste0(result_file_name, ".csv"))
+      
+      fwrite(output_dt, full_result_file_name)
+      gzipDataAtPath(full_result_file_name)
+      
     } else{
         file.rename(
-            paste0(target_folder, "/", object_names[[1]]),
-            paste0(target_folder, "/", result_file_name, ".csv.gz")
+          file.path(target_folder, object_names[[1]]),
+          file.path(target_folder, paste0(result_file_name, ".csv.gz"))
         )
     }
 }
 
-cleanIntermediateResults <- function(object_names, table_id, target_folder) {
-    purrr::walk(
-        object_names,
-        ~ googleCloudStorageR::gcs_delete_object(object = .x)
-    )
-    bigQueryR::bqr_delete_table(tableId = table_id)
+#' @noRd
+#' @importFrom purrr walk
+#' @importFrom googleCloudStorageR gcs_delete_object
+cleanIntermediateResults <- function(object_names, table_id, target_folder){
+  
+    walk(object_names, ~ gcs_delete_object(object = .x))
+  
+    bqr_delete_table(tableId = table_id)
+    
     if (length(object_names) > 1) {
-        purrr::walk(paste0(target_folder, "/", object_names), file.remove)
+        walk(file.path(target_folder, object_names), file.remove)
     }
-    message("The queried table on BigQuery and saved file(s) on GoogleCloudStorage have been cleaned up.
-        If you want to keep them, use clean_intermediate_results = TRUE.")
+    myMessage("The queried table on BigQuery and saved file(s) on GoogleCloudStorage have been cleaned up.
+        If you want to keep them, use clean_intermediate_results = TRUE.", level = 3)
 }
 
 createFolder <- function(target_folder) {
     if (!dir.exists(target_folder)) {
         dir.create(target_folder, recursive = TRUE)
-        message(paste0(target_folder, ' folder does not exist. Creating folder.'))
+        myMessage(paste0(target_folder, ' folder does not exist. Creating folder.'), level = 3)
     }
 }
 
