@@ -134,6 +134,7 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
+#' @importFrom googleAuthR gar_api_generator
 bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project()){
   check_bq_auth()
   
@@ -145,10 +146,10 @@ bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project(
   
   ## make job
   job <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                   "GET",
-                                   path_args = list(projects = projectId,
-                                                    jobs = jobId))
+    gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                      "GET",
+                      path_args = list(projects = projectId,
+                                       jobs = jobId))
   
   req <- job(path_arguments = list(projects = projectId,
                                    jobs = jobId))

@@ -103,6 +103,10 @@ saveQueryToStorage <- function(query, result_name, useLegacySql){
         writeDisposition = "WRITE_TRUNCATE"
     )
     
+    if(!is.null(query_job$status$errorResult)){
+      stop("Query job error:", query_job$status$errorResult$message, call. = FALSE)
+    }
+    
     isDone <- suppressMessages(bqr_wait_for_job(query_job, wait = 2))$status$state == "DONE"
 
     if(isDone){
