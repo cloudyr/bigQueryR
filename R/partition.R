@@ -40,6 +40,7 @@
 #' 
 #' @seealso \href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 #' @export
+#' @importFrom stats setNames
 bqr_partition <- function(sharded,
                           partition,
                           projectId = bqr_get_global_project(),
