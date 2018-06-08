@@ -9,6 +9,20 @@ is.job <- function(x){
   inherits(x, "bqr_job")
 }
 
+# metadata only jobs
+call_job <- function(projectId, config){
+  l <- 
+    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                                   "POST",
+                                   path_args = list(projects = projectId,
+                                                    jobs = ""),
+                                   data_parse_function = function(x) x
+    )
+  
+  o <- l(the_body = config)
+  as.job(o)
+}
+
 
 #' Wait for a bigQuery job
 #' 
@@ -66,7 +80,7 @@ bqr_wait_for_job <- function(job, wait=5){
 #' Poll a jobId
 #' 
 #' @param projectId projectId of job
-#' @param jobId jobId to poll
+#' @param jobId jobId to poll, or a job Object
 #' 
 #' @return A Jobs resource
 #' 
@@ -120,8 +134,12 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_get_job <- function(projectId = bqr_get_global_project(), jobId){
+bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project()){
   check_bq_auth()
+  
+  if(is.job(jobId)){
+    jobId <- jobId$jobReference$jobId
+  }
   stopifnot(inherits(projectId, "character"),
             inherits(jobId, "character"))
   

@@ -13,6 +13,9 @@
 #' @param nullMarker Specifies a string that represents a null value in a CSV file. 
 #'   For example, if you specify \code{\\N}, BigQuery interprets \code{\\N} as a null value when loading a CSV file. The default value is the empty string. 
 #' @param maxBadRecords The maximum number of bad records that BigQuery can ignore when running the job
+#' @param allowJaggedRows Whether to allow rows with variable length columns
+#' @param allowQuotedNewlines Whether to allow datasets with quoted new lines
+#' @param fieldDelimiter The separator for fields in a CSV file.  Default is comma - \code{,}
 #' 
 #' @return TRUE if successful, FALSE if not. 
 #' 
@@ -54,6 +57,10 @@
 #'                 upload_data = c("gs://your-project/mtcars_test1.csv", 
 #'                                 "gs://your-project/mtcars_test2.csv"),
 #'                 schema = user_schema)
+#'  
+#'  ## for big files, its helpful to create your schema on a small sample
+#'  ## a quick way to do this on the command line is:
+#'  # "head bigfile.csv > head_bigfile.csv"
 #' 
 #' 
 #' 
@@ -74,14 +81,21 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                             wait = TRUE,
                             autodetect = FALSE,
                             nullMarker = NULL,
-                            maxBadRecords = NULL){
+                            maxBadRecords = NULL,
+                            allowJaggedRows = FALSE,
+                            allowQuotedNewlines = FALSE,
+                            fieldDelimiter = ","){
   
 
   assert_that(is.string(projectId),
               is.string(datasetId),
               is.string(tableId),
               is.flag(overwrite),
-              is.flag(wait))
+              is.flag(wait),
+              is.flag(allowJaggedRows),
+              is.flag(allowQuotedNewlines),
+              is.flag(autodetect),
+              is.string(fieldDelimiter))
   sourceFormat <- match.arg(sourceFormat)
   create <- match.arg(create)
   
@@ -114,7 +128,10 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                 wait = wait,
                 autodetect = autodetect,
                 nullMarker = nullMarker,
-                maxBadRecords = maxBadRecords)
+                maxBadRecords = maxBadRecords,
+                allowJaggedRows = allowJaggedRows,
+                allowQuotedNewlines = allowQuotedNewlines,
+                fieldDelimiter = fieldDelimiter)
   
 }
 
@@ -129,7 +146,10 @@ bqr_do_upload <- function(upload_data,
                           wait,
                           autodetect,
                           nullMarker,
-                          maxBadRecords){
+                          maxBadRecords,
+                          allowJaggedRows,
+                          allowQuotedNewlines,
+                          fieldDelimiter){
   check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
 }
@@ -145,7 +165,10 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      wait,
                                      autodetect,
                                      nullMarker,
-                                     maxBadRecords){ 
+                                     maxBadRecords,
+                                     allowJaggedRows,
+                                     allowQuotedNewlines,
+                                     fieldDelimiter){ 
   
   if(!is.null(user_schema)){
     schema <- user_schema
@@ -156,6 +179,7 @@ bqr_do_upload.data.frame <- function(upload_data,
   config <- list(
     configuration = list(
       load = list(
+        fieldDelimiter = fieldDelimiter,
         nullMarker = nullMarker,
         maxBadRecords = maxBadRecords,
         sourceFormat = "CSV",
@@ -168,7 +192,9 @@ bqr_do_upload.data.frame <- function(upload_data,
           datasetId = datasetId,
           tableId = tableId
         ),
-        autodetect = autodetect
+        autodetect = autodetect,
+        allowJaggedRows = allowJaggedRows,
+        allowQuotedNewlines = allowQuotedNewlines
       )
     )
   )
@@ -255,7 +281,10 @@ bqr_do_upload.character <- function(upload_data,
                                     wait, # not used
                                     autodetect,
                                     nullMarker,
-                                    maxBadRecords){
+                                    maxBadRecords,
+                                    allowJaggedRows,
+                                    allowQuotedNewlines,
+                                    fieldDelimiter){
   
   if(length(upload_data) > 1){
     source_uri <- upload_data
@@ -266,24 +295,50 @@ bqr_do_upload.character <- function(upload_data,
   config <- list(
     configuration = list(
       load = list(
+        fieldDelimiter = fieldDelimiter,
         nullMarker = nullMarker,
         maxBadRecords = maxBadRecords,
         sourceFormat = sourceFormat,
         createDisposition = jsonlite::unbox(create),
         sourceUris = source_uri,
-        schema = list(
-          fields = user_schema
-        ),
         destinationTable = list(
           projectId = projectId,
           datasetId = datasetId,
           tableId = tableId
         ),
-        autodetect = autodetect
+        autodetect = autodetect,
+        allowJaggedRows = allowJaggedRows,
+        allowQuotedNewlines = allowQuotedNewlines
       )
     )
   )
   
+  ## only provide schema if autodetect is FALSE
+  if(!autodetect){
+    config <- list(
+      configuration = list(
+        load = list(
+          fieldDelimiter = fieldDelimiter,
+          nullMarker = nullMarker,
+          maxBadRecords = maxBadRecords,
+          sourceFormat = sourceFormat,
+          createDisposition = jsonlite::unbox(create),
+          sourceUris = source_uri,
+          schema = list(
+             fields = user_schema
+           ),
+          destinationTable = list(
+            projectId = projectId,
+            datasetId = datasetId,
+            tableId = tableId
+          ),
+          autodetect = autodetect,
+          allowJaggedRows = allowJaggedRows,
+          allowQuotedNewlines = allowQuotedNewlines
+        )
+      )
+    )
+  }
   
   l <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",

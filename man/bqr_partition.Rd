@@ -17,18 +17,13 @@ bqr_partition(sharded, partition, projectId = bqr_get_global_project(),
 \item{datasetId}{The dataset ID}
 }
 \value{
-\code{TRUE} if all partition jobs start running successfully
+A list of copy jobs for the sharded tables that will be copied to one partitioned table
 }
 \description{
 Moves the old style date-sharded tables such as \code{[TABLE_NAME]_YYYYMMDD} to the new date partitioned format.
 }
 \details{
-WARNING: This can be an expensive operation for large datasets as it does a full column scan.
-
-From \href{partitioned tables background}{https://cloud.google.com/bigquery/docs/partitioned-tables}: 
-
-Replicates the functionality of the bq tool 
-\code{bq query --allow_large_results --replace --noflatten_results --destination_table 'mydataset.table1$20160301' 'SELECT field1 + 10, field2 FROM mydataset.table1$20160301'}
+Performs lots of copy table operations via \link{bqr_copy_table} 
 
 Before partitioned tables became available, BigQuery users would often divide 
   large datasets into separate tables organized by time period; usually daily tables, 
@@ -46,6 +41,15 @@ Daily tables, however, have several disadvantages. You must manually, or program
   spread across hundreds of tables. Performance degrades as the number of referenced 
   tables increases. There is also a limit of 1,000 tables that can be referenced in a 
   single query. Partitioned tables have none of these disadvantages.
+}
+\examples{
+
+\dontrun{
+ 
+ bqr_partition("ga_sessions_", "ga_partition")
+
+}
+
 }
 \seealso{
 \href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}

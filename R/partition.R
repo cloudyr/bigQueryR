@@ -7,15 +7,18 @@
 #' @param projectId The project ID
 #' @param datasetId The dataset ID
 #' 
+#' @examples 
+#' 
+#' \dontrun{
+#'  
+#'  bqr_partition("ga_sessions_", "ga_partition")
+#' 
+#' }
+#' 
 #' @details 
 #' 
-#' WARNING: This can be an expensive operation for large datasets as it does a full column scan.
-#' 
-#' From \href{partitioned tables background}{https://cloud.google.com/bigquery/docs/partitioned-tables}: 
-#' 
-#' Replicates the functionality of the bq tool 
-#' \code{bq query --allow_large_results --replace --noflatten_results --destination_table 'mydataset.table1$20160301' 'SELECT field1 + 10, field2 FROM mydataset.table1$20160301'}
-#' 
+#' Performs lots of copy table operations via \link{bqr_copy_table} 
+#'
 #' Before partitioned tables became available, BigQuery users would often divide 
 #'   large datasets into separate tables organized by time period; usually daily tables, 
 #'   where each table represented data loaded on that particular date.
@@ -33,7 +36,7 @@
 #'   tables increases. There is also a limit of 1,000 tables that can be referenced in a 
 #'   single query. Partitioned tables have none of these disadvantages.
 #' 
-#' @return \code{TRUE} if all partition jobs start running successfully
+#' @return A list of copy jobs for the sharded tables that will be copied to one partitioned table
 #' 
 #' @seealso \href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
 #' @export
@@ -76,19 +79,18 @@ bqr_partition <- function(sharded,
   part_query <- function(sdn){
     
     myMessage("Partitioning ", sdn, level = 3)
-    ## build queries
-    bqr_query_asynch(projectId = projectId,
-                     datasetId = datasetId,
-                     query = paste0('SELECT * FROM ',sdn),
-                     destinationTableId = paste0(partition,"$",shard_dates[[sdn]]))
+    
+    bqr_copy_table(source_projectid = projectId,
+                   source_datasetid = datasetId,
+                   source_tableid = sdn,
+                   destination_projectid = projectId,
+                   destination_datasetid = datasetId,
+                   destination_tableid = paste0(partition,"$",shard_dates[[sdn]]),
+                   writeDisposition = "WRITE_EMPTY")
   }
   
   result <- lapply(names(shard_dates), part_query)
   
-  if(all(vapply(result, function(x) x$status$state, character(1))) == "RUNNING"){
-    myMessage("All partition jobs running, check project job queue for outcome.")
-  }
-  
-  TRUE
+  setNames(result, names(shard_dates))
   
 }

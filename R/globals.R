@@ -78,7 +78,7 @@ bq_get_global_project <- function(...){
 #' @export
 #' @import assertthat
 bqr_global_dataset <- function(dataset){
-  .Deprecated("bqr_global_dataset")
+
   assert_that(is.string(dataset))
   
   .bqr_env$dataset <- dataset
@@ -106,7 +106,7 @@ bq_global_dataset <- function(...){
 #' @family dataset functions
 #' @export
 bqr_get_global_dataset <- function(){
-  .Deprecated("bqr_get_global_dataset")
+
   if(!exists("dataset", envir = .bqr_env)){
     stop("dataset is NULL and couldn't find global dataset ID name.
          Set it via bq_global_dataset")

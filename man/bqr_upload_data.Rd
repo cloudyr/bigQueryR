@@ -9,7 +9,8 @@ bqr_upload_data(projectId = bqr_get_global_project(),
   create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
   schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
   "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE,
-  nullMarker = NULL, maxBadRecords = NULL)
+  nullMarker = NULL, maxBadRecords = NULL, allowJaggedRows = FALSE,
+  allowQuotedNewlines = FALSE, fieldDelimiter = ",")
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -36,6 +37,12 @@ bqr_upload_data(projectId = bqr_get_global_project(),
 For example, if you specify \code{\\N}, BigQuery interprets \code{\\N} as a null value when loading a CSV file. The default value is the empty string.}
 
 \item{maxBadRecords}{The maximum number of bad records that BigQuery can ignore when running the job}
+
+\item{allowJaggedRows}{Whether to allow rows with variable length columns}
+
+\item{allowQuotedNewlines}{Whether to allow datasets with quoted new lines}
+
+\item{fieldDelimiter}{The separator for fields in a CSV file.  Default is comma - \code{,}}
 }
 \value{
 TRUE if successful, FALSE if not.
@@ -78,6 +85,10 @@ You also need to supply a data schema.  Remember that the file should not have a
                 upload_data = c("gs://your-project/mtcars_test1.csv", 
                                 "gs://your-project/mtcars_test2.csv"),
                 schema = user_schema)
+ 
+ ## for big files, its helpful to create your schema on a small sample
+ ## a quick way to do this on the command line is:
+ # "head bigfile.csv > head_bigfile.csv"
 
 
 
