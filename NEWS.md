@@ -7,6 +7,7 @@
 * Add `allowJaggedRows` and `allowQuotedNewlines` options to upload via `bqr_upload_data()`
 * `bqr_get_job` now accepts a job object as well as the jobId
 * Fix bug with `bqr_upload_data` where `autodetect=TRUE` didn't work with `gcs://` loads from Cloud Storage
+* Fix bug with `bqr_query()` that caused a 404 error sometimes. 
 
 # bigQueryR 0.3.2
 
