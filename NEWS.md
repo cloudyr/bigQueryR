@@ -1,3 +1,7 @@
+# bigQueryR 0.4.0.9000
+
+* ...
+
 # bigQueryR 0.4.0
 
 * support `nullMarker`, `maxBadRecords`, `fieldDelimiter` in upload jobs
