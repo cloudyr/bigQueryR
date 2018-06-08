@@ -7,7 +7,7 @@
 \usage{
 bqr_global_project(project)
 
-bq_global_project(...)
+bq_global_project(project)
 }
 \arguments{
 \item{project}{project name you want this session to use by default, or a project object}

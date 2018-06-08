@@ -27,10 +27,11 @@ bqr_global_project <- function(project){
 }
 
 #' @rdname bqr_global_project
+#' @inheritParams bqr_global_project
 #' @export
-bq_global_project <- function(...){
+bq_global_project <- function(project){
   .Deprecated("bqr_global_project")
-  bqr_global_project(...)
+  bqr_global_project(project)
 }
 
 #' Get global project name
@@ -57,9 +58,9 @@ bqr_get_global_project <- function(){
 
 #' @rdname bqr_get_global_project
 #' @export
-bq_get_global_project <- function(...){
+bq_get_global_project <- function(){
   .Deprecated("bqr_get_global_project")
-  bqr_get_global_project(...)
+  bqr_get_global_project()
 }
 
 #' Set global dataset name
@@ -88,10 +89,11 @@ bqr_global_dataset <- function(dataset){
 }
 
 #' @rdname bqr_global_dataset
+#' @inheritParams bqr_global_dataset
 #' @export
-bq_global_dataset <- function(...){
+bq_global_dataset <- function(dataset){
   .Deprecated("bqr_global_dataset")
-  bqr_global_dataset(...)
+  bqr_global_dataset(dataset)
 }
 
 #' Get global dataset name
@@ -118,7 +120,7 @@ bqr_get_global_dataset <- function(){
 
 #' @rdname bqr_get_global_dataset
 #' @export
-bq_get_global_dataset <- function(...){
+bq_get_global_dataset <- function(){
   .Deprecated("bqr_get_global_dataset")
-  bqr_get_global_dataset(...)
+  bqr_get_global_dataset()
 }

@@ -7,7 +7,7 @@
 \usage{
 bqr_global_dataset(dataset)
 
-bq_global_dataset(...)
+bq_global_dataset(dataset)
 }
 \arguments{
 \item{dataset}{dataset name you want this session to use by default, or a dataset object}

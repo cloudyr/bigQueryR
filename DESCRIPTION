@@ -1,6 +1,6 @@
 Package: bigQueryR
 Title: Interface with Google BigQuery with Shiny Compatibility
-Version: 0.3.2.9000
+Version: 0.4.0
 Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
                   role = c("aut", "cre")),
              person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb")
@@ -14,7 +14,7 @@ BugReports: https://github.com/cloudyr/bigQueryR/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
-    R (>= 3.2.0)
+    R (>= 3.2)
 Imports:
     googleAuthR (>= 0.6.2),
     googleCloudStorageR (>= 0.2.0),

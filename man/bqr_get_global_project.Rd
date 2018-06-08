@@ -7,7 +7,7 @@
 \usage{
 bqr_get_global_project()
 
-bq_get_global_project(...)
+bq_get_global_project()
 }
 \value{
 project name

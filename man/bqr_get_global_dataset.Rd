@@ -7,7 +7,7 @@
 \usage{
 bqr_get_global_dataset()
 
-bq_get_global_dataset(...)
+bq_get_global_dataset()
 }
 \value{
 dataset name
