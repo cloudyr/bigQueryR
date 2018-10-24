@@ -51,7 +51,7 @@ bqr_download_query <- function(query = NULL,
     full_result_path <- paste0(target_folder, "/", result_file_name, ".csv.gz")
     if (file.exists(full_result_path) & !refetch) {
       if (.Platform$OS.type == 'windows'){
-        return(data.table::fread(paste("gunzip", full_result_path)))
+        return(data.table::fread(gunzip(full_result_path),encoding='UTF-8'))
       } else {
         return(data.table::fread(paste("gunzip -c", full_result_path)))
       }
@@ -137,7 +137,7 @@ readFromStorage <- function(object_names, target_folder) {
             overwrite = TRUE
         )
         if (.Platform$OS.type == 'windows'){
-          data.table::fread(paste0("gunzip ", target_folder, "/", object))
+          data.table::fread(gunzip(paste0(target_folder, "/", object)),encoding='UTF-8')
         } else {
           data.table::fread(paste0("gunzip -c ", target_folder, "/", object))
         }
