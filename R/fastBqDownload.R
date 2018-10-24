@@ -50,7 +50,11 @@ bqr_download_query <- function(query = NULL,
 
     full_result_path <- paste0(target_folder, "/", result_file_name, ".csv.gz")
     if (file.exists(full_result_path) & !refetch) {
+      if (.Platform$OS.type == 'windows'){
+        return(data.table::fread(paste("gunzip", full_result_path)))
+      } else {
         return(data.table::fread(paste("gunzip -c", full_result_path)))
+      }
     }
 
     setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name)
@@ -132,7 +136,11 @@ readFromStorage <- function(object_names, target_folder) {
             saveToDisk = paste0(target_folder, "/", object),
             overwrite = TRUE
         )
-        data.table::fread(paste0("gunzip -c ", target_folder, "/", object))
+        if (.Platform$OS.type == 'windows'){
+          data.table::fread(paste0("gunzip ", target_folder, "/", object))
+        } else {
+          data.table::fread(paste0("gunzip -c ", target_folder, "/", object))
+        }
     })
     data.table::rbindlist(chunk_dt_list)
 }
