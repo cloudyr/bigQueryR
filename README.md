@@ -2,7 +2,7 @@
 
 ## Introduction 
 
-This is a package for interating with [BigQuery](https://cloud.google.com/bigquery/) from within R.
+This is a package for interacting with [BigQuery](https://cloud.google.com/bigquery/) from within R.
 
 See the [bigQueryR website](http://code.markedmondson.me/bigQueryR) for examples, details and tutorials. 
 
