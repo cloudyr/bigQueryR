@@ -55,6 +55,11 @@ bqr_copy_table <- function(source_tableid,
     )
   )
   
+  myMessage(sprintf("Copying table %s.%s.%s to %s.%s.%s", 
+                    source_projectid, source_datasetid, source_tableid, 
+                    destination_projectid,destination_datasetid, destination_tableid),
+            level = 3)
+  
   call_job(source_projectid, config = config)
 }
 

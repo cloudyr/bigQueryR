@@ -87,6 +87,13 @@ parse_list_datasets <- function(x){
 #' @import assertthat
 #' 
 #' @return A named list of jobs of the source datasets, with details of job started. 
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#'   bqr_copy_dataset("source_dataset", "destination_dataset")
+#' 
+#' }
 bqr_copy_dataset <- function(source_datasetid,
                              destination_datasetid,
                              source_projectid = bqr_get_global_project(),
@@ -107,6 +114,9 @@ bqr_copy_dataset <- function(source_datasetid,
   source_tables <- bqr_list_tables(source_projectid, 
                                    datasetId = source_datasetid, 
                                    maxResults = -1) 
+  
+  myMessage(sprintf("Found %s tables in %s to copy to %s", 
+                    nrow(source_tables), source_projectid, destination_datasetid), level = 3)
   
   mapply(bqr_copy_table, 
          source_tableid = source_tables$tableId,

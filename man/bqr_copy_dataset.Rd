@@ -32,3 +32,11 @@ Uses \link{bqr_copy_table} to copy all the tables in a dataset.
 \details{
 You can not copy across dataset regions (e.g. EU to US), or copy BigQuery Views.
 }
+\examples{
+
+\dontrun{
+
+  bqr_copy_dataset("source_dataset", "destination_dataset")
+
+}
+}
