@@ -1,6 +1,6 @@
 # bigQueryR 0.4.0.9000
 
-* ...
+* Support listing more than 50 datasets
 
 # bigQueryR 0.4.0
 

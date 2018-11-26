@@ -1,3 +1,10 @@
+#' Get attribute nextPageLink
+#' @noRd
+get_attr_nextpagetoken <- function(x){
+  attr(x, "nextPageToken")
+}
+
+
 #' if argument is NULL, no line output
 #'
 #' @keywords internal

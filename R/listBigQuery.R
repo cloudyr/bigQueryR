@@ -27,30 +27,44 @@
 #' }
 #' 
 #' @family bigQuery meta functions
+#' @importFrom googleAuthR gar_api_generator gar_api_page
 #' @export
 bqr_list_datasets <- function(projectId = bqr_get_global_project()){
   
   check_bq_auth()
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                      "GET",
-                                      path_args = list(projects = projectId,
-                                                       datasets = ""),
-                                      data_parse_function = function(x) {
-                                        if(!is.null(x$datasets)) {
-                                          d <- x$datasets
-                                          data.frame(datasetId = d$datasetReference$datasetId,
-                                                     id = d$id,
-                                                     projectId = d$datasetReference$projectId,
-                                                     stringsAsFactors = FALSE)
-                                        } else {
-                                          data.frame(datasetId = "**No Datasets**",
-                                                     id = "**No Datasets**",
-                                                     projectId = projectId,
-                                                     stringsAsFactors = FALSE)
-                                        }
-                                        })
-  l(list(projects = projectId))
+  l <- gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                         "GET",
+                         path_args = list(projects = projectId,
+                                          datasets = ""),
+                         pars_args = list(pageToken=""),
+                         data_parse_function = parse_list_datasets)
+  pages <- gar_api_page(l, 
+                        page_f = get_attr_nextpagetoken,
+                        page_method = "param",
+                        page_arg = "pageToken")
   
+  Reduce(rbind, pages)
+  
+}
+
+#' @import assertthat
+#' @noRd
+parse_list_datasets <- function(x){
+
+  assert_that(x$kind == "bigquery#datasetList")
+
+    if(!is.null(x$datasets)) {
+      d <- x$datasets
+      o <- data.frame(datasetId = d$datasetReference$datasetId,
+                 id = d$id,
+                 projectId = d$datasetReference$projectId,
+                 location = d$location,
+                 stringsAsFactors = FALSE)
+    } else {
+      o <- data.frame()
+    }
+  attr(o, "nextPageToken") <- x$nextPageToken
+  o
 }
 
 
