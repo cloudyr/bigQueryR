@@ -64,7 +64,7 @@ bqr_copy_table <- function(source_tableid,
 #' 
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
-#' @param maxResults Number of results to return, default \code{1000}
+#' @param maxResults Number of results to return, default \code{-1} returns all results
 #' 
 #' @return dataframe of tables in dataset
 #' 
@@ -75,46 +75,43 @@ bqr_copy_table <- function(source_tableid,
 #' }
 #' 
 #' @family bigQuery meta functions
+#' @import assertthat
+#' @importFrom googleAuthR gar_api_generator gar_api_page
 #' @export
 bqr_list_tables <- function(projectId = bqr_get_global_project(), 
                             datasetId = bqr_get_global_dataset(),
-                            maxResults = 1000){
+                            maxResults = -1){
+  
+  assert_that(is.string(projectId),
+              is.string(datasetId),
+              is.scalar(maxResults))
+  
+  # support -1 for all results
+  if(maxResults < 0){
+    maxResults=NULL
+  }
+  
+  pars <- list(maxResults = maxResults,
+               pageToken = "")
+  pars <- rmNullObs(pars)
+  
   
   check_bq_auth()
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                      "GET",
-                                      path_args = list(projects = projectId,
-                                                       datasets = datasetId,
-                                                       tables = ""),
-                                      pars_args = list(maxResults = maxResults,
-                                                       pageToken = ""),
-                                      data_parse_function = parse_bqr_list_tables)
+  l <- gar_api_generator("https://www.googleapis.com/bigquery/v2",
+                         "GET",
+                         path_args = list(projects = projectId,
+                                          datasets = datasetId,
+                                          tables = ""),
+                         pars_args = pars,
+                         data_parse_function = parse_bqr_list_tables)
   
-  req <- l()
+  pages <- gar_api_page(l, 
+                        page_f = get_attr_nextpagetoken,
+                        page_method = "param",
+                        page_arg = "pageToken")
   
-  ## if maxResults < 1000 we are in first page
-  if(nrow(req) == maxResults){
-    return(req)
-  }
-  
-  if(!is.null(attr(req, "nextPageToken"))){
-    npt <- attr(req, "nextPageToken")
-    
-    while(!is.null(npt)){
-      myMessage("Paging through results: ", npt, level = 3)
-      more_req <- l(pars_arguments = list(pageToken = npt))
-      npt <- attr(more_req, "nextPageToken")
-      req <- rbind(req, more_req)
-      
-      ## if this batch of 10000 over what we need, just return the rows we want
-      if(nrow(req) > maxResults){
-        return(req[1:maxResults,])
-      }
-    }
-    
-  }
-  
-  req
+  Reduce(rbind, pages)
+
 }
 
 parse_bqr_list_tables <- function(x) {

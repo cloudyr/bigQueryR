@@ -5,14 +5,14 @@
 \title{List BigQuery tables in a dataset}
 \usage{
 bqr_list_tables(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), maxResults = 1000)
+  datasetId = bqr_get_global_dataset(), maxResults = -1)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
 
 \item{datasetId}{A datasetId within projectId}
 
-\item{maxResults}{Number of results to return, default \code{1000}}
+\item{maxResults}{Number of results to return, default \code{-1} returns all results}
 }
 \value{
 dataframe of tables in dataset
