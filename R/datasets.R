@@ -70,7 +70,7 @@ parse_list_datasets <- function(x){
 
 #' Copy datasets
 #' 
-#' Uses \link[bqr_copy_table] to copy all the tables in a dataset.  
+#' Uses \link{bqr_copy_table} to copy all the tables in a dataset.  
 #' 
 #' @param source_datasetid source datasetId
 #' @param destination_datasetid destination datasetId
@@ -81,7 +81,7 @@ parse_list_datasets <- function(x){
 #' 
 #' @details 
 #' 
-#' You can't copy across dataset regions (e.g. EU to US), or copy BigQuery Views.
+#' You can not copy across dataset regions (e.g. EU to US), or copy BigQuery Views.
 #' 
 #' @export
 #' @import assertthat

@@ -27,8 +27,8 @@ bqr_copy_dataset(source_datasetid, destination_datasetid,
 A named list of jobs of the source datasets, with details of job started.
 }
 \description{
-Uses \link[bqr_copy_table] to copy all the tables in a dataset.
+Uses \link{bqr_copy_table} to copy all the tables in a dataset.
 }
 \details{
-You can't copy across dataset regions (e.g. EU to US), or copy BigQuery Views.
+You can not copy across dataset regions (e.g. EU to US), or copy BigQuery Views.
 }
