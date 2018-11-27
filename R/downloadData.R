@@ -67,8 +67,8 @@
 #'
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_extract_data <- function(projectId = bq_get_global_project(), 
-                             datasetId = bq_get_global_dataset(), 
+bqr_extract_data <- function(projectId = bqr_get_global_project(), 
+                             datasetId = bqr_get_global_dataset(), 
                              tableId,
                              cloudStorageBucket,
                              filename = paste0("big-query-extract-",
