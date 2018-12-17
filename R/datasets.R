@@ -78,6 +78,7 @@ parse_list_datasets <- function(x){
 #' @param destination_projectid destination table's projectId
 #' @param createDisposition Create table's behaviour
 #' @param writeDisposition Write to an existing table's behaviour
+#' @param destination_prefix A prefix appended to the destination tableIds
 #' 
 #' @details 
 #' 
@@ -99,7 +100,8 @@ bqr_copy_dataset <- function(source_datasetid,
                              source_projectid = bqr_get_global_project(),
                              destination_projectid = bqr_get_global_project(),
                              createDisposition = c("CREATE_IF_NEEDED","CREATE_NEVER"),
-                             writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY")){
+                             writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"),
+                             destination_prefix = NULL){
   
   createDisposition <- match.arg(createDisposition)
   writeDisposition <- match.arg(writeDisposition)
@@ -120,7 +122,7 @@ bqr_copy_dataset <- function(source_datasetid,
   
   mapply(bqr_copy_table, 
          source_tableid = source_tables$tableId,
-         destination_tableid = source_tables$tableId,
+         destination_tableid = paste0(destination_prefix, "_", source_tables$tableId),
          MoreArgs = list(
            source_projectid = source_projectid,
            source_datasetid = source_datasetid,
