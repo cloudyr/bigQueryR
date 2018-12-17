@@ -122,7 +122,7 @@ bqr_copy_dataset <- function(source_datasetid,
   
   mapply(bqr_copy_table, 
          source_tableid = source_tables$tableId,
-         destination_tableid = paste0(destination_prefix, "_", source_tables$tableId),
+         destination_tableid = paste0(destination_prefix, source_tables$tableId),
          MoreArgs = list(
            source_projectid = source_projectid,
            source_datasetid = source_datasetid,
