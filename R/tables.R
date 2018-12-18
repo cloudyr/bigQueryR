@@ -169,9 +169,11 @@ bqr_table_meta <- function(projectId = bqr_get_global_project(),
                                                        tables = tableId),
                                       data_parse_function = f)
   
-  l(path_arguments = list(projects = projectId, 
+  res <- l(path_arguments = list(projects = projectId, 
                           datasets = datasetId, 
                           tables = tableId))
+  
+  as.table(res)
   
 }
 
@@ -227,6 +229,8 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
 #' 
 #' If setting \code{timePartioning} to \code{TRUE} then the table will be a 
 #'   \href{partioned table}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
+#'   
+#' If you want more advanced features for the table, create it then call \link{bqr_patch_table} with advanced configuration configured from \link{Table}
 #' 
 #' @family bigQuery meta functions
 #' @export
@@ -284,6 +288,39 @@ bqr_create_table <- function(projectId = bqr_get_global_project(),
   
 }
 
+#' Update a Table
+#' 
+#' @param Table A Table object as created by \link{Table}
+#' 
+#' @description 
+#'  This uses PATCH semantics to alter an existing table.  
+#'  You need to create the Table object first to pass in using \link{Table} 
+#'which will be transformed to JSON
+#' 
+#' @export
+#' @import assertthat
+#' @importFrom googleAuthR gar_api_generator
+#' @seealso \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#resource}{Definition of tables}
+#' @family bigQuery meta functions
+bqr_patch_table <- function(Table){
+  assert_that(
+    is.table(Table)
+  )
+  
+  projectId <- Table$tableReference$projectId
+  datasetId <- Table$tableReference$datasetId
+  tableId <- Table$tableReference$tableId
+  
+  the_url <- sprintf("https://www.googleapis.com/bigquery/v2/projects/%s/datasets/%s/tables/%s",
+                     projectId, datasetId, tableId)
+  
+  call_api <- gar_api_generator(the_url, "PATCH", data_parse_function = function(x) x)
+  
+  res <- call_api(the_body = Table)
+  
+  as.table(res)
+  
+}
 
 #' Delete a Table
 #' 
@@ -326,4 +363,91 @@ bqr_delete_table <- function(projectId = bqr_get_global_project(),
   
   out
   
+}
+
+
+#' Table Object
+#' 
+#' Configure table objects as documented by 
+#' the \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables}{Google docs for Table objects}
+#' 
+#' 
+#' @param clustering [Beta] Clustering specification for the table
+#' @param description [Optional] A user-friendly description of this table
+#' @param encryptionConfiguration Custom encryption configuration (e
+#' @param expirationTime [Optional] The time when this table expires, in milliseconds since the epoch
+#' @param friendlyName [Optional] A descriptive name for this table
+#' @param labels The labels associated with this table - a named list of key = value
+#' @param materializedView [Optional] Materialized view definition
+#' @param rangePartitioning [TrustedTester] Range partitioning specification for this table
+#' @param requirePartitionFilter [Beta] [Optional] If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified
+#' @param schema [Optional] Describes the schema of this table
+#' @param tableReference [Required] Reference describing the ID of this table
+#' @param timePartitioning Time-based partitioning specification for this table
+#' @param view [Optional] The view definition
+#' 
+#' @return Table object
+#' 
+#' @details 
+#' 
+#' A table object to be used within \link{bqr_patch_table}
+#' 
+#' @family Table functions, bigQuery meta functions
+#' @export
+#' @import assertthat
+Table <- function(tableId,
+                  projectId = bqr_get_global_project(), 
+                  datasetId = bqr_get_global_dataset(), 
+                  clustering = NULL, 
+                  description = NULL, 
+                  encryptionConfiguration = NULL, 
+                  expirationTime = NULL, 
+                  friendlyName = NULL, 
+                  labels = NULL, 
+                  materializedView = NULL, 
+                  rangePartitioning = NULL, 
+                  requirePartitionFilter = NULL, 
+                  schema = NULL, 
+                  timePartitioning = NULL, 
+                  view = NULL) {
+  assert_that(
+    is.string(projectId),
+    is.string(datasetId),
+    is.string(tableId)
+    # is.string(friendlyName),
+    # is.string(description),
+    # is.list(labels),
+    # is.list(timePartitioning)
+    # is.flag(requirePartitionFilter)
+  )
+  
+  tt <- list(
+    tableReference = list(projectId = projectId,
+                          datasetId = datasetId,
+                          tableId = tableId),
+    clustering = clustering, 
+    description = description, 
+    encryptionConfiguration = encryptionConfiguration, 
+    expirationTime = expirationTime,
+    friendlyName = friendlyName, 
+    labels = labels, 
+    materializedView = materializedView, 
+    rangePartitioning = rangePartitioning, 
+    requirePartitionFilter = FALSE, 
+    schema = schema,
+    timePartitioning = timePartitioning, 
+    view = view)
+  
+  tt <- rmNullObs(tt)
+  
+  structure(tt, class = "gar_Table")
+  
+}
+
+is.table <- function(x){
+  inherits(x, "gar_Table")
+}
+
+as.table <- function(x){
+  structure(x, class = "gar_Table")
 }

@@ -32,12 +32,15 @@ Creates a BigQuery table.
 
 If setting \code{timePartioning} to \code{TRUE} then the table will be a 
   \href{partioned table}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
+  
+If you want more advanced features for the table, create it then call \link{bqr_patch_table} with advanced configuration configured from \link{Table}
 }
 \seealso{
 Other bigQuery meta functions: \code{\link{bqr_delete_table}},
   \code{\link{bqr_list_datasets}},
   \code{\link{bqr_list_projects}},
   \code{\link{bqr_list_tables}},
+  \code{\link{bqr_patch_table}},
   \code{\link{bqr_table_data}},
   \code{\link{bqr_table_meta}}
 }

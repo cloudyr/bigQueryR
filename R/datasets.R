@@ -115,8 +115,11 @@ bqr_copy_dataset <- function(source_datasetid,
                                    datasetId = source_datasetid, 
                                    maxResults = -1) 
   
-  myMessage(sprintf("Found %s tables in %s to copy to %s", 
-                    nrow(source_tables), source_projectid, destination_datasetid), level = 3)
+  myMessage(sprintf("Found %s tables in %s.%s to copy to %s.%s", 
+                    nrow(source_tables), 
+                    source_projectid, source_datasetid, 
+                    destination_projectid, destination_datasetid), 
+            level = 3)
   
   mapply(bqr_copy_table, 
          source_tableid = source_tables$tableId,

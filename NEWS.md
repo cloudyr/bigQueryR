@@ -3,6 +3,7 @@
 * Support listing more than 50 datasets in `bqr_list_dataset`
 * Change `bqr_list_tables` to list all tables in a dataset by default
 * Add `bqr_copy_dataset`
+* Add `Table` and `bqr_update_table`
 
 # bigQueryR 0.4.0
 
