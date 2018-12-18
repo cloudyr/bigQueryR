@@ -8,7 +8,8 @@ bqr_copy_dataset(source_datasetid, destination_datasetid,
   source_projectid = bqr_get_global_project(),
   destination_projectid = bqr_get_global_project(),
   createDisposition = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
-  writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"))
+  writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"),
+  destination_prefix = NULL)
 }
 \arguments{
 \item{source_datasetid}{source datasetId}
@@ -22,6 +23,8 @@ bqr_copy_dataset(source_datasetid, destination_datasetid,
 \item{createDisposition}{Create table's behaviour}
 
 \item{writeDisposition}{Write to an existing table's behaviour}
+
+\item{destination_prefix}{A prefix appended to the destination tableIds}
 }
 \value{
 A named list of jobs of the source datasets, with details of job started.

@@ -67,8 +67,8 @@
 #'
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_extract_data <- function(projectId = bq_get_global_project(), 
-                             datasetId = bq_get_global_dataset(), 
+bqr_extract_data <- function(projectId = bqr_get_global_project(), 
+                             datasetId = bqr_get_global_dataset(), 
                              tableId,
                              cloudStorageBucket,
                              filename = paste0("big-query-extract-",
@@ -136,7 +136,8 @@ bqr_extract_data <- function(projectId = bq_get_global_project(),
                the_body = config)
   
   if(req$status_code == 200){
-    myMessage("Extract request successful, use bqr_wait_for_job() to know when it is ready.", level=3)
+    myMessage("Extract request successful, use bqr_wait_for_job() to know when it is ready.", 
+              level=3)
     out <- as.job(req$content)
   } else {
     stop("Error in extraction job")
