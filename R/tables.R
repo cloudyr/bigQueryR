@@ -311,6 +311,8 @@ bqr_patch_table <- function(Table){
   datasetId <- Table$tableReference$datasetId
   tableId <- Table$tableReference$tableId
   
+  myMessage("Patching ", tableId, level = 3)
+  
   the_url <- sprintf("https://www.googleapis.com/bigquery/v2/projects/%s/datasets/%s/tables/%s",
                      projectId, datasetId, tableId)
   
