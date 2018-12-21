@@ -435,7 +435,7 @@ Table <- function(tableId,
     labels = labels, 
     materializedView = materializedView, 
     rangePartitioning = rangePartitioning, 
-    requirePartitionFilter = FALSE, 
+    requirePartitionFilter = NULL, 
     schema = schema,
     timePartitioning = timePartitioning, 
     view = view)
