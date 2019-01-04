@@ -62,7 +62,15 @@
 #'  ## a quick way to do this on the command line is:
 #'  # "head bigfile.csv > head_bigfile.csv"
 #' 
-#' 
+#' ## upload nested lists as JSON
+#' the_list <- list(list(col1 = "yes", col2 = "no", col3 = list(nest1 = 1, nest2 = 3), col4 = "oh"),
+#'                  list(col1 = "yes2", col2 = "n2o", col3 = list(nest1 = 5, nest2 = 7), col4 = "oh2"), 
+#'                  list(col1 = "yes3", col2 = "no3", col3 = list(nest1 = 7, nest2 = 55), col4 = "oh3"))
+#'    
+#' bqr_upload_data(datasetId = "test", 
+#'                 tableId = "nested_list_json", 
+#'                 upload_data = the_list, 
+#'                 autodetect = TRUE)
 #' 
 #' }
 #' 
@@ -108,6 +116,8 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
     if(is.null(schema) && !autodetect){
       stop("Must supply a data schema or use autodetect if loading from Google Cloud Storage - see ?schema_fields")
     }
+  } else if(inherits(upload_data, "list")){
+    myMessage("Uploading local list as JSON", level = 3)
   }
   
   if(overwrite){
@@ -152,6 +162,72 @@ bqr_do_upload <- function(upload_data,
                           fieldDelimiter){
   check_bq_auth()
   UseMethod("bqr_do_upload", upload_data)
+}
+
+bqr_do_upload.list <- function(upload_data, 
+                               projectId, 
+                               datasetId, 
+                               tableId,
+                               create,
+                               user_schema,
+                               sourceFormat, # not used
+                               wait,
+                               autodetect,
+                               nullMarker,
+                               maxBadRecords,
+                               allowJaggedRows,
+                               allowQuotedNewlines,
+                               fieldDelimiter){ 
+  
+  # how to create schema for json? 
+  # if(!is.null(user_schema)){
+  #   schema <- user_schema
+  # } else {
+  #   schema <- schema_fields(upload_data)
+  # }
+  
+  if(autodetect){
+    schema <- NULL
+  } else {
+    schema <- list(
+      fields = schema
+    )
+  }
+  
+  config <- list(
+    configuration = list(
+      load = list(
+        nullMarker = nullMarker,
+        maxBadRecords = maxBadRecords,
+        sourceFormat = "NEWLINE_DELIMITED_JSON",
+        createDisposition = jsonlite::unbox(create),
+        schema = schema,
+        destinationTable = list(
+          projectId = projectId,
+          datasetId = datasetId,
+          tableId = tableId
+        ),
+        autodetect = autodetect,
+        allowJaggedRows = allowJaggedRows,
+        allowQuotedNewlines = allowQuotedNewlines
+      )
+    )
+  )
+  
+  config <- rmNullObs(config)
+  
+  the_json <- paste(lapply(upload_data, jsonlite::toJSON, auto_unbox = TRUE),
+                    sep = "\n", collapse = "\n")
+  
+  mp_body <- make_body(config, obj = the_json)
+  
+  req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId)
+  
+  out <- check_req(req, wait = wait)
+  
+  out 
+  
+   
 }
 
 # upload for local data.fram
@@ -199,11 +275,41 @@ bqr_do_upload.data.frame <- function(upload_data,
     )
   )
   
+  config <- rmNullObs(config)
+  
   csv <- standard_csv(upload_data)
   
+  mp_body <- make_body(config, obj = csv)
+  
+  req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId)
+  
+  out <- check_req(req, wait = wait)
+  
+  out
+}
+
+do_obj_req <- function(mp_body, projectId, datasetId, tableId) {
+  l <- 
+    googleAuthR::gar_api_generator("https://www.googleapis.com/upload/bigquery/v2",
+                                   "POST",
+                                   path_args = list(projects = projectId,
+                                                    jobs = ""),
+                                   pars_args = list(uploadType="multipart"),
+                                   customConfig = list(
+                                     httr::add_headers("Content-Type" = "multipart/related; boundary=bqr_upload"),
+                                     httr::add_headers("Content-Length" = nchar(mp_body, type = "bytes"))
+                                   )
+    )
+  
+  l(path_arguments = list(projects = projectId, 
+                          datasets = datasetId,
+                          tableId = tableId),
+    the_body = mp_body)
+}
+
+make_body <- function(config, obj) {
   boundary <- "--bqr_upload"
   line_break <- "\r\n"
-  
   mp_body_schema <- paste(boundary,
                           "Content-Type: application/json; charset=UTF-8",
                           line_break,
@@ -218,27 +324,14 @@ bqr_do_upload.data.frame <- function(upload_data,
                          "Content-Type: application/octet-stream",
                          line_break,
                          line_break,
-                         csv)
-  mp_body <- paste(mp_body_schema, mp_body_data, 
+                         obj)
+  
+  paste(mp_body_schema, mp_body_data, 
                    paste0(boundary, "--"), sep = "\r\n")
-  
-  l <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/upload/bigquery/v2",
-                                   "POST",
-                                   path_args = list(projects = projectId,
-                                                    jobs = ""),
-                                   pars_args = list(uploadType="multipart"),
-                                   customConfig = list(
-                                     httr::add_headers("Content-Type" = "multipart/related; boundary=bqr_upload"),
-                                     httr::add_headers("Content-Length" = nchar(mp_body, type = "bytes"))
-                                   )
-    )
-  
-  req <- l(path_arguments = list(projects = projectId, 
-                          datasets = datasetId,
-                          tableId = tableId),
-    the_body = mp_body)
-  
+}
+
+
+check_req <- function(req, wait) {
   if(!is.null(req$content$status$errorResult)){
     stop("Error in upload job: ", req$status$errors$message)
   } else {
@@ -257,7 +350,7 @@ bqr_do_upload.data.frame <- function(upload_data,
         out <- bqr_get_job(req$content$jobReference$jobId, 
                            projectId = req$content$jobReference$projectId)
       }
-
+      
     } else {
       stop("Upload table didn't return bqr_job object when it should have.")
     }

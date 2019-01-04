@@ -4,6 +4,7 @@
 * Change `bqr_list_tables` to list all tables in a dataset by default
 * Add `bqr_copy_dataset`
 * Add `Table` and `bqr_update_table`
+* Support uploading nested lists via `toJSON`
 
 # bigQueryR 0.4.0
 
