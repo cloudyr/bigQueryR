@@ -5,7 +5,7 @@
 #' @param tableId ID of table where data will end up.
 #' @param upload_data The data to upload, a data.frame object or a Google Cloud Storage URI
 #' @param create Whether to create a new table if necessary, or error if it already exists.
-#' @param overwrite If TRUE will delete any existing table and upload new data.
+#' @param writeDisposition How to add the data to a table.
 #' @param schema If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample
 #' @param sourceFormat If \code{upload_data} is a Google Cloud Storage URI, supply the data format.  Default is \code{CSV}
 #' @param wait If uploading a data.frame, whether to wait for it to upload before returning
@@ -82,7 +82,7 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                             tableId, 
                             upload_data, 
                             create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
-                            overwrite = FALSE,
+                            writeDisposition = c("WRITE_TRUNCATE","WRITE_APPEND","WRITE_EMPTY"),
                             schema = NULL,
                             sourceFormat = c("CSV", "DATASTORE_BACKUP", 
                                              "NEWLINE_DELIMITED_JSON","AVRO"),
@@ -98,7 +98,6 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
   assert_that(is.string(projectId),
               is.string(datasetId),
               is.string(tableId),
-              is.flag(overwrite),
               is.flag(wait),
               is.flag(allowJaggedRows),
               is.flag(allowQuotedNewlines),
@@ -106,6 +105,7 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
               is.string(fieldDelimiter))
   sourceFormat <- match.arg(sourceFormat)
   create <- match.arg(create)
+  writeDisposition <- match.arg(writeDisposition)
   
   if(inherits(upload_data, "data.frame")){
     myMessage("Uploading local data.frame", level = 3)
@@ -120,19 +120,12 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
     myMessage("Uploading local list as JSON", level = 3)
   }
   
-  if(overwrite){
-    deleted <- bqr_delete_table(projectId = projectId,
-                                datasetId = datasetId,
-                                tableId = tableId)
-    
-    if(!deleted) stop("Couldn't delete table")
-  }
-  
   bqr_do_upload(upload_data = upload_data, 
                 projectId = projectId,
                 datasetId = datasetId,
                 tableId = tableId,
                 create = create,
+                writeDisposition = writeDisposition,
                 user_schema = schema,
                 sourceFormat = sourceFormat,
                 wait = wait,
@@ -151,6 +144,7 @@ bqr_do_upload <- function(upload_data,
                           datasetId, 
                           tableId,
                           create,
+                          writeDisposition,
                           user_schema,
                           sourceFormat,
                           wait,
@@ -169,6 +163,7 @@ bqr_do_upload.list <- function(upload_data,
                                datasetId, 
                                tableId,
                                create,
+                               writeDisposition,
                                user_schema,
                                sourceFormat, # not used
                                wait,
@@ -201,6 +196,7 @@ bqr_do_upload.list <- function(upload_data,
         maxBadRecords = maxBadRecords,
         sourceFormat = "NEWLINE_DELIMITED_JSON",
         createDisposition = jsonlite::unbox(create),
+        writeDisposition = jsonlite::unbox(writeDisposition),
         schema = schema,
         destinationTable = list(
           projectId = projectId,
@@ -216,7 +212,7 @@ bqr_do_upload.list <- function(upload_data,
   
   config <- rmNullObs(config)
   
-  the_json <- paste(lapply(upload_data, jsonlite::toJSON, auto_unbox = TRUE),
+  the_json <- paste(lapply(upload_data, jsonlite::toJSON),
                     sep = "\n", collapse = "\n")
   
   mp_body <- make_body(config, obj = the_json)
@@ -236,6 +232,7 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      datasetId, 
                                      tableId,
                                      create,
+                                     writeDisposition,
                                      user_schema,
                                      sourceFormat, # not used
                                      wait,
@@ -260,6 +257,7 @@ bqr_do_upload.data.frame <- function(upload_data,
         maxBadRecords = maxBadRecords,
         sourceFormat = "CSV",
         createDisposition = jsonlite::unbox(create),
+        writeDisposition = jsonlite::unbox(writeDisposition),
         schema = list(
           fields = schema
         ),
@@ -369,6 +367,7 @@ bqr_do_upload.character <- function(upload_data,
                                     datasetId, 
                                     tableId,
                                     create,
+                                    writeDisposition,
                                     user_schema,
                                     sourceFormat,
                                     wait, # not used
@@ -393,6 +392,7 @@ bqr_do_upload.character <- function(upload_data,
         maxBadRecords = maxBadRecords,
         sourceFormat = sourceFormat,
         createDisposition = jsonlite::unbox(create),
+        writeDisposition = jsonlite::unbox(writeDisposition),
         sourceUris = source_uri,
         destinationTable = list(
           projectId = projectId,
@@ -416,6 +416,7 @@ bqr_do_upload.character <- function(upload_data,
           maxBadRecords = maxBadRecords,
           sourceFormat = sourceFormat,
           createDisposition = jsonlite::unbox(create),
+          writeDisposition = jsonlite::unbox(writeDisposition),
           sourceUris = source_uri,
           schema = list(
              fields = user_schema
@@ -432,6 +433,8 @@ bqr_do_upload.character <- function(upload_data,
       )
     )
   }
+  
+  config <- rmNullObs(config)
   
   l <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",

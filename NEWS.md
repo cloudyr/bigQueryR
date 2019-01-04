@@ -5,6 +5,7 @@
 * Add `bqr_copy_dataset`
 * Add `Table` and `bqr_update_table`
 * Support uploading nested lists via `toJSON`
+* Add writeDisposition to table loads
 
 # bigQueryR 0.4.0
 

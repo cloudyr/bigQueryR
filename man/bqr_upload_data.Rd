@@ -6,7 +6,8 @@
 \usage{
 bqr_upload_data(projectId = bqr_get_global_project(),
   datasetId = bqr_get_global_dataset(), tableId, upload_data,
-  create = c("CREATE_IF_NEEDED", "CREATE_NEVER"), overwrite = FALSE,
+  create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
+  writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"),
   schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
   "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE,
   nullMarker = NULL, maxBadRecords = NULL, allowJaggedRows = FALSE,
@@ -23,7 +24,7 @@ bqr_upload_data(projectId = bqr_get_global_project(),
 
 \item{create}{Whether to create a new table if necessary, or error if it already exists.}
 
-\item{overwrite}{If TRUE will delete any existing table and upload new data.}
+\item{writeDisposition}{How to add the data to a table.}
 
 \item{schema}{If \code{upload_data} is a Google Cloud Storage URI, supply the data schema.  For \code{CSV} a helper function is available by using \link{schema_fields} on a data sample}
 
