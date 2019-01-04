@@ -217,7 +217,7 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
 #' @param projectId The BigQuery project ID.
 #' @param datasetId A datasetId within projectId.
 #' @param tableId Name of table you want.
-#' @param template_data A dataframe with the correct types of data
+#' @param template_data A dataframe with the correct types of data. If \code{NULL} an empty table is made.
 #' @param timePartitioning Whether to create a partioned table
 #' @param expirationMs If a partioned table, whether to have an expiration time on the data. The default \code{0} is no expiration.
 #' 
@@ -237,7 +237,7 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
 bqr_create_table <- function(projectId = bqr_get_global_project(), 
                              datasetId = bqr_get_global_dataset(), 
                              tableId, 
-                             template_data,
+                             template_data = NULL,
                              timePartitioning = FALSE,
                              expirationMs = 0L){
   check_bq_auth()
@@ -254,10 +254,16 @@ bqr_create_table <- function(projectId = bqr_get_global_project(),
     timeP <- list(type = "DAY", expirationMs = expirationMs)
   }
   
+  if(!is.null(template_data)){
+    schema <- list(
+      fields = schema_fields(template_data)
+    )
+  } else {
+    schema <- NULL
+  }
+  
   config <- list(
-        schema = list(
-          fields = schema_fields(template_data)
-        ),
+        schema = schema,
         tableReference = list(
           projectId = projectId,
           datasetId = datasetId,

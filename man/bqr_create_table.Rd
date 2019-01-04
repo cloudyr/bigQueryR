@@ -5,7 +5,7 @@
 \title{Create a Table}
 \usage{
 bqr_create_table(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), tableId, template_data,
+  datasetId = bqr_get_global_dataset(), tableId, template_data = NULL,
   timePartitioning = FALSE, expirationMs = 0L)
 }
 \arguments{
@@ -15,7 +15,7 @@ bqr_create_table(projectId = bqr_get_global_project(),
 
 \item{tableId}{Name of table you want.}
 
-\item{template_data}{A dataframe with the correct types of data}
+\item{template_data}{A dataframe with the correct types of data. If \code{NULL} an empty table is made.}
 
 \item{timePartitioning}{Whether to create a partioned table}
 
