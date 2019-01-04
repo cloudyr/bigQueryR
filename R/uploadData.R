@@ -190,7 +190,7 @@ bqr_do_upload.list <- function(upload_data,
     schema <- NULL
   } else {
     schema <- list(
-      fields = schema
+      fields = user_schema
     )
   }
   
