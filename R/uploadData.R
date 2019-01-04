@@ -342,7 +342,7 @@ check_req <- function(req, wait) {
       if(wait){
         out <- bqr_wait_for_job(as.job(req$content))
       } else {
-        myMessage("Returning: BigQuery load of local data.frame Job object: ", 
+        myMessage("Returning: BigQuery load of local uploaded Job object: ", 
                   req$content$jobReference$jobId, level = 3)
         
         out <- bqr_get_job(req$content$jobReference$jobId, 
