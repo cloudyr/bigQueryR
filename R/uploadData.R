@@ -92,7 +92,7 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                             maxBadRecords = NULL,
                             allowJaggedRows = FALSE,
                             allowQuotedNewlines = FALSE,
-                            fieldDelimiter = ","){
+                            fieldDelimiter = NULL){
   
 
   assert_that(is.string(projectId),
@@ -101,8 +101,7 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
               is.flag(wait),
               is.flag(allowJaggedRows),
               is.flag(allowQuotedNewlines),
-              is.flag(autodetect),
-              is.string(fieldDelimiter))
+              is.flag(autodetect))
   sourceFormat <- match.arg(sourceFormat)
   create <- match.arg(create)
   writeDisposition <- match.arg(writeDisposition)
@@ -242,6 +241,10 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      allowJaggedRows,
                                      allowQuotedNewlines,
                                      fieldDelimiter){ 
+  
+  assert_that(
+    is.string(fieldDelimiter)
+  )  
   
   if(!is.null(user_schema)){
     schema <- user_schema
