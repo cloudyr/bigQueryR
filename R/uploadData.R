@@ -106,18 +106,7 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
   create <- match.arg(create)
   writeDisposition <- match.arg(writeDisposition)
   
-  if(inherits(upload_data, "data.frame")){
-    myMessage("Uploading local data.frame", level = 3)
-  } else if(inherits(upload_data, "character")){
-    myMessage("Uploading from Google Cloud Storage URI", level = 3)
-    stopifnot(all(grepl("^gs://", upload_data)))
-    
-    if(is.null(schema) && !autodetect){
-      stop("Must supply a data schema or use autodetect if loading from Google Cloud Storage - see ?schema_fields")
-    }
-  } else if(inherits(upload_data, "list")){
-    myMessage("Uploading local list as JSON", level = 3)
-  }
+
   
   bqr_do_upload(upload_data = upload_data, 
                 projectId = projectId,
@@ -172,6 +161,8 @@ bqr_do_upload.list <- function(upload_data,
                                allowJaggedRows,
                                allowQuotedNewlines,
                                fieldDelimiter){ 
+  
+  myMessage("Uploading local list as JSON", level = 3)
   
   # how to create schema for json? 
   # if(!is.null(user_schema)){
@@ -242,9 +233,12 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      allowQuotedNewlines,
                                      fieldDelimiter){ 
   
-  assert_that(
-    is.string(fieldDelimiter)
-  )  
+  myMessage("Uploading local data.frame", level = 3)
+  
+  if(is.null(fieldDelimiter)){
+    # default to ","
+    fieldDelimiter <- ","
+  }
   
   if(!is.null(user_schema)){
     schema <- user_schema
@@ -381,10 +375,15 @@ bqr_do_upload.character <- function(upload_data,
                                     allowQuotedNewlines,
                                     fieldDelimiter){
   
-  if(length(upload_data) > 1){
-    source_uri <- upload_data
-  } else {
-    source_uri <- list(upload_data)
+  myMessage("Uploading from Google Cloud Storage URI", level = 3)
+  
+  assert_that(
+    all(startsWith(upload_data, "gs://"))
+  )
+    
+  if(is.null(schema) && !autodetect){
+    stop("Must supply a data schema or use autodetect if loading from Google Cloud Storage - see ?schema_fields",
+         call. = FALSE)
   }
   
   config <- list(
