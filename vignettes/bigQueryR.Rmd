@@ -59,17 +59,17 @@ bqr_auth(new_user=TRUE)
 ## get projects
 projects <- bqr_list_projects()
   
-my_project <- projects[1]
+my_project <- projects$id[1]
   
 ## for first project, get datasets
-datasets <- bqr_list_datasets[my_project]
+datasets <- bqr_list_datasets(my_project)
 
-my_dataset <- datasets[1]
+my_dataset <- datasets$datasetId[1]
 ## list tables
-my_table <- bqr_list_tables(my_project, my_dataset)
+my_tables <- bqr_list_tables(my_project, my_dataset)
 
 ## get metadata for table
-meta_table <- bqr_table_meta(my_project, my_dataset, my_table)
+meta_table <- bqr_table_meta(my_project, my_dataset, my_table$tableId[1])
 
 ```
 
@@ -78,7 +78,7 @@ meta_table <- bqr_table_meta(my_project, my_dataset, my_table)
 You can pass in queries that have results under ~ 100000 rows using this command:
 
 ```r
-bqr_query("big-query-r","samples",
+bqr_query(my_project,"samples",
           "SELECT COUNT(repository.url) FROM [publicdata:samples.github_nested]")
 ```
 
