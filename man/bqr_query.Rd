@@ -13,7 +13,7 @@ bqr_query(projectId = bqr_get_global_project(),
 
 \item{datasetId}{A datasetId within projectId}
 
-\item{query}{BigQuery SQL}
+\item{query}{BigQuery SQL.  You can also supply a file location of your query ending with \code{.sql}}
 
 \item{maxResults}{Max number per page of results. Set total rows with LIMIT in your query.}
 

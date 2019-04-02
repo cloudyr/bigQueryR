@@ -14,7 +14,7 @@ BugReports: https://github.com/cloudyr/bigQueryR/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
-    R (>= 3.2)
+    R (>= 3.3)
 Imports:
     googleAuthR (>= 0.7.0),
     googleCloudStorageR (>= 0.2.0),

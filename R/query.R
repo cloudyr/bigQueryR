@@ -2,7 +2,7 @@
 #' 
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
-#' @param query BigQuery SQL
+#' @param query BigQuery SQL.  You can also supply a file location of your query ending with \code{.sql}
 #' @param maxResults Max number per page of results. Set total rows with LIMIT in your query.
 #' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
 #' @param useQueryCache Whether to use the query cache. Default TRUE, set to FALSE for realtime queries. 
@@ -37,6 +37,11 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                       useLegacySql = TRUE, 
                       useQueryCache = TRUE){
   check_bq_auth()
+  
+  if(endsWith(query, ".sql")){
+    query <- readChar(query, nchars = file.info(query)$size)
+  }
+  
   maxResults <- as.numeric(maxResults)
   if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
   

@@ -7,6 +7,7 @@
 * Support uploading nested lists via `toJSON`
 * Add writeDisposition to table loads
 * Allow creation of empty tables
+* Supporting supplying SQL via a file ending with `.sql` for `bqr_query()`
 
 # bigQueryR 0.4.0
 
