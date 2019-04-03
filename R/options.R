@@ -28,8 +28,7 @@
                                                    environment_var = "BQ_AUTH_FILE"))
   
   if(inherits(attempt, "try-error")){
-    warning("Problem using auto-authentication when loading from BQ_AUTH_FILE.  
-            Run googleAuthR::gar_auth() or googleAuthR::gar_auth_service() instead.")
+    warning("Problem using auto-authentication when loading from BQ_AUTH_FILE.")
   }
   
   if(Sys.getenv("BQ_CLIENT_ID") != ""){
