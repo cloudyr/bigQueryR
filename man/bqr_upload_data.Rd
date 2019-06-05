@@ -107,3 +107,4 @@ bqr_upload_data(datasetId = "test",
 \seealso{
 url{https://cloud.google.com/bigquery/loading-data-post-request}
 }
+\concept{bigQuery upload functions}

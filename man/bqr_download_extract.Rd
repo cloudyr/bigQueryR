@@ -27,3 +27,4 @@ Other BigQuery asynch query functions: \code{\link{bqr_extract_data}},
   \code{\link{bqr_query_asynch}},
   \code{\link{bqr_wait_for_job}}
 }
+\concept{BigQuery asynch query functions}

@@ -25,3 +25,4 @@ supply the project argument to other API calls.
 \seealso{
 Other project functions: \code{\link{bqr_get_global_project}}
 }
+\concept{project functions}

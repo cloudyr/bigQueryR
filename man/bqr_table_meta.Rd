@@ -37,3 +37,4 @@ Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_patch_table}},
   \code{\link{bqr_table_data}}
 }
+\concept{bigQuery meta functions}

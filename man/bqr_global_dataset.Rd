@@ -25,3 +25,4 @@ supply the dataset argument to other API calls.
 \seealso{
 Other dataset functions: \code{\link{bqr_get_global_dataset}}
 }
+\concept{dataset functions}

@@ -25,3 +25,4 @@ Other bigQuery meta functions: \code{\link{bqr_create_table}},
   \code{\link{bqr_table_data}},
   \code{\link{bqr_table_meta}}
 }
+\concept{bigQuery meta functions}

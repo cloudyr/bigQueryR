@@ -6,8 +6,8 @@
 \usage{
 bqr_query_asynch(projectId = bqr_get_global_project(),
   datasetId = bqr_get_global_dataset(), query, destinationTableId,
-  useLegacySql = TRUE, writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE",
-  "WRITE_APPEND"))
+  useLegacySql = TRUE, writeDisposition = c("WRITE_EMPTY",
+  "WRITE_TRUNCATE", "WRITE_APPEND"))
 }
 \arguments{
 \item{projectId}{projectId to be billed.}
@@ -100,3 +100,4 @@ Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
   \code{\link{bqr_grant_extract_access}},
   \code{\link{bqr_wait_for_job}}
 }
+\concept{BigQuery asynch query functions}

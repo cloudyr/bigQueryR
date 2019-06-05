@@ -9,8 +9,8 @@ Table(tableId, projectId = bqr_get_global_project(),
   description = NULL, encryptionConfiguration = NULL,
   expirationTime = NULL, friendlyName = NULL, labels = NULL,
   materializedView = NULL, rangePartitioning = NULL,
-  requirePartitionFilter = NULL, schema = NULL, timePartitioning = NULL,
-  view = NULL)
+  requirePartitionFilter = NULL, schema = NULL,
+  timePartitioning = NULL, view = NULL)
 }
 \arguments{
 \item{clustering}{[Beta] Clustering specification for the table}
@@ -49,3 +49,4 @@ the \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables}{Googl
 \details{
 A table object to be used within \link{bqr_patch_table}
 }
+\concept{Table functions, bigQuery meta functions}
