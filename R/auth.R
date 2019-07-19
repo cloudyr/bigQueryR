@@ -3,13 +3,11 @@ check_bq_auth <- function(){
   cloud_scopes <- c("https://www.googleapis.com/auth/cloud-platform",
                     "https://www.googleapis.com/auth/bigquery")
   
-  if(!any(getOption("googleAuthR.scopes.selected") %in% cloud_scopes)){
-    stop("Not authenticated with Google BigQuery.  Needs to be one of ", 
+  if(!getOption("googleAuthR.scopes.selected") %in% cloud_scopes){
+    stop("Scopes not adequete for Google BigQuery.  Needs to be one of ", 
          paste(cloud_scopes, collapse = " "))
-    current_op <- getOption("googleAuthR.verbose")
-    options(googleAuthR.verbose = 2)
-    googleAuthR::gar_token_info()
-    options(googleAuthR.verbose = current_op)
+    googleAuthR::gar_token_info(2)
+
   }
 }
 
