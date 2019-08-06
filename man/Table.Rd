@@ -13,6 +13,12 @@ Table(tableId, projectId = bqr_get_global_project(),
   timePartitioning = NULL, view = NULL)
 }
 \arguments{
+\item{tableId}{tableId}
+
+\item{projectId}{projectId}
+
+\item{datasetId}{datasetId}
+
 \item{clustering}{[Beta] Clustering specification for the table}
 
 \item{description}{[Optional] A user-friendly description of this table}
@@ -36,8 +42,6 @@ Table(tableId, projectId = bqr_get_global_project(),
 \item{timePartitioning}{Time-based partitioning specification for this table}
 
 \item{view}{[Optional] The view definition}
-
-\item{tableReference}{[Required] Reference describing the ID of this table}
 }
 \value{
 Table object
