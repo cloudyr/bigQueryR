@@ -254,6 +254,11 @@ bqr_do_upload.data.frame <- function(upload_data,
     )
   }
   
+  if(autodetect){
+    warning("autodetect=TRUE is set to FALSE for data.frame uploads 
+            as the schema is inferred from the data.frame's column class")
+  }
+  
   config <- list(
     configuration = list(
       load = list(
@@ -269,7 +274,7 @@ bqr_do_upload.data.frame <- function(upload_data,
           datasetId = datasetId,
           tableId = tableId
         ),
-        autodetect = autodetect,
+        autodetect = FALSE,
         allowJaggedRows = allowJaggedRows,
         allowQuotedNewlines = allowQuotedNewlines
       )
