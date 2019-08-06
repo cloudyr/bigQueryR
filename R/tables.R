@@ -379,7 +379,9 @@ bqr_delete_table <- function(projectId = bqr_get_global_project(),
 #' Configure table objects as documented by 
 #' the \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables}{Google docs for Table objects}
 #' 
-#' 
+#' @param tableId tableId 
+#' @param projectId projectId
+#' @param datasetId datasetId
 #' @param clustering [Beta] Clustering specification for the table
 #' @param description [Optional] A user-friendly description of this table
 #' @param encryptionConfiguration Custom encryption configuration (e
@@ -390,7 +392,6 @@ bqr_delete_table <- function(projectId = bqr_get_global_project(),
 #' @param rangePartitioning [TrustedTester] Range partitioning specification for this table
 #' @param requirePartitionFilter [Beta] [Optional] If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified
 #' @param schema [Optional] Describes the schema of this table
-#' @param tableReference [Required] Reference describing the ID of this table
 #' @param timePartitioning Time-based partitioning specification for this table
 #' @param view [Optional] The view definition
 #' 
