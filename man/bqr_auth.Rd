@@ -4,14 +4,15 @@
 \alias{bqr_auth}
 \title{Authenticate this session}
 \usage{
-bqr_auth(token = NULL, email = NULL)
+bqr_auth(json_file = NULL, token = NULL,
+  email = Sys.getenv("GARGLE_EMAIL"))
 }
 \arguments{
+\item{json_file}{Authentication json file you have downloaded from your Google Project}
+
 \item{token}{A preexisting token to authenticate with}
 
-\item{new_user}{If TRUE, reauthenticate via Google login screen}
-
-\item{no_auto}{Will ignore auto-authentication settings if TRUE
+\item{email}{A Google email to authenticate with
 
 If you have set the environment variable \code{BQ_AUTH_FILE} to a valid file location,
   the function will look there for authentication details.
@@ -27,7 +28,7 @@ If \code{BQ_AUTH_FILE} is specified, then authentication will be called upon loa
 Invisibly, the token that has been saved to the session
 }
 \description{
-A wrapper for \link[googleAuthR]{gar_auth}
+Autheticate manually via email or service JSON file
 }
 \examples{
 
@@ -35,7 +36,10 @@ A wrapper for \link[googleAuthR]{gar_auth}
 
 # to use default package credentials (for testing)
 library(bigQueryR)
-bqr_auth()
+bqr_auth("location_of_json_file.json")
+
+# or via email
+bqr_auth(email="me@work.com")
 
 # to use your own Google Cloud Project credentials
 # go to GCP console and download client credentials JSON 
