@@ -16,7 +16,7 @@ LazyData: TRUE
 Depends:
     R (>= 3.3)
 Imports:
-    googleAuthR (>= 0.7.0),
+    googleAuthR (>= 1.1.1),
     googleCloudStorageR (>= 0.2.0),
     jsonlite (>= 1.0),
     httr (>= 1.2.1),

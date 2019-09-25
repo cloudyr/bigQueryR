@@ -35,7 +35,7 @@ library(bigQueryR)
 bqr_auth()
 
 ## verify under a new user
-bqr_auth(new_user=TRUE)
+bqr_auth(email="me@work.com")
 ```
 
 If you are authenticating under several APIs via `googleAuthR`then use `gar_auth()` instead with the appropriate scopes set.
@@ -52,9 +52,6 @@ library(bigQueryR)
 ## this will open your browser
 ## Authenticate with an email that has access to the BigQuery project you need
 bqr_auth()
-  
-## verify under a new user
-bqr_auth(new_user=TRUE)
   
 ## get projects
 projects <- bqr_list_projects()

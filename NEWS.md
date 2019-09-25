@@ -8,6 +8,7 @@
 * Add writeDisposition to table loads
 * Allow creation of empty tables
 * Supporting supplying SQL via a file ending with `.sql` for `bqr_query()`
+* Update to new `googleAuthR>1.1.1`
 
 # bigQueryR 0.4.0
 

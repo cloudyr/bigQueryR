@@ -24,28 +24,15 @@
 
 .onAttach <- function(libname, pkgname){
   
-  attempt <- try(googleAuthR::gar_attach_auto_auth("https://www.googleapis.com/auth/cloud-platform",
-                                                   environment_var = "BQ_AUTH_FILE"))
-  
-  if(inherits(attempt, "try-error")){
-    warning("Problem using auto-authentication when loading from BQ_AUTH_FILE.")
+  if(Sys.getenv("GAR_CLIENT_JSON") != ""){
+    googleAuthR::gar_set_client(json = Sys.getenv("GAR_CLIENT_JSON"))
   }
   
-  if(Sys.getenv("BQ_CLIENT_ID") != ""){
-    options(googleAuthR.client_id = Sys.getenv("BQ_CLIENT_ID"))
-  }
+  needed <- c("https://www.googleapis.com/auth/cloud-platform",
+              "https://www.googleapis.com/auth/bigquery")
   
-  if(Sys.getenv("BQ_CLIENT_SECRET") != ""){
-    options(googleAuthR.client_secret = Sys.getenv("BQ_CLIENT_SECRET"))
-  }
-  
-  if(Sys.getenv("BQ_WEB_CLIENT_ID") != ""){
-    options(googleAuthR.webapp.client_id = Sys.getenv("BQ_WEB_CLIENT_ID"))
-  }
-  
-  if(Sys.getenv("BQ_WEB_CLIENT_SECRET") != ""){
-    options(googleAuthR.webapp.client_id = Sys.getenv("BQ_WEB_CLIENT_SECRET"))
-  }
+  googleAuthR::gar_attach_auto_auth(needed,
+                                    environment_var = "BQ_AUTH_FILE")
   
   if(Sys.getenv("BQ_DEFAULT_PROJECT_ID") != ""){
     .bqr_env$project <- Sys.getenv("BQ_DEFAULT_PROJECT_ID")
