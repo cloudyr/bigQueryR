@@ -29,11 +29,11 @@ check_gcs_auth <- function(){
 
 #' Authenticate this session
 #'
-#' A wrapper for \link[googleAuthR]{gar_auth}
+#' Autheticate manually via email or service JSON file
 #' 
+#' @param json_file Authentication json file you have downloaded from your Google Project
 #' @param token A preexisting token to authenticate with
-#' @param new_user If TRUE, reauthenticate via Google login screen
-#' @param no_auto Will ignore auto-authentication settings if TRUE
+#' @param email A Google email to authenticate with
 #'
 #' If you have set the environment variable \code{BQ_AUTH_FILE} to a valid file location,
 #'   the function will look there for authentication details.
@@ -46,7 +46,7 @@ check_gcs_auth <- function(){
 #' \code{BQ_AUTH_FILE} is a GCP service account JSON ending with file extension \code{.json}
 #'
 #' @return Invisibly, the token that has been saved to the session
-#' @importFrom googleAuthR gar_auth 
+#' @importFrom googleAuthR gar_auth  gar_auth_service
 #' @importFrom tools file_ext
 #' @export
 #' @examples 
@@ -55,7 +55,10 @@ check_gcs_auth <- function(){
 #' 
 #' # to use default package credentials (for testing)
 #' library(bigQueryR)
-#' bqr_auth()
+#' bqr_auth("location_of_json_file.json")
+#' 
+#' # or via email
+#' bqr_auth(email="me@work.com")
 #' 
 #' # to use your own Google Cloud Project credentials
 #' # go to GCP console and download client credentials JSON 
@@ -86,9 +89,31 @@ check_gcs_auth <- function(){
 #' 
 #' 
 #' }
-bqr_auth <- function(token = NULL, email = NULL){
+bqr_auth <- function(json_file = NULL,
+                     token = NULL, 
+                     email = Sys.getenv("GARGLE_EMAIL")){
   
-  gar_auth(token = token,
-           email = email,
-           package = "bigQueryR")
+  set_scopes()
+  
+  if(is.null(json_file)){
+    gar_auth(token = token,
+             email = email,
+             package = "bigQueryR")    
+  } else {
+    gar_auth_service(json_file = json_file)
+  }
+
+}
+
+set_scopes <- function(){
+  required_scopes <- c("https://www.googleapis.com/auth/bigquery",
+                       "https://www.googleapis.com/auth/cloud-platform")
+  
+  op <- getOption("googleAuthR.scopes.selected")
+  if(is.null(op)){
+    options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/bigquery")
+  } else if(!any(op %in% required_scopes)){
+    myMessage("Adding https://www.googleapis.com/auth/bigquery to scopes", level = 3)
+    options(googleAuthR.scopes.selected = c(op, "https://www.googleapis.com/auth/bigquery"))
+  }
 }
