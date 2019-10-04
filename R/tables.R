@@ -229,7 +229,7 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
 #' Creates a BigQuery table.
 #' 
 #' If setting \code{timePartioning} to \code{TRUE} then the table will be a 
-#'   \href{partioned table}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
+#'   \href{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}{partioned table}
 #'   
 #' If you want more advanced features for the table, create it then call \link{bqr_patch_table} with advanced configuration configured from \link{Table}
 #' 
