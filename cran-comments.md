@@ -1,7 +1,7 @@
 ## Test environments
-* local OS X install, R 3.5.0
-* ubuntu 12.04 (on travis-ci), R 3.5.0
-* Windows (on win-builder) R 3.5.0
+* local OS X install, R 3.6.1
+* ubuntu 12.04 (on travis-ci), R 3.6.1
+* Windows (on win-builder) R 3.6.1
 
 ## R CMD check results
 

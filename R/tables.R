@@ -15,6 +15,7 @@
 #' 
 #' @export
 #' @import assertthat
+#' @family Table meta functions
 bqr_copy_table <- function(source_tableid,
                            destination_tableid,
                            source_projectid = bqr_get_global_project(),
@@ -79,7 +80,7 @@ bqr_copy_table <- function(source_tableid,
 #'  bqr_list_tables("publicdata", "samples")
 #' }
 #' 
-#' @family bigQuery meta functions
+#' @family Table meta functions
 #' @import assertthat
 #' @importFrom googleAuthR gar_api_generator gar_api_page
 #' @export
@@ -150,7 +151,7 @@ parse_bqr_list_tables <- function(x) {
 #' }
 #' 
 #' 
-#' @family bigQuery meta functions
+#' @family Table meta functions
 #' @export
 bqr_table_meta <- function(projectId = bqr_get_global_project(), 
                            datasetId = bqr_get_global_dataset(), 
@@ -188,7 +189,7 @@ bqr_table_meta <- function(projectId = bqr_get_global_project(),
 #' 
 #' This won't work with nested datasets, for that use \link{bqr_query} as that flattens results.
 #' 
-#' @family bigQuery meta functions
+#' @family Table meta functions
 #' @export
 bqr_table_data <- function(projectId = bqr_get_global_project(), 
                            datasetId = bqr_get_global_dataset(), 
@@ -232,7 +233,7 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
 #'   
 #' If you want more advanced features for the table, create it then call \link{bqr_patch_table} with advanced configuration configured from \link{Table}
 #' 
-#' @family bigQuery meta functions
+#' @family Table meta functions
 #' @export
 bqr_create_table <- function(projectId = bqr_get_global_project(), 
                              datasetId = bqr_get_global_dataset(), 
@@ -307,7 +308,7 @@ bqr_create_table <- function(projectId = bqr_get_global_project(),
 #' @import assertthat
 #' @importFrom googleAuthR gar_api_generator
 #' @seealso \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#resource}{Definition of tables}
-#' @family bigQuery meta functions
+#' @family Table meta functions
 bqr_patch_table <- function(Table){
   assert_that(
     is.table(Table)
@@ -342,7 +343,7 @@ bqr_patch_table <- function(Table){
 #' 
 #' Deletes a BigQuery table
 #' 
-#' @family bigQuery meta functions
+#' @family Table meta functions
 #' @export
 bqr_delete_table <- function(projectId = bqr_get_global_project(), 
                              datasetId = bqr_get_global_dataset(), 
@@ -401,7 +402,7 @@ bqr_delete_table <- function(projectId = bqr_get_global_project(),
 #' 
 #' A table object to be used within \link{bqr_patch_table}
 #' 
-#' @family Table functions, bigQuery meta functions
+#' @family Table meta functions
 #' @export
 #' @import assertthat
 Table <- function(tableId,

@@ -17,12 +17,12 @@ which will be transformed to JSON
 \seealso{
 \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#resource}{Definition of tables}
 
-Other bigQuery meta functions: \code{\link{bqr_create_table}},
+Other Table meta functions: \code{\link{Table}},
+  \code{\link{bqr_copy_table}},
+  \code{\link{bqr_create_table}},
   \code{\link{bqr_delete_table}},
-  \code{\link{bqr_list_datasets}},
-  \code{\link{bqr_list_projects}},
   \code{\link{bqr_list_tables}},
   \code{\link{bqr_table_data}},
   \code{\link{bqr_table_meta}}
 }
-\concept{bigQuery meta functions}
+\concept{Table meta functions}
