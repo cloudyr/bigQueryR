@@ -52,5 +52,5 @@ Daily tables, however, have several disadvantages. You must manually, or program
 
 }
 \seealso{
-\href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
+\href{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}{Partitioned Tables Help}
 }

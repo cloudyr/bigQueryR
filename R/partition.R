@@ -38,7 +38,7 @@
 #' 
 #' @return A list of copy jobs for the sharded tables that will be copied to one partitioned table
 #' 
-#' @seealso \href{Partitioned Tables Help}{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}
+#' @seealso \href{https://cloud.google.com/bigquery/docs/creating-partitioned-tables}{Partitioned Tables Help}
 #' @export
 #' @importFrom stats setNames
 bqr_partition <- function(sharded,
