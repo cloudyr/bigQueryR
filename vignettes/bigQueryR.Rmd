@@ -21,8 +21,6 @@ This package is here as it uses [googleAuthR](https://github.com/MarkEdmondson12
 
 It also has support for data extracts to Google Cloud Storage, meaning you can download data and make the download URL available to a user via their Google email. If you do a query normally with over 100000 results it hangs and errors. 
 
-An example of a BigQuery Shiny app running OAuth2 is here, the [BigQuery Visualiser](https://mark.shinyapps.io/bigquery-viz/)
-
 ## Authentication
 
 Authentication is as used in other `googleAuthR` libraries:
@@ -35,7 +33,7 @@ library(bigQueryR)
 bqr_auth()
 
 ## verify under a new user
-bqr_auth(new_user=TRUE)
+bqr_auth(email="me@work.com")
 ```
 
 If you are authenticating under several APIs via `googleAuthR`then use `gar_auth()` instead with the appropriate scopes set.
@@ -52,9 +50,6 @@ library(bigQueryR)
 ## this will open your browser
 ## Authenticate with an email that has access to the BigQuery project you need
 bqr_auth()
-  
-## verify under a new user
-bqr_auth(new_user=TRUE)
   
 ## get projects
 projects <- bqr_list_projects()

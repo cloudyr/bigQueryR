@@ -1,4 +1,4 @@
-# bigQueryR 0.4.0.9000
+# bigQueryR 0.5.0
 
 * Support listing more than 50 datasets in `bqr_list_dataset`
 * Change `bqr_list_tables` to list all tables in a dataset by default
@@ -8,6 +8,7 @@
 * Add writeDisposition to table loads
 * Allow creation of empty tables
 * Supporting supplying SQL via a file ending with `.sql` for `bqr_query()`
+* Update to new `googleAuthR>1.1.1`
 
 # bigQueryR 0.4.0
 

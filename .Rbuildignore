@@ -18,3 +18,4 @@ _pkgdown\.yml
 ^auth
 ^secrets\.tar
 ^bq\.oauth$
+^CRAN-RELEASE$

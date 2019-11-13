@@ -7,12 +7,13 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="author" content="Mark Edmondson" />
 
-<meta name="date" content="2019-06-05" />
+<meta name="date" content="2019-10-09" />
 
 <title>bigQueryR</title>
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -303,7 +304,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">bigQueryR</h1>
 <h4 class="author">Mark Edmondson</h4>
-<h4 class="date">2019-06-05</h4>
+<h4 class="date">2019-10-09</h4>
 
 
 
@@ -315,7 +316,6 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h3>Why this package then?</h3>
 <p>This package is here as it uses <a href="https://github.com/MarkEdmondson1234/googleAuthR">googleAuthR</a> as backend, so has Shiny support, and compatibility with other googleAuthR dependent packages.</p>
 <p>It also has support for data extracts to Google Cloud Storage, meaning you can download data and make the download URL available to a user via their Google email. If you do a query normally with over 100000 results it hangs and errors.</p>
-<p>An example of a BigQuery Shiny app running OAuth2 is here, the <a href="https://mark.shinyapps.io/bigquery-viz/">BigQuery Visualiser</a></p>
 </div>
 </div>
 <div id="authentication" class="section level2">
@@ -328,7 +328,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">bqr_auth</span>()</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">## verify under a new user</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">bqr_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">bqr_auth</span>(<span class="dt">email=</span><span class="st">&quot;me@work.com&quot;</span>)</a></code></pre></div>
 <p>If you are authenticating under several APIs via <code>googleAuthR</code>then use <code>gar_auth()</code> instead with the appropriate scopes set.</p>
 <p>You can also use service-to-service JSON files and multi-user authentication under Shiny, see the <code>googleAuthR</code> readme for details.</p>
 </div>
@@ -341,23 +341,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">## Authenticate with an email that has access to the BigQuery project you need</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">bqr_auth</span>()</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">  </a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">## verify under a new user</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="kw">bqr_auth</span>(<span class="dt">new_user=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">## get projects</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">projects &lt;-<span class="st"> </span><span class="kw">bqr_list_projects</span>()</a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">  </a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">## get projects</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">projects &lt;-<span class="st"> </span><span class="kw">bqr_list_projects</span>()</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">  </a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">my_project &lt;-<span class="st"> </span>projects<span class="op">$</span>id[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">  </a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## for first project, get datasets</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">datasets &lt;-<span class="st"> </span><span class="kw">bqr_list_datasets</span>(my_project)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">my_dataset &lt;-<span class="st"> </span>datasets<span class="op">$</span>datasetId[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">## list tables</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">my_tables &lt;-<span class="st"> </span><span class="kw">bqr_list_tables</span>(my_project, my_dataset)</a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">## get metadata for table</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">meta_table &lt;-<span class="st"> </span><span class="kw">bqr_table_meta</span>(my_project, my_dataset, my_table<span class="op">$</span>tableId[<span class="dv">1</span>])</a></code></pre></div>
+<a class="sourceLine" id="cb2-10" data-line-number="10">my_project &lt;-<span class="st"> </span>projects<span class="op">$</span>id[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  </a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">## for first project, get datasets</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">datasets &lt;-<span class="st"> </span><span class="kw">bqr_list_datasets</span>(my_project)</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">my_dataset &lt;-<span class="st"> </span>datasets<span class="op">$</span>datasetId[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">## list tables</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">my_tables &lt;-<span class="st"> </span><span class="kw">bqr_list_tables</span>(my_project, my_dataset)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">## get metadata for table</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">meta_table &lt;-<span class="st"> </span><span class="kw">bqr_table_meta</span>(my_project, my_dataset, my_table<span class="op">$</span>tableId[<span class="dv">1</span>])</a></code></pre></div>
 </div>
 <div id="simple-queries" class="section level2">
 <h2>Simple Queries</h2>
@@ -413,6 +410,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb5-23" data-line-number="23"><span class="op">&gt;</span><span class="st"> </span>[<span class="dv">3</span>] <span class="st">&quot;https://storage.cloud.google.com/big-query-r-extracts/extract-20160311112410-000000000002.csv&quot;</span></a></code></pre></div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

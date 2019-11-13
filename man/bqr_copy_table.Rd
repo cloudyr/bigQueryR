@@ -35,3 +35,13 @@ A job object
 \description{
 Copy a source table to another destination
 }
+\seealso{
+Other Table meta functions: \code{\link{Table}},
+  \code{\link{bqr_create_table}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_patch_table}},
+  \code{\link{bqr_table_data}},
+  \code{\link{bqr_table_meta}}
+}
+\concept{Table meta functions}

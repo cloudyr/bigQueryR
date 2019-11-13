@@ -53,4 +53,13 @@ the \href{https://cloud.google.com/bigquery/docs/reference/rest/v2/tables}{Googl
 \details{
 A table object to be used within \link{bqr_patch_table}
 }
-\concept{Table functions, bigQuery meta functions}
+\seealso{
+Other Table meta functions: \code{\link{bqr_copy_table}},
+  \code{\link{bqr_create_table}},
+  \code{\link{bqr_delete_table}},
+  \code{\link{bqr_list_tables}},
+  \code{\link{bqr_patch_table}},
+  \code{\link{bqr_table_data}},
+  \code{\link{bqr_table_meta}}
+}
+\concept{Table meta functions}
