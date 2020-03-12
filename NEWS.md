@@ -1,3 +1,7 @@
+# bigQuery 0.5.0.9000
+
+* Add missing numeric type for BigQuery schema parsing (#65)
+
 # bigQueryR 0.5.0
 
 * Support listing more than 50 datasets in `bqr_list_dataset`
@@ -9,7 +13,6 @@
 * Allow creation of empty tables
 * Supporting supplying SQL via a file ending with `.sql` for `bqr_query()`
 * Update to new `googleAuthR>1.1.1`
-* Add missing numeric type for BigQuery schema parsing (#65)
 
 # bigQueryR 0.4.0
 
