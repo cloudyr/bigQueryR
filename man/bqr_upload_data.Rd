@@ -4,14 +4,23 @@
 \alias{bqr_upload_data}
 \title{Upload data to BigQuery}
 \usage{
-bqr_upload_data(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), tableId, upload_data,
+bqr_upload_data(
+  projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(),
+  tableId,
+  upload_data,
   create = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
   writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"),
-  schema = NULL, sourceFormat = c("CSV", "DATASTORE_BACKUP",
-  "NEWLINE_DELIMITED_JSON", "AVRO"), wait = TRUE, autodetect = FALSE,
-  nullMarker = NULL, maxBadRecords = NULL, allowJaggedRows = FALSE,
-  allowQuotedNewlines = FALSE, fieldDelimiter = NULL)
+  schema = NULL,
+  sourceFormat = c("CSV", "DATASTORE_BACKUP", "NEWLINE_DELIMITED_JSON", "AVRO"),
+  wait = TRUE,
+  autodetect = FALSE,
+  nullMarker = NULL,
+  maxBadRecords = NULL,
+  allowJaggedRows = FALSE,
+  allowQuotedNewlines = FALSE,
+  fieldDelimiter = NULL
+)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}

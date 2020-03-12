@@ -4,12 +4,17 @@
 \alias{bqr_download_query}
 \title{Download data from BigQuery to local folder}
 \usage{
-bqr_download_query(query = NULL, target_folder = "data",
-  result_file_name = NULL, refetch = FALSE, useLegacySql = FALSE,
+bqr_download_query(
+  query = NULL,
+  target_folder = "data",
+  result_file_name = NULL,
+  refetch = FALSE,
+  useLegacySql = FALSE,
   clean_intermediate_results = TRUE,
   global_project_name = bqr_get_global_project(),
   global_dataset_name = bqr_get_global_dataset(),
-  global_bucket_name = googleCloudStorageR::gcs_get_global_bucket())
+  global_bucket_name = googleCloudStorageR::gcs_get_global_bucket()
+)
 }
 \arguments{
 \item{query}{The query you want to run.}

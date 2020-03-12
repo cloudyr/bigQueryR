@@ -3,7 +3,6 @@
 \docType{package}
 \name{bigQueryR}
 \alias{bigQueryR}
-\alias{bigQueryR-package}
 \title{bigQueryR}
 \description{
 Provides an interface with Google BigQuery

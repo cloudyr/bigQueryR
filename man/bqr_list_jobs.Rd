@@ -4,9 +4,12 @@
 \alias{bqr_list_jobs}
 \title{List BigQuery jobs}
 \usage{
-bqr_list_jobs(projectId = bqr_get_global_project(), allUsers = FALSE,
-  projection = c("full", "minimal"), stateFilter = c("done", "pending",
-  "running"))
+bqr_list_jobs(
+  projectId = bqr_get_global_project(),
+  allUsers = FALSE,
+  projection = c("full", "minimal"),
+  stateFilter = c("done", "pending", "running")
+)
 }
 \arguments{
 \item{projectId}{projectId of job}

@@ -4,12 +4,15 @@
 \alias{bqr_copy_dataset}
 \title{Copy datasets}
 \usage{
-bqr_copy_dataset(source_datasetid, destination_datasetid,
+bqr_copy_dataset(
+  source_datasetid,
+  destination_datasetid,
   source_projectid = bqr_get_global_project(),
   destination_projectid = bqr_get_global_project(),
   createDisposition = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
   writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"),
-  destination_prefix = NULL)
+  destination_prefix = NULL
+)
 }
 \arguments{
 \item{source_datasetid}{source datasetId}

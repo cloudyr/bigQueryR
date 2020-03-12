@@ -20,10 +20,11 @@ After a while, a completed job
 Wait for a bigQuery job to finish.
 }
 \seealso{
-Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
-  \code{\link{bqr_extract_data}},
-  \code{\link{bqr_get_job}},
-  \code{\link{bqr_grant_extract_access}},
-  \code{\link{bqr_query_asynch}}
+Other BigQuery asynch query functions: 
+\code{\link{bqr_download_extract}()},
+\code{\link{bqr_extract_data}()},
+\code{\link{bqr_get_job}()},
+\code{\link{bqr_grant_extract_access}()},
+\code{\link{bqr_query_asynch}()}
 }
 \concept{BigQuery asynch query functions}

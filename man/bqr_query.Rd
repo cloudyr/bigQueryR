@@ -4,9 +4,14 @@
 \alias{bqr_query}
 \title{Query a BigQuery Table}
 \usage{
-bqr_query(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), query, maxResults = 1000,
-  useLegacySql = TRUE, useQueryCache = TRUE)
+bqr_query(
+  projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(),
+  query,
+  maxResults = 1000,
+  useLegacySql = TRUE,
+  useQueryCache = TRUE
+)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}

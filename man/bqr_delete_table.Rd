@@ -4,8 +4,11 @@
 \alias{bqr_delete_table}
 \title{Delete a Table}
 \usage{
-bqr_delete_table(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), tableId)
+bqr_delete_table(
+  projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(),
+  tableId
+)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -24,12 +27,13 @@ Delete a Table
 Deletes a BigQuery table
 }
 \seealso{
-Other Table meta functions: \code{\link{Table}},
-  \code{\link{bqr_copy_table}},
-  \code{\link{bqr_create_table}},
-  \code{\link{bqr_list_tables}},
-  \code{\link{bqr_patch_table}},
-  \code{\link{bqr_table_data}},
-  \code{\link{bqr_table_meta}}
+Other Table meta functions: 
+\code{\link{Table}()},
+\code{\link{bqr_copy_table}()},
+\code{\link{bqr_create_table}()},
+\code{\link{bqr_list_tables}()},
+\code{\link{bqr_patch_table}()},
+\code{\link{bqr_table_data}()},
+\code{\link{bqr_table_meta}()}
 }
 \concept{Table meta functions}

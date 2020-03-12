@@ -4,8 +4,7 @@
 \alias{bqr_auth}
 \title{Authenticate this session}
 \usage{
-bqr_auth(json_file = NULL, token = NULL,
-  email = Sys.getenv("GARGLE_EMAIL"))
+bqr_auth(json_file = NULL, token = NULL, email = Sys.getenv("GARGLE_EMAIL"))
 }
 \arguments{
 \item{json_file}{Authentication json file you have downloaded from your Google Project}

@@ -31,6 +31,7 @@ Example: bqr_list_projects()
 
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_list_datasets}}
+Other bigQuery meta functions: 
+\code{\link{bqr_list_datasets}()}
 }
 \concept{bigQuery meta functions}

@@ -4,12 +4,17 @@
 \alias{bqr_extract_data}
 \title{Extract data asynchronously}
 \usage{
-bqr_extract_data(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), tableId, cloudStorageBucket,
-  filename = paste0("big-query-extract-", gsub(" |:|-", "", Sys.time()),
-  "-*.csv"), compression = c("NONE", "GZIP"),
+bqr_extract_data(
+  projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(),
+  tableId,
+  cloudStorageBucket,
+  filename = paste0("big-query-extract-", gsub(" |:|-", "", Sys.time()), "-*.csv"),
+  compression = c("NONE", "GZIP"),
   destinationFormat = c("CSV", "NEWLINE_DELIMITED_JSON", "AVRO"),
-  fieldDelimiter = ",", printHeader = TRUE)
+  fieldDelimiter = ",",
+  printHeader = TRUE
+)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID.}
@@ -88,10 +93,11 @@ download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 \seealso{
 \url{https://cloud.google.com/bigquery/exporting-data-from-bigquery}
 
-Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
-  \code{\link{bqr_get_job}},
-  \code{\link{bqr_grant_extract_access}},
-  \code{\link{bqr_query_asynch}},
-  \code{\link{bqr_wait_for_job}}
+Other BigQuery asynch query functions: 
+\code{\link{bqr_download_extract}()},
+\code{\link{bqr_get_job}()},
+\code{\link{bqr_grant_extract_access}()},
+\code{\link{bqr_query_asynch}()},
+\code{\link{bqr_wait_for_job}()}
 }
 \concept{BigQuery asynch query functions}

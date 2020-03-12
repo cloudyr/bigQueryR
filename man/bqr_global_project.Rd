@@ -23,6 +23,7 @@ This sets a project to a global environment value so you don't need to
 supply the project argument to other API calls.
 }
 \seealso{
-Other project functions: \code{\link{bqr_get_global_project}}
+Other project functions: 
+\code{\link{bqr_get_global_project}()}
 }
 \concept{project functions}

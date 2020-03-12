@@ -19,6 +19,7 @@ dataset name set this session to use by default
 Set the dataset name via \link{bq_global_dataset}
 }
 \seealso{
-Other dataset functions: \code{\link{bqr_global_dataset}}
+Other dataset functions: 
+\code{\link{bqr_global_dataset}()}
 }
 \concept{dataset functions}

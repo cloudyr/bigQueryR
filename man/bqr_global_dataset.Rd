@@ -23,6 +23,7 @@ This sets a dataset to a global environment value so you don't need to
 supply the dataset argument to other API calls.
 }
 \seealso{
-Other dataset functions: \code{\link{bqr_get_global_dataset}}
+Other dataset functions: 
+\code{\link{bqr_get_global_dataset}()}
 }
 \concept{dataset functions}

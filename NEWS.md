@@ -9,6 +9,7 @@
 * Allow creation of empty tables
 * Supporting supplying SQL via a file ending with `.sql` for `bqr_query()`
 * Update to new `googleAuthR>1.1.1`
+* Add missing numeric type for BigQuery schema parsing (#65)
 
 # bigQueryR 0.4.0
 

@@ -19,6 +19,7 @@ project name set this session to use by default
 Set the project name via \link{bq_global_project}
 }
 \seealso{
-Other project functions: \code{\link{bqr_global_project}}
+Other project functions: 
+\code{\link{bqr_global_project}()}
 }
 \concept{project functions}

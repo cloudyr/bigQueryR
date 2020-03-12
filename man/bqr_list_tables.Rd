@@ -4,8 +4,11 @@
 \alias{bqr_list_tables}
 \title{List BigQuery tables in a dataset}
 \usage{
-bqr_list_tables(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), maxResults = -1)
+bqr_list_tables(
+  projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(),
+  maxResults = -1
+)
 }
 \arguments{
 \item{projectId}{The BigQuery project ID}
@@ -28,12 +31,13 @@ List BigQuery tables in a dataset
 
 }
 \seealso{
-Other Table meta functions: \code{\link{Table}},
-  \code{\link{bqr_copy_table}},
-  \code{\link{bqr_create_table}},
-  \code{\link{bqr_delete_table}},
-  \code{\link{bqr_patch_table}},
-  \code{\link{bqr_table_data}},
-  \code{\link{bqr_table_meta}}
+Other Table meta functions: 
+\code{\link{Table}()},
+\code{\link{bqr_copy_table}()},
+\code{\link{bqr_create_table}()},
+\code{\link{bqr_delete_table}()},
+\code{\link{bqr_patch_table}()},
+\code{\link{bqr_table_data}()},
+\code{\link{bqr_table_meta}()}
 }
 \concept{Table meta functions}

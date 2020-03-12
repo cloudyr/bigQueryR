@@ -4,10 +4,14 @@
 \alias{bqr_query_asynch}
 \title{BigQuery query asynchronously}
 \usage{
-bqr_query_asynch(projectId = bqr_get_global_project(),
-  datasetId = bqr_get_global_dataset(), query, destinationTableId,
-  useLegacySql = TRUE, writeDisposition = c("WRITE_EMPTY",
-  "WRITE_TRUNCATE", "WRITE_APPEND"))
+bqr_query_asynch(
+  projectId = bqr_get_global_project(),
+  datasetId = bqr_get_global_dataset(),
+  query,
+  destinationTableId,
+  useLegacySql = TRUE,
+  writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE", "WRITE_APPEND")
+)
 }
 \arguments{
 \item{projectId}{projectId to be billed.}
@@ -94,10 +98,11 @@ download_url <- bqr_grant_extract_access(job_extract, "your@email.com")
 
 }
 \seealso{
-Other BigQuery asynch query functions: \code{\link{bqr_download_extract}},
-  \code{\link{bqr_extract_data}},
-  \code{\link{bqr_get_job}},
-  \code{\link{bqr_grant_extract_access}},
-  \code{\link{bqr_wait_for_job}}
+Other BigQuery asynch query functions: 
+\code{\link{bqr_download_extract}()},
+\code{\link{bqr_extract_data}()},
+\code{\link{bqr_get_job}()},
+\code{\link{bqr_grant_extract_access}()},
+\code{\link{bqr_wait_for_job}()}
 }
 \concept{BigQuery asynch query functions}

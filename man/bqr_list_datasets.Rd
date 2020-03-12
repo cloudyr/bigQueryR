@@ -36,6 +36,7 @@ Each projectId can have multiple datasets.
 
 }
 \seealso{
-Other bigQuery meta functions: \code{\link{bqr_list_projects}}
+Other bigQuery meta functions: 
+\code{\link{bqr_list_projects}()}
 }
 \concept{bigQuery meta functions}

@@ -4,13 +4,16 @@
 \alias{bqr_copy_table}
 \title{Copy BigQuery table}
 \usage{
-bqr_copy_table(source_tableid, destination_tableid,
+bqr_copy_table(
+  source_tableid,
+  destination_tableid,
   source_projectid = bqr_get_global_project(),
   source_datasetid = bqr_get_global_dataset(),
   destination_projectid = bqr_get_global_project(),
   destination_datasetid = bqr_get_global_dataset(),
   createDisposition = c("CREATE_IF_NEEDED", "CREATE_NEVER"),
-  writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY"))
+  writeDisposition = c("WRITE_TRUNCATE", "WRITE_APPEND", "WRITE_EMPTY")
+)
 }
 \arguments{
 \item{source_tableid}{source table's tableId}
@@ -36,12 +39,13 @@ A job object
 Copy a source table to another destination
 }
 \seealso{
-Other Table meta functions: \code{\link{Table}},
-  \code{\link{bqr_create_table}},
-  \code{\link{bqr_delete_table}},
-  \code{\link{bqr_list_tables}},
-  \code{\link{bqr_patch_table}},
-  \code{\link{bqr_table_data}},
-  \code{\link{bqr_table_meta}}
+Other Table meta functions: 
+\code{\link{Table}()},
+\code{\link{bqr_create_table}()},
+\code{\link{bqr_delete_table}()},
+\code{\link{bqr_list_tables}()},
+\code{\link{bqr_patch_table}()},
+\code{\link{bqr_table_data}()},
+\code{\link{bqr_table_meta}()}
 }
 \concept{Table meta functions}
