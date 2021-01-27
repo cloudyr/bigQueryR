@@ -25,7 +25,11 @@ parse_bqr_query <- function(x){
   converter_funcs <- converter[types]
 
   for(i in seq_along(converter_funcs)){
-    data_f[,i] <- converter_funcs[[i]](data_f[, i])
+    if(!is.null(converter_funcs[[i]])){
+      data_f[,i] <- converter_funcs[[i]](data_f[, i])  
+    }else{
+      data_f[,i] <- data_f[,i]
+    }  
   }
   
   names(data_f) <- schema$name
