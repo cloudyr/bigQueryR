@@ -36,7 +36,8 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                       maxResults = 1000, 
                       useLegacySql = TRUE, 
                       useQueryCache = TRUE,
-                      dryRun = FALSE){
+                      dryRun = FALSE,
+                      timeoutMs = 600*1000){
   check_bq_auth()
   
   if(endsWith(query, ".sql")){
@@ -56,6 +57,7 @@ bqr_query <- function(projectId = bqr_get_global_project(),
       datasetId = datasetId,
       projectId = projectId
     ),
+    timeoutMs = timeoutMs,
     dryRun = dryRun
   )
   
