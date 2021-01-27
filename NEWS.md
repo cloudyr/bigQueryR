@@ -1,3 +1,8 @@
+# bigQuery 0.5.0.9001
+
+* Added a dryRun parameter for BigQuery which enable a query to check the estimated size of the overall computation (in bytes).
+* Added a timeoutMs for large (sync) queries. Async queries are not affected by this change.
+
 # bigQuery 0.5.0.9000
 
 * Add missing numeric type for BigQuery schema parsing (#65)
