@@ -35,7 +35,9 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                       query, 
                       maxResults = 1000, 
                       useLegacySql = TRUE, 
-                      useQueryCache = TRUE){
+                      useQueryCache = TRUE,
+                      dryRun = FALSE,
+                      timeoutMs = 600*1000){
   check_bq_auth()
   
   if(endsWith(query, ".sql")){
@@ -54,7 +56,9 @@ bqr_query <- function(projectId = bqr_get_global_project(),
     defaultDataset = list(
       datasetId = datasetId,
       projectId = projectId
-    )
+    ),
+    timeoutMs = timeoutMs,
+    dryRun = dryRun
   )
   
   body <- rmNullObs(body)
@@ -62,13 +66,24 @@ bqr_query <- function(projectId = bqr_get_global_project(),
   # solve 404?
   the_url <- sprintf("https://www.googleapis.com/bigquery/v2/projects/%s/queries", projectId)
   
-  q <- googleAuthR::gar_api_generator(the_url,
-                                      "POST",
-                                      data_parse_function = parse_bqr_query,
-                                      checkTrailingSlash = FALSE)
-  
-  data <- try(q(the_body = body,
-                path_arguments = list(projects = projectId)))
+  if(dryRun){
+    q <- googleAuthR::gar_api_generator(the_url,
+                                        "POST",
+                                        checkTrailingSlash = FALSE)
+    data <- try(q(the_body = body,
+                  path_arguments = list(projects = projectId)))
+    if(!is.error(data)){
+      data <- data$content  
+    }
+    
+  }else{
+    q <- googleAuthR::gar_api_generator(the_url,
+                                        "POST",
+                                        data_parse_function = parse_bqr_query,
+                                        checkTrailingSlash = FALSE)
+    data <- try(q(the_body = body,
+                  path_arguments = list(projects = projectId)))  
+  }
   
   if(is.error(data)) {
     warning(error.message(data))
