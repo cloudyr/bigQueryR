@@ -358,7 +358,8 @@ check_req <- function(req, wait) {
                   req$content$jobReference$jobId, level = 3)
         
         out <- bqr_get_job(req$content$jobReference$jobId, 
-                           projectId = req$content$jobReference$projectId)
+                           projectId = req$content$jobReference$projectId,
+                           location = req$content$jobReference$location)
       }
       
     } else {
