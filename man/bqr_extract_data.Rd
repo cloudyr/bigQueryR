@@ -58,7 +58,7 @@ job <- bqr_query_asynch("your_project",
                         
 ## poll the job to check its status
 ## its done when job$status$state == "DONE"
-bqr_get_job("your_project", job)
+bqr_get_job(job$jobReference$jobId, "your_project")
 
 ##once done, the query results are in "bigResultTable"
 ## extract that table to GoogleCloudStorage:
@@ -72,7 +72,7 @@ job_extract <- bqr_extract_data("your_project",
                                 
 ## poll the extract job to check its status
 ## its done when job$status$state == "DONE"
-bqr_get_job("your_project", job_extract$jobReference$jobId)
+bqr_get_job(job_extract$jobReference$jobId, "your_project")
 
 You should also see the extract in the Google Cloud Storage bucket
 googleCloudStorageR::gcs_list_objects("your_cloud_storage_bucket_name")
