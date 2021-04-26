@@ -10,7 +10,9 @@ bqr_query(
   query,
   maxResults = 1000,
   useLegacySql = TRUE,
-  useQueryCache = TRUE
+  useQueryCache = TRUE,
+  dryRun = FALSE,
+  timeoutMs = 600 * 1000
 )
 }
 \arguments{
