@@ -32,7 +32,7 @@
 #'                         
 #' ## poll the job to check its status
 #' ## its done when job$status$state == "DONE"
-#' bqr_get_job("your_project", job)
+#' bqr_get_job(job$jobReference$jobId, "your_project")
 #' 
 #' ##once done, the query results are in "bigResultTable"
 #' ## extract that table to GoogleCloudStorage:
@@ -46,7 +46,7 @@
 #'                                 
 #' ## poll the extract job to check its status
 #' ## its done when job$status$state == "DONE"
-#' bqr_get_job("your_project", job_extract$jobReference$jobId)
+#' bqr_get_job(job_extract$jobReference$jobId, "your_project")
 #' 
 #' You should also see the extract in the Google Cloud Storage bucket
 #' googleCloudStorageR::gcs_list_objects("your_cloud_storage_bucket_name")
@@ -234,7 +234,7 @@ bqr_download_extract <- function(extractJob,
 #'                         
 #' ## poll the job to check its status
 #' ## its done when job$status$state == "DONE"
-#' bqr_get_job("your_project", job$jobReference$jobId)
+#' bqr_get_job(job$jobReference$jobId, "your_project")
 #' 
 #' ##once done, the query results are in "bigResultTable"
 #' ## extract that table to GoogleCloudStorage:
@@ -248,7 +248,7 @@ bqr_download_extract <- function(extractJob,
 #'                                 
 #' ## poll the extract job to check its status
 #' ## its done when job$status$state == "DONE"
-#' bqr_get_job("your_project", job_extract$jobReference$jobId)
+#' bqr_get_job(job_extract$jobReference$jobId, "your_project")
 #' 
 #' ## to download via a URL and not logging in via Google Cloud Storage interface:
 #' ## Use an email that is Google account enabled
