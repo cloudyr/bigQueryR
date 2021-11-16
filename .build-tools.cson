@@ -1,0 +1,37 @@
+providers: [
+  {
+    key: "bt"
+    config:
+      commands: [
+        {
+          project: "/home/django/Documents/Datama/datama-core"
+          source: "/home/django/Documents/Datama/datama-core/.build-tools.cson"
+          name: "build & install"
+          command: "R CMD INSTALL . --build"
+          wd: "."
+          env: {}
+          modifier:
+            shell:
+              command: "sh -c"
+          environment:
+            name: "child_process"
+            config:
+              stdoe: "both"
+          stdout:
+            pipeline: []
+          stderr:
+            pipeline: []
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              colors: true
+              stdin: true
+            linter:
+              no_trace: false
+              immediate: false
+          version: 2
+        }
+      ]
+  }
+]

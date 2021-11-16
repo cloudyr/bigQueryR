@@ -6,6 +6,7 @@
 #' @param maxResults Max number per page of results. Set total rows with LIMIT in your query.
 #' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
 #' @param useQueryCache Whether to use the query cache. Default TRUE, set to FALSE for realtime queries. 
+#' @param callbacks a list of two functions  callbacks$processing(pageNumber) and callbacks$done(). processing takes argument pageNumber (int) and done is called when all data is fetched
 #' 
 #' @return a data.frame. 
 #'   If there is an SQL error, a data.frame with 
@@ -37,9 +38,20 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                       useLegacySql = TRUE, 
                       useQueryCache = TRUE,
                       dryRun = FALSE,
-                      timeoutMs = 600*1000){
+                      timeoutMs = 600*1000,
+                      callbacks=NULL){
   check_bq_auth()
   
+  if(is.null(callbacks) || !( is.list(callbacks) && "processing" %in% names(callbacks) && "done" %in% names(callbacks) ) ){
+    default_processing <- function(i){
+      message("Page #: ", i)
+    }
+    default_done <- function(){
+      message("All data fetched.")
+    }
+    callbacks <- list(processing=default_processing,done=default_done)
+  }
+
   if(endsWith(query, ".sql")){
     query <- readChar(query, nchars = file.info(query)$size)
   }
@@ -82,7 +94,7 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                                         data_parse_function = parse_bqr_query,
                                         checkTrailingSlash = FALSE)
     data <- try(q(the_body = body,
-                  path_arguments = list(projects = projectId)))  
+                  path_arguments = list(projects = projectId)))
   }
   
   if(is.error(data)) {
@@ -92,24 +104,28 @@ bqr_query <- function(projectId = bqr_get_global_project(),
   }
   
   pageToken <- attr(data, "pageToken")
+  
   if(!is.null(pageToken)){
     message("Paging through query results")
     jobId <- attr(data, "jobReference")$jobId
+    location <- attr(data, "jobReference")$location
     pr <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                          "GET",
                                          path_args = list(projects = projectId,
                                                           queries = jobId),
-                                         pars_args = list(pageToken = pageToken), 
+                                         pars_args = list(pageToken = pageToken, location = location), 
                                          data_parse_function = parse_bqr_query)
     i <- 1
     while(!is.null(pageToken)){
-      message("Page #: ", i)
+      # message("Page #: ", i)
+      callbacks$processing(i)
       data_page <- pr(pars_arguments = list(pageToken = pageToken))
       data <- rbind(data, data_page)
       pageToken <- attr(data_page, "pageToken")
       i <- i + 1
     }
-    message("All data fetched.")
+    callbacks$done()
+    # message("All data fetched.")
     
   }
   
