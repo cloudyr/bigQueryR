@@ -12,7 +12,7 @@ is.job <- function(x){
 # metadata only jobs
 call_job <- function(projectId, config){
   l <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+    googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = ""),
@@ -145,7 +145,7 @@ bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project(
   
   ## make job
   job <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+    googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                    "GET",
                                    path_args = list(projects = projectId,
                                                     jobs = jobId))
@@ -194,7 +194,7 @@ bqr_list_jobs <- function(projectId = bqr_get_global_project(),
   options("googleAuthR.jsonlite.simplifyVector" = FALSE )
   ## make job
   job <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+    googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                    "GET",
                                    path_args = list(projects = projectId,
                                                     jobs = ""),

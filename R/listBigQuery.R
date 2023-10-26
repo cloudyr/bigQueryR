@@ -25,7 +25,7 @@
 #' @export
 bqr_list_projects <- function(){
   check_bq_auth()
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2/projects",
+  l <- googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2/projects",
                                       "GET",
                                       data_parse_function = function(x) {
                                         d <- x$projects

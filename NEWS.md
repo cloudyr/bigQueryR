@@ -1,6 +1,8 @@
 # bigQuery 0.5.0.9000
 
 * Add missing numeric type for BigQuery schema parsing (#65)
+* Align Google APIs URLs to Google Cloud Discovery docs. This enables support for Private and Restricted Google APIs configurations. (@husseyd, #81)
+  - Substitute `https://bigquery.googleapis.com` for `https://www.googleapis.com`
 
 # bigQueryR 0.5.0
 

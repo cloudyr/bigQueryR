@@ -103,7 +103,7 @@ bqr_list_tables <- function(projectId = bqr_get_global_project(),
   
   
   check_bq_auth()
-  l <- gar_api_generator("https://www.googleapis.com/bigquery/v2",
+  l <- gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                          "GET",
                          path_args = list(projects = projectId,
                                           datasets = datasetId,
@@ -163,7 +163,7 @@ bqr_table_meta <- function(projectId = bqr_get_global_project(),
   }
   
   
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+  l <- googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                       "GET",
                                       path_args = list(projects = projectId,
                                                        datasets = datasetId,
@@ -196,7 +196,7 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
                            tableId,
                            maxResults = 1000){
   check_bq_auth()
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+  l <- googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                       "GET",
                                       path_args = list(projects = projectId,
                                                        datasets = datasetId,
@@ -242,7 +242,7 @@ bqr_create_table <- function(projectId = bqr_get_global_project(),
                              timePartitioning = FALSE,
                              expirationMs = 0L){
   check_bq_auth()
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+  l <- googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                       "POST",
                                       path_args = list(projects = projectId,
                                                        datasets = datasetId,
@@ -320,7 +320,7 @@ bqr_patch_table <- function(Table){
   
   myMessage("Patching ", tableId, level = 3)
   
-  the_url <- sprintf("https://www.googleapis.com/bigquery/v2/projects/%s/datasets/%s/tables/%s",
+  the_url <- sprintf("https://bigquery.googleapis.com/bigquery/v2/projects/%s/datasets/%s/tables/%s",
                      projectId, datasetId, tableId)
   
   call_api <- gar_api_generator(the_url, "PATCH", data_parse_function = function(x) x)
@@ -349,7 +349,7 @@ bqr_delete_table <- function(projectId = bqr_get_global_project(),
                              datasetId = bqr_get_global_dataset(), 
                              tableId){
   check_bq_auth()
-  l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+  l <- googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                       "DELETE",
                                       path_args = list(projects = projectId,
                                                        datasets = datasetId,
