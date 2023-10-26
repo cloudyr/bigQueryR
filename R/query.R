@@ -64,7 +64,7 @@ bqr_query <- function(projectId = bqr_get_global_project(),
   body <- rmNullObs(body)
   
   # solve 404?
-  the_url <- sprintf("https://www.googleapis.com/bigquery/v2/projects/%s/queries", projectId)
+  the_url <- sprintf("https://bigquery.googleapis.com/bigquery/v2/projects/%s/queries", projectId)
   
   if(dryRun){
     q <- googleAuthR::gar_api_generator(the_url,
@@ -95,7 +95,7 @@ bqr_query <- function(projectId = bqr_get_global_project(),
   if(!is.null(pageToken)){
     message("Paging through query results")
     jobId <- attr(data, "jobReference")$jobId
-    pr <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+    pr <- googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                          "GET",
                                          path_args = list(projects = projectId,
                                                           queries = jobId),
@@ -213,7 +213,7 @@ bqr_query_asynch <- function(projectId = bqr_get_global_project(),
   check_bq_auth()
   ## make job
   job <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+    googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = "")

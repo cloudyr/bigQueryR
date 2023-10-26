@@ -300,7 +300,7 @@ bqr_do_upload.data.frame <- function(upload_data,
 
 do_obj_req <- function(mp_body, projectId, datasetId, tableId) {
   l <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/upload/bigquery/v2",
+    googleAuthR::gar_api_generator("https://bigquery.googleapis.com/upload/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = ""),
@@ -441,7 +441,7 @@ bqr_do_upload.character <- function(upload_data,
   config <- rmNullObs(config)
   
   l <- 
-    googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
+    googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = ""),

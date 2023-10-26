@@ -32,7 +32,7 @@
 bqr_list_datasets <- function(projectId = bqr_get_global_project()){
   
   check_bq_auth()
-  l <- gar_api_generator("https://www.googleapis.com/bigquery/v2",
+  l <- gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                          "GET",
                          path_args = list(projects = projectId,
                                           datasets = ""),
