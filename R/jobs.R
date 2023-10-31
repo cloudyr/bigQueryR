@@ -51,7 +51,8 @@ bqr_wait_for_job <- function(job, wait=5){
                                                               format = "%H:%M:%S"), level = 3)
     
     job <- bqr_get_job(projectId = job$jobReference$projectId, 
-                       jobId = job$jobReference$jobId)
+                       jobId = job$jobReference$jobId,
+                       location = job$jobReference$location)
     
     if(getOption("googleAuthR.verbose") <= 2){
       myMessage("job configuration:")
@@ -81,6 +82,7 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @param projectId projectId of job
 #' @param jobId jobId to poll, or a job Object
+#' @param location location where job is run. Required for single-region locations when jobId is not a job Object.
 #' 
 #' @return A Jobs resource
 #' 
@@ -134,24 +136,35 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project()){
+bqr_get_job <- function(jobId = .Last.value,
+                        projectId = bqr_get_global_project(),
+                        location = NULL) {
   check_bq_auth()
   
   if(is.job(jobId)){
     jobId <- jobId$jobReference$jobId
+    location <- jobId$jobReference$location
   }
   stopifnot(inherits(projectId, "character"),
             inherits(jobId, "character"))
+
+  if (!is.null(location)) {
+    pars <- list(location = location)
+  } else {
+    pars <- NULL
+  }
   
   ## make job
   job <- 
     googleAuthR::gar_api_generator("https://bigquery.googleapis.com/bigquery/v2",
                                    "GET",
                                    path_args = list(projects = projectId,
-                                                    jobs = jobId))
+                                                    jobs = jobId),
+                                   pars_args = pars)
   
   req <- job(path_arguments = list(projects = projectId,
-                                   jobs = jobId))
+                                   jobs = jobId),
+             pars_args = pars)
   
   as.job(req$content)
   
