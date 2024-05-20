@@ -4,12 +4,18 @@
 \alias{bqr_get_job}
 \title{Poll a jobId}
 \usage{
-bqr_get_job(jobId = .Last.value, projectId = bqr_get_global_project())
+bqr_get_job(
+  jobId = .Last.value,
+  projectId = bqr_get_global_project(),
+  location = NULL
+)
 }
 \arguments{
 \item{jobId}{jobId to poll, or a job Object}
 
 \item{projectId}{projectId of job}
+
+\item{location}{location where job is run. Required for single-region locations when jobId is not a job Object.}
 }
 \value{
 A Jobs resource
