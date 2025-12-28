@@ -3,6 +3,7 @@
 #' @param projectId The BigQuery project ID
 #' @param datasetId A datasetId within projectId
 #' @param query BigQuery SQL.  You can also supply a file location of your query ending with \code{.sql}
+#' @param labels Labels to tag to job in list format. lower-case only. Default empty list
 #' @param maxResults Max number per page of results. Set total rows with LIMIT in your query.
 #' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
 #' @param useQueryCache Whether to use the query cache. Default TRUE, set to FALSE for realtime queries. 
@@ -40,6 +41,8 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                       timeoutMs = 600*1000){
   check_bq_auth()
   
+  labels <- check_labels(getOption("bigQueryR.labels"))
+
   if(endsWith(query, ".sql")){
     query <- readChar(query, nchars = file.info(query)$size)
   }
@@ -50,6 +53,7 @@ bqr_query <- function(projectId = bqr_get_global_project(),
   body <- list(
     kind = "bigquery#queryRequest",
     query = query,
+    labels = labels,
     maxResults = maxResults,
     useLegacySql = useLegacySql,
     useQueryCache = useQueryCache,
@@ -125,6 +129,7 @@ bqr_query <- function(projectId = bqr_get_global_project(),
 #' @param projectId projectId to be billed.
 #' @param datasetId datasetId of where query will execute.
 #' @param query The BigQuery query as a string.
+#' @param labels Labels to tag to job in list format. lower-case only. Default empty list
 #' @param destinationTableId Id of table the results will be written to.
 #' @param writeDisposition Behaviour if destination table exists. See Details.
 #' @param useLegacySql Whether the query you pass is legacy SQL or not. Default TRUE
@@ -210,6 +215,8 @@ bqr_query_asynch <- function(projectId = bqr_get_global_project(),
   
   writeDisposition <- match.arg(writeDisposition)
   
+  labels <- check_labels(getOption("bigQueryR.labels"))
+
   check_bq_auth()
   ## make job
   job <- 
@@ -239,7 +246,8 @@ bqr_query_asynch <- function(projectId = bqr_get_global_project(),
         query = query,
         useLegacySql = useLegacySql,
         writeDisposition = writeDisposition
-      )
+      ),
+      labels = labels
     )
   )
   

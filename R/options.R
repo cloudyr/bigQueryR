@@ -8,7 +8,8 @@
     googleAuthR.webapp.client_id = "68483650948-sufabj4nq9h1hjofp03hcjhk4af93080.apps.googleusercontent.com",
     googleAuthR.webapp.client_secret = "0tWYjliwXD32XhvDJHTl4NgN ",
     googleAuthR.scopes.selected = c("https://www.googleapis.com/auth/cloud-platform"),
-    googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/bigquery/v2"
+    googleAuthR.batch_endpoint = "https://www.googleapis.com/batch/bigquery/v2",
+    bigQueryR.labels = list()
   )
   
   options(googleAuthR.httr_oauth_cache = "bq.oauth")

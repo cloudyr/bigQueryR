@@ -8,6 +8,7 @@ bqr_query_asynch(
   projectId = bqr_get_global_project(),
   datasetId = bqr_get_global_dataset(),
   query,
+  labels = list(),
   destinationTableId,
   useLegacySql = TRUE,
   writeDisposition = c("WRITE_EMPTY", "WRITE_TRUNCATE", "WRITE_APPEND")
@@ -19,6 +20,8 @@ bqr_query_asynch(
 \item{datasetId}{datasetId of where query will execute.}
 
 \item{query}{The BigQuery query as a string.}
+
+\item{labels}{Labels to tag to job in list format. lower-case only. Default empty list}
 
 \item{destinationTableId}{Id of table the results will be written to.}
 

@@ -83,7 +83,9 @@ bqr_extract_data <- function(projectId = bqr_get_global_project(),
   
   compression <- match.arg(compression)
   destinationFormat <- match.arg(destinationFormat)
-  
+
+  labels <- check_labels(getOption("bigQueryR.labels"))
+
   check_gcs_auth()
   
   stopifnot(inherits(projectId, "character"),
@@ -126,7 +128,8 @@ bqr_extract_data <- function(projectId = bqr_get_global_project(),
         fieldDelimiter = fieldDelimiter,
         destinationFormat = destinationFormat,
         compression = compression
-      )
+      ),
+      labels = labels
     )
   )
   

@@ -8,6 +8,7 @@ bqr_query(
   projectId = bqr_get_global_project(),
   datasetId = bqr_get_global_dataset(),
   query,
+  labels = list(),
   maxResults = 1000,
   useLegacySql = TRUE,
   useQueryCache = TRUE,
@@ -21,6 +22,8 @@ bqr_query(
 \item{datasetId}{A datasetId within projectId}
 
 \item{query}{BigQuery SQL.  You can also supply a file location of your query ending with \code{.sql}}
+
+\item{labels}{Labels to tag to job in list format. lower-case only. Default empty list}
 
 \item{maxResults}{Max number per page of results. Set total rows with LIMIT in your query.}
 

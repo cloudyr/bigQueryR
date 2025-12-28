@@ -137,3 +137,33 @@ idempotency <- function(){
   set.seed(Sys.time())
   paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
 }
+
+#' Labels validity check
+#'
+#' A check of labels type and format validity
+#'
+#' @return labels or NULL
+#' @keywords internal
+#' @noRd
+check_labels <- function(labels) {
+  if (!is.list(labels)) {
+    warning(paste0("Labels need to be a dictionary list - setting labels to list()"), immediate. = TRUE)
+    return(NULL)
+  }
+  for (nm in names(labels)) {
+    if (!is.character(labels[[nm]]) || length(labels[[nm]]) != 1) {
+      warning(sprintf("Label '%s' must be a single string type - setting labels to list()", nm), immediate. = TRUE)
+      return(NULL)
+    }
+    if (nm != tolower(nm)) {
+      warning(sprintf("Label key '%s' must be lowercase - setting labels to list()", nm), immediate. = TRUE)
+      return(NULL)
+    }
+    if (labels[[nm]] != tolower(labels[[nm]])) {
+      warning(sprintf("Label value '%s' must be lowercase - setting labels to list()", labels[[nm]]), immediate. = TRUE)
+      return(NULL)
+    }
+  }
+
+  return(labels)
+}

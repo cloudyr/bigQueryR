@@ -2,6 +2,7 @@
 % Please edit documentation in R/bigQueryR.R
 \docType{package}
 \name{bigQueryR}
+\alias{bigQueryR-package}
 \alias{bigQueryR}
 \title{bigQueryR}
 \description{
@@ -9,4 +10,13 @@ Provides an interface with Google BigQuery
 }
 \seealso{
 \url{https://cloud.google.com/bigquery/docs/reference/v2/?hl=en}
+}
+\author{
+\strong{Maintainer}: Mark Edmondson \email{r@sunholo.com}
+
+Other contributors:
+\itemize{
+  \item Hadley Wickham \email{hadley@rstudio.com} [contributor]
+}
+
 }
