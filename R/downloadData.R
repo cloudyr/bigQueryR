@@ -77,7 +77,8 @@ bqr_extract_data <- function(projectId = bqr_get_global_project(),
                              compression = c("NONE","GZIP"),
                              destinationFormat = c("CSV",
                                                    "NEWLINE_DELIMITED_JSON", 
-                                                   "AVRO"),
+                                                   "AVRO",
+                                                   "PARQUET"),
                              fieldDelimiter = ",",
                              printHeader = TRUE){
   
@@ -107,29 +108,52 @@ bqr_extract_data <- function(projectId = bqr_get_global_project(),
 
   gsUri <- paste0(cloudStorageBucket, "/", filename)
   
-  config <- list(
-    jobReference = list(
-      projectId = projectId
-      ##jobId = idempotency() ## uuid to stop duplicate exports - breaks if set.seed (#37)
-    ),
-    configuration = list(
-      extract = list(
-        sourceTable = list(
-          datasetId = datasetId,
-          projectId = projectId,
-          tableId = tableId
-        ),
-        destinationUris = list(
-          gsUri
+  if (destinationFormat=="CSV") {
+    config <- list(
+      jobReference = list(
+        projectId = projectId
+        ##jobId = idempotency() ## uuid to stop duplicate exports - breaks if set.seed (#37)
+      ),
+      configuration = list(
+        extract = list(
+          sourceTable = list(
+            datasetId = datasetId,
+            projectId = projectId,
+            tableId = tableId
           ),
-        printHeader = printHeader,
-        fieldDelimiter = fieldDelimiter,
-        destinationFormat = destinationFormat,
-        compression = compression
+          destinationUris = list(
+            gsUri
+            ),
+          printHeader = printHeader,
+          fieldDelimiter = fieldDelimiter,
+          destinationFormat = destinationFormat,
+          compression = compression
+        )
       )
     )
-  )
-  
+  } else {
+    config <- list(
+      jobReference = list(
+        projectId = projectId
+        ##jobId = idempotency() ## uuid to stop duplicate exports - breaks if set.seed (#37)
+      ),
+      configuration = list(
+        extract = list(
+          sourceTable = list(
+            datasetId = datasetId,
+            projectId = projectId,
+            tableId = tableId
+          ),
+          destinationUris = list(
+            gsUri
+            ),
+          printHeader = printHeader,
+          destinationFormat = destinationFormat,
+          compression = compression
+        )
+      )
+    )    
+  }  
   config <- rmNullObs(config)
   
   req <- job(path_arguments = list(projects = projectId),
@@ -190,7 +214,6 @@ bqr_download_extract <- function(extractJob,
   
   if(length(objectnames) > 1){
     message("Multiple files to download.")
-    filename <- paste0(as.character(1:length(objectnames),"_",filename))
   }
   
   dl <- function(f_name){
